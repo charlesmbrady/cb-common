@@ -1,14 +1,8 @@
-// import chuckpic from './chuckpic.png';
-export default function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
+export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white font-inter">
-      {/* Navigation with Stronger Glassmorphism */}
-      <nav className="bg-white bg-opacity-20 backdrop-blur-md border border-white/20 py-4 shadow-lg">
+      {/* Navigation */}
+      <nav className="bg-gray-800 py-4">
         <div className="container max-w-7xl mx-auto px-6 sm:px-8 flex justify-between items-center">
           <div className="text-2xl font-bold">YourName.dev</div>
           <ul className="flex space-x-6">
@@ -47,7 +41,7 @@ export default function Index() {
         </a>
       </section>
 
-      {/* About Section with Stronger Glassmorphism */}
+      {/* About Section */}
       <section id="about" className="py-20 bg-gray-800">
         <div className="container max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-2 gap-12">
           <img
@@ -55,9 +49,9 @@ export default function Index() {
             alt="Your Name"
             className="rounded-full w-64 h-64 mx-auto"
           />
-          <div className="flex flex-col justify-center bg-white bg-opacity-20 backdrop-blur-md border border-white/20 p-8 rounded-lg shadow-2xl">
+          <div className="flex flex-col justify-center">
             <h2 className="text-4xl font-bold mb-4">About Me</h2>
-            <p className="text-lg text-gray-200">
+            <p className="text-lg text-gray-400">
               I’m a passionate developer with a love for creating intuitive,
               dynamic user experiences. I have experience in a variety of
               technologies and enjoy learning new skills.
@@ -66,14 +60,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Projects Section with Stronger Glassmorphism */}
+      {/* Projects Section */}
       <section id="projects" className="py-20">
         <div className="container max-w-7xl mx-auto px-6 sm:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <div className="bg-white bg-opacity-20 backdrop-blur-md border border-white/20 rounded-lg shadow-2xl p-6">
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
               <h3 className="text-2xl font-bold mb-4">Project 1</h3>
-              <p className="text-gray-200 mb-4">
+              <p className="text-gray-400 mb-4">
                 Description of the project, technologies used, and key features.
               </p>
               <a
@@ -92,7 +86,7 @@ export default function Index() {
       <section id="contact" className="py-20 bg-gray-800">
         <div className="container max-w-7xl mx-auto px-6 sm:px-8 text-center">
           <h2 className="text-4xl font-bold mb-8">Contact Me</h2>
-          <p className="text-lg text-gray-200 mb-8">
+          <p className="text-lg text-gray-400 mb-8">
             Feel free to reach out if you're interested in working together or
             just want to connect!
           </p>
