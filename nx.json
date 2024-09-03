@@ -1,0 +1,403 @@
+{
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  },
+  "extends": "nx/presets/npm.json",
+  "packageManager": "yarn",
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
+      }
+    },
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "e2e",
+        "openTargetName": "open-cypress",
+        "componentTestingTargetName": "component-test",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "serveStaticTargetName": "serve-static",
+        "startTargetName": "start"
+      }
+    },
+    {
+      "plugin": "@nx/storybook/plugin",
+      "options": {
+        "serveStorybookTargetName": "storybook",
+        "buildStorybookTargetName": "build-storybook",
+        "testStorybookTargetName": "test-storybook",
+        "staticStorybookTargetName": "static-storybook"
+      }
+    }
+  ],
+  "parallel": 3,
+  "cacheDirectory": ".nx/cache",
+  "defaultBase": "main",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "production": [
+      "!{projectRoot}/**/*.spec.tsx",
+      "!{projectRoot}/**/*.spec.ts",
+      "!{projectRoot}/**/*.test.ts",
+      "!{projectRoot}/**/*.test.tsx",
+      "!{projectRoot}/cypress/**/*",
+      "!{projectRoot}/cypress.config.[jt]s",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
+    ]
+  },
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^build"],
+      "options": {
+        "main": "{projectRoot}/src/index.ts"
+      },
+      "cache": true
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+    },
+    "e2e-ci": {
+      "dependsOn": ["^build"]
+    },
+    "e2e-ci--**/*": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "currentVersionResolver": "git-tag",
+        "specifierSource": "conventional-commits"
+      }
+    },
+    "changelog": {
+      "git": {
+        "commit": true,
+        "tag": true
+      },
+      "workspaceChangelog": {
+        "createRelease": "github"
+      },
+      "projectChangelogs": true
+    }
+  },
+  "generators": {
+    "@nx/react": {
+      "application": {
+        "babel": true,
+        "linter": "eslint",
+        "bundler": "webpack",
+        "e2eTestRunner": "cypress",
+        "appDir": true,
+        "projectNameAndRootFormat": "derived",
+        "routing": true,
+        "pascalCaseFiles": true,
+        "classComponent": false,
+        "minimal": false,
+        "compiler": "babel",
+        "globalCss": false,
+        "strict": true,
+        "js": false,
+        "unitTestRunner": "jest",
+        "tags": "app,react",
+        "targets": {
+          "build": {
+            "executor": "@nx/webpack:build",
+            "outputs": ["dist/apps/{projectName}"],
+            "options": {
+              "outputPath": "dist/apps/{projectName}"
+            }
+          },
+          "serve": {
+            "executor": "@nx/webpack:dev-server",
+            "options": {
+              "buildTarget": "{projectName}:build"
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/apps/{projectName}"],
+            "options": {
+              "jestConfig": "apps/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      },
+      "service": {
+        "project": "{projectName}",
+        "name": "{serviceName}",
+        "directory": "src/services",
+        "flat": true
+      },
+      "hook": {
+        "project": "{projectName}",
+        "name": "{hookName}",
+        "directory": "src/hooks",
+        "pascalCaseFiles": false
+      },
+      "component": {
+        "export": true
+      },
+      "storybook": {
+        "linter": "eslint",
+        "storybook7": true,
+        "configureCypress": true,
+        "tsConfiguration": true,
+        "js": false,
+        "generateStories": true,
+        "generateCypressSpecs": true
+      },
+      "library": {
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "projectNameAndRootFormat": "derived",
+        "libDir": true,
+        "tags": "react",
+        "bundler": "none",
+        "targets": {
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["dist/libs/{projectName}"],
+            "options": {
+              "outputPath": "dist/libs/{projectName}",
+              "main": "libs/{projectName}/src/index.ts"
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/libs/{projectName}"],
+            "options": {
+              "jestConfig": "libs/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      }
+    },
+    "@nx/next": {
+      "application": {
+        "linter": "eslint",
+        "e2eTestRunner": "cypress",
+        "projectNameAndRootFormat": "derived",
+        "style": "css",
+        "src": true,
+        "tags": "app,next",
+        "targets": {
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+              "jestConfig": "{projectRoot}/jest.config.ts"
+            }
+          },
+          "build": {
+            "executor": "@nx/next:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+              "outputPath": "dist/apps/{projectName}"
+            },
+            "configurations": {
+              "production": {
+                "outputPath": "dist/apps/{projectName}"
+              },
+              "development": {
+                "outputPath": "{projectRoot}"
+              }
+            }
+          },
+          "serve": {
+            "executor": "@nx/next:server",
+            "defaultConfiguration": "development",
+            "options": {
+              "buildTarget": "{projectName}:build",
+              "dev": true
+            },
+            "configurations": {
+              "production": {
+                "buildTarget": "{projectName}:build:production",
+                "dev": false
+              },
+              "development": {
+                "buildTarget": "{projectName}:build:development",
+                "dev": true
+              }
+            }
+          }
+        }
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "projectNameAndRootFormat": "derived",
+        "libDir": true,
+        "tags": "next",
+        "targets": {
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["dist/libs/{projectName}"],
+            "options": {
+              "outputPath": "dist/libs/{projectName}",
+              "main": "libs/{projectName}/src/index.ts"
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/libs/{projectName}"],
+            "options": {
+              "jestConfig": "libs/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      },
+      "component": {
+        "style": "css",
+        "pascalCaseFiles": true,
+        "export": true,
+        "project": "{projectName}"
+      },
+      "service": {
+        "project": "{projectName}",
+        "name": "{serviceName}",
+        "directory": "src/services",
+        "flat": true
+      },
+      "storybook": {
+        "linter": "eslint",
+        "storybook7": true,
+        "configureCypress": true,
+        "tsConfiguration": true,
+        "js": false,
+        "generateStories": true,
+        "generateCypressSpecs": true
+      }
+    },
+    "@nx/node": {
+      "application": {
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "e2eTestRunner": "none",
+        "appDir": true,
+        "pascalCaseFiles": true,
+        "port": 3333,
+        "projectNameAndRootFormat": "derived",
+        "bundler": "webpack",
+        "framework": "none",
+        "docker": false,
+        "tags": "app,node",
+        "passWithNoTests": true,
+        "targets": {
+          "build": {
+            "executor": "@nx/node:build",
+            "outputs": ["dist/apps/{projectName}"],
+            "options": {
+              "outputPath": "dist/apps/{projectName}"
+            }
+          },
+          "serve": {
+            "executor": "@nx/node:execute",
+            "options": {
+              "buildTarget": "{projectName}:build"
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/apps/{projectName}"],
+            "options": {
+              "jestConfig": "apps/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      },
+      "library": {
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "tags": "node",
+        "projectNameAndRootFormat": "derived",
+        "targets": {
+          "build": {
+            "executor": "@nx/node:build",
+            "outputs": ["dist/libs/{projectName}"],
+            "options": {
+              "outputPath": "dist/libs/{projectName}"
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/libs/{projectName}"],
+            "options": {
+              "jestConfig": "libs/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      }
+    },
+    "@nx/js": {
+      "library": {
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "buildable": true,
+        "publishable": false,
+        "strict": true,
+        "compiler": "tsc",
+        "projectNameAndRootFormat": "derived",
+        "libDir": true,
+        "bundler": "tsc",
+        "js": false,
+        "tags": "js",
+        "targets": {
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["dist/libs/{projectName}"],
+            "options": {
+              "outputPath": "dist/libs/{projectName}",
+              "main": "libs/{projectName}/src/index.ts",
+              "tsConfig": "libs/{projectName}/tsconfig.lib.json",
+              "assets": ["libs/{projectName}/src/assets"]
+            }
+          },
+          "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["coverage/libs/{projectName}"],
+            "options": {
+              "jestConfig": "libs/{projectName}/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
