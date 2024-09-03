@@ -1,2 +1,3 @@
-# cb-common
-monorepo for portfolio apps and other shared code
+# Myorg
+
+Uses Nx.dev
