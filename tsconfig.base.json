@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-
+      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
