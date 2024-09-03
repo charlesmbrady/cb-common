@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import UiTailwind from './ui-tailwind';
+import Footer from './Footer';
 
-describe('UiTailwind', () => {
+describe('Footer', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<UiTailwind />);
+    const { baseElement } = render(<Footer />);
     expect(baseElement).toBeTruthy();
   });
 });
