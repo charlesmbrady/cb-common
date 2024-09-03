@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "resolveJsonModule": true,
+    "paths": {
+      "@cb-common/data": ["libs/data/src/index.ts"],
+      "@cb-common/lambda": ["libs/lambda/src/index.ts"],
+      "@cb-common/mockdat-common": ["libs/mockdat-common/src/index.ts"],
+      "@cb-common/salesforce": ["libs/salesforce/src/index.ts"],
+      "@cb-common/ui-react": ["libs/ui-react/src/index.ts"],
+      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

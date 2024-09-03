@@ -1,0 +1,33 @@
+{
+  "name": "mockdat-middleware",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mockdat-middleware/src",
+  "projectType": "application",
+  "tags": ["app", "node"],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "mockdat-middleware:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "mockdat-middleware:build:development"
+        },
+        "production": {
+          "buildTarget": "mockdat-middleware:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mockdat-middleware/jest.config.ts"
+      }
+    }
+  }
+}

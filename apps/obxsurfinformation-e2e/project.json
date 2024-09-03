@@ -1,0 +1,9 @@
+{
+  "name": "obxsurfinformation-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/obxsurfinformation-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["obxsurfinformation"],
+  "// targets": "to see all targets run: nx show project obxsurfinformation-e2e --web",
+  "targets": {}
+}

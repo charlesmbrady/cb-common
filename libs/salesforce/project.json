@@ -1,0 +1,16 @@
+{
+  "name": "salesforce",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/salesforce/src",
+  "projectType": "library",
+  "tags": ["node"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/salesforce/jest.config.ts"
+      }
+    }
+  }
+}

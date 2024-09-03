@@ -1,0 +1,10 @@
+{
+  "name": "mockdat-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/mockdat-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["mockdat"],
+  "// targets": "to see all targets run: nx show project mockdat-e2e --web",
+  "targets": {}
+}

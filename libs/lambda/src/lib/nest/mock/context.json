@@ -1,0 +1,10 @@
+{
+  "callbackWaitsForEmptyEventLoop": true,
+  "functionVersion": "$LATEST",
+  "functionName": "risk_assessments_middleware",
+  "memoryLimitInMB": "512",
+  "logGroupName": "/aws/lambda/risk_assessments_middleware",
+  "logStreamName": "2023/01/23/[$LATEST]2ac9bb56b8fd44869e815a8a99b00532",
+  "invokedFunctionArn": "arn:aws:lambda:us-east-1:485913172775:function:risk_assessments_middleware",
+  "awsRequestId": "61cab9e1-5bda-4e3a-b2e6-10c50d412109"
+}

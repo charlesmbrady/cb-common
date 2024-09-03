@@ -1,0 +1,9 @@
+{
+  "apiDomain": "fix",
+  "domain": "fix",
+  "environment": "Dev",
+  "oauthDomain": "FIX",
+  "redirectSignOut": "fix",
+  "userPoolId": "fix",
+  "userPoolWebClientId": "fix"
+}

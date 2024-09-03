@@ -42,6 +42,15 @@
         "serveStaticTargetName": "serve-static",
         "startTargetName": "start"
       }
+    },
+    {
+      "plugin": "@nx/storybook/plugin",
+      "options": {
+        "serveStorybookTargetName": "storybook",
+        "buildStorybookTargetName": "build-storybook",
+        "testStorybookTargetName": "test-storybook",
+        "staticStorybookTargetName": "static-storybook"
+      }
     }
   ],
   "parallel": 3,
@@ -55,7 +64,10 @@
       "!{projectRoot}/**/*.test.ts",
       "!{projectRoot}/**/*.test.tsx",
       "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/cypress.config.[jt]s"
+      "!{projectRoot}/cypress.config.[jt]s",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
   "targetDefaults": {
@@ -153,10 +165,9 @@
         "pascalCaseFiles": false
       },
       "component": {
-        "style": "@emotion/styled",
-        "pascalCaseFiles": true,
+        "style": "css",
         "export": true,
-        "project": "{projectName}"
+        "nameAndDirectoryFormat": "as-provided"
       },
       "storybook": {
         "linter": "eslint",
@@ -199,7 +210,7 @@
       "application": {
         "linter": "eslint",
         "e2eTestRunner": "cypress",
-        "appDir": true,
+        "appDir": false,
         "projectNameAndRootFormat": "derived",
         "style": "css",
         "src": true,
