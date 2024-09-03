@@ -1,0 +1,9 @@
+{
+  "name": "charlesmbrady-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/charlesmbrady-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["charlesmbrady"],
+  "// targets": "to see all targets run: nx show project charlesmbrady-e2e --web",
+  "targets": {}
+}
