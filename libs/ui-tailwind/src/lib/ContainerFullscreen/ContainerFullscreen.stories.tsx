@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ContainerFullscreen from './ContainerFullscreen';
+import { ContainerFullscreen } from './ContainerFullscreen';
 
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

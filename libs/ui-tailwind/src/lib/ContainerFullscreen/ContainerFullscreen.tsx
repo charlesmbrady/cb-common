@@ -1,8 +1,10 @@
 // src/components/Container.tsx
 import React from 'react';
 
-const Container: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function ContainerFullscreen({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element {
   return <div className="w-screen h-screen flex flex-col">{children}</div>;
-};
-
-export default Container;
+}

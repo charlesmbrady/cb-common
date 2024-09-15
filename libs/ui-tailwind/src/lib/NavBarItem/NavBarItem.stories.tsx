@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import NavBarItem from './NavBarItem';
+import { NavBarItem } from './NavBarItem';
 
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

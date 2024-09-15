@@ -1,12 +1,13 @@
-import { NavBar } from '@cb-common/ui-tailwind';
+import About from './about';
+import Projects from './projects';
+import Contact from './contact';
 
-export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
-  return <NavBar brandName={'Charles Brady'} />;
+export default function Index() {
+  return (
+    <>
+      <About />
+      <Projects />
+      <Contact />
+    </>
+  );
 }
-
-export default Index;

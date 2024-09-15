@@ -1,6 +1,6 @@
 import type { Meta, StoryObj, StoryFn } from '@storybook/react';
 import { NavBar } from './NavBar';
-import ContainerFullscreen from '../ContainerFullscreen/ContainerFullscreen';
+import { ContainerFullscreen } from '../ContainerFullscreen/ContainerFullscreen';
 
 export default {
   component: NavBar,
