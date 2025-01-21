@@ -1,0 +1,63 @@
+// pages/dashboard.tsx
+import React from 'react';
+import { NextPage } from 'next';
+import { Box, Typography, Button, Divider } from '@mui/material';
+
+const Dashboard: NextPage = () => {
+  return (
+    <Box sx={{ p: 3 }} data-cy="dashboardPage">
+      {/* Scenarios Section */}
+      <Box sx={{ mb: 3 }} data-cy="scenariosSection">
+        <Typography variant="h5" data-cy="scenariosTitle">
+          Scenarios
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          Quickly create or edit a scenario for generating data.
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          data-cy="createScenarioBtn"
+          onClick={() => {
+            // e.g., router.push('/mockdatWizard') or open scenario creation
+          }}
+        >
+          Create New Scenario
+        </Button>
+      </Box>
+      <Divider sx={{ mb: 3 }} />
+
+      {/* My Saved Scenarios */}
+      <Box sx={{ mb: 3 }} data-cy="mySavedScenariosSection">
+        <Typography variant="h5" data-cy="mySavedScenariosTitle">
+          My Saved Scenarios
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          Access scenarios you’ve created or saved.
+        </Typography>
+        {/* Example placeholders for a list */}
+        <Box data-cy="savedScenariosList">
+          {/* Map over user's scenarios if available */}
+          <Typography>No saved scenarios yet. Create your first!</Typography>
+        </Box>
+      </Box>
+      <Divider sx={{ mb: 3 }} />
+
+      {/* Community Scenarios */}
+      <Box sx={{ mb: 3 }} data-cy="communityScenariosSection">
+        <Typography variant="h5" data-cy="communityScenariosTitle">
+          Community Scenarios
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          Explore scenarios shared by the community.
+        </Typography>
+        <Box data-cy="communityScenariosList">
+          {/* Map over community scenarios if available */}
+          <Typography>No community scenarios available yet.</Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Dashboard;
