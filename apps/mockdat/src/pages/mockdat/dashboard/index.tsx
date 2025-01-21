@@ -1,4 +1,4 @@
-// pages/dashboard.tsx
+// pages/mockdat/dashboard/index.tsx
 import React from 'react';
 import { NextPage } from 'next';
 import { Box, Typography, Button, Divider } from '@mui/material';

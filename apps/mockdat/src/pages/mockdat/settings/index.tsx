@@ -1,9 +1,8 @@
-// pages/settings.tsx
+// pages/mockdat/settings/index.tsx
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import {
   Box,
-  Typography,
   FormControlLabel,
   Switch,
   Button,

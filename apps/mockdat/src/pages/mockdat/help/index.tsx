@@ -1,15 +1,7 @@
-// pages/help.tsx
-import React, { useState } from 'react';
+// pages/mockdat/help/index.tsx
+import React from 'react';
 import { NextPage } from 'next';
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
 
 const Help: NextPage = () => {
   const helpTopics = [
