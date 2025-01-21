@@ -1,4 +1,4 @@
-import MockdatWizard from '../components/wizard/MockdatWizard';
+import MockdatWizard from '../../components/wizard/MockdatWizard';
 
 export function Index() {
   return (

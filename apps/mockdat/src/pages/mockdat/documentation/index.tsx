@@ -1,21 +1,17 @@
-// pages/documentation.tsx
+// pages/mockdat/documentation/index.tsx
 // TS ignore this file //FIXME: fix this issue with the button instead of workaround
 // @ts-nocheck
 
-import React, { useState } from 'react';
+import React from 'react';
 import { NextPage } from 'next';
 import {
   Box,
   Typography,
-  TextField,
-  Button,
   List,
   ListItem,
   ListItemText,
-  Divider,
   Link as MuiLink,
 } from '@mui/material';
-import { isMergeNodesError } from 'nx/src/project-graph/error-types';
 
 /**
  * Documentation Page with Table of Contents
@@ -35,7 +31,7 @@ const Documentation: NextPage = () => {
             button
             component="a"
             href="#overview"
-            // data-cy="toc-overviewLink"
+            data-cy="toc-overviewLink"
           >
             <ListItemText primary="Overview" />
           </ListItem>
@@ -43,7 +39,7 @@ const Documentation: NextPage = () => {
             button
             component="a"
             href="#basicUsage"
-            // data-cy="toc-basicUsageLink"
+            data-cy="toc-basicUsageLink"
           >
             <ListItemText primary="Basic Usage" />
           </ListItem>
@@ -51,16 +47,11 @@ const Documentation: NextPage = () => {
             button
             component="a"
             href="#advancedConfig"
-            // data-cy="toc-advancedConfigLink"
+            data-cy="toc-advancedConfigLink"
           >
             <ListItemText primary="Advanced Configuration" />
           </ListItem>
-          <ListItem
-            button
-            component="a"
-            href="#api"
-            //   data-cy="toc-apiLink"
-          >
+          <ListItem button component="a" href="#api" data-cy="toc-apiLink">
             <ListItemText primary="API" />
           </ListItem>
         </List>
