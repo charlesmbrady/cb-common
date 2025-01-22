@@ -1,6 +1,7 @@
 {
   "name": "mockdat",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mockdat",
   "projectType": "application",
   "tags": ["app", "next"],
   "targets": {
