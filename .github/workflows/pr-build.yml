@@ -13,12 +13,15 @@ jobs:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          lfs: false
+          fetch-depth: 0
 
       # Step 2: Set up Node.js environment
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # Use the Node.js version your project requires
+          node-version: 20 # Use the Node.js version your project requires
           cache: 'yarn'
 
       # Step 3: Install dependencies
@@ -27,4 +30,4 @@ jobs:
 
       # Step 4: Build affected apps
       - name: Build affected apps
-        run: yarn nx build apps:affected
+        run: yarn nx affected:build
