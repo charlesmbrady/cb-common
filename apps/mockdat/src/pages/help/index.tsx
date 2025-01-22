@@ -1,4 +1,4 @@
-// pages/mockdat/help/index.tsx
+// pages/help/index.tsx
 import React from 'react';
 import { NextPage } from 'next';
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';

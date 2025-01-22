@@ -1,4 +1,4 @@
-// pages/mockdat/documentation/index.tsx
+// pages/documentation/index.tsx
 // TS ignore this file //FIXME: fix this issue with the button instead of workaround
 // @ts-nocheck
 

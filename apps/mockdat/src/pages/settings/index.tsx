@@ -1,4 +1,4 @@
-// pages/mockdat/settings/index.tsx
+// pages/settings/index.tsx
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import {

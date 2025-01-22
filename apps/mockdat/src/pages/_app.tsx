@@ -14,46 +14,33 @@ import { List, ListItem } from '@mui/material';
 import { MockdatProvider } from '../context/MockdatContext';
 
 const NAVIGATION: Navigation = [
-  // {
-  //   kind: 'header',
-  //   title: 'Main items',
-  // },
   {
-    segment: 'mockdat',
-    title: 'Mockdat',
-    children: [
-      {
-        segment: 'about',
-        title: 'About',
-        icon: <InfoIcon />,
-      },
-      {
-        segment: 'documentation',
-        title: 'Documentation',
-        icon: <DocumentScanner />,
-      },
-      {
-        segment: 'settings',
-        title: 'Settings',
-        icon: <Settings />,
-      },
-      // divider
-
-      {
-        segment: 'help',
-        title: 'Help',
-        icon: <HelpOutline />,
-      },
-      // add home
-      {
-        kind: 'divider',
-      },
-      {
-        segment: 'dashboard',
-        title: 'Dashboard',
-        icon: <DashboardIcon />,
-      },
-    ],
+    segment: 'about',
+    title: 'About',
+    icon: <InfoIcon />,
+  },
+  {
+    segment: 'documentation',
+    title: 'Documentation',
+    icon: <DocumentScanner />,
+  },
+  {
+    segment: 'settings',
+    title: 'Settings',
+    icon: <Settings />,
+  },
+  {
+    segment: 'help',
+    title: 'Help',
+    icon: <HelpOutline />,
+  },
+  {
+    kind: 'divider',
+  },
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
   },
 ];
 
