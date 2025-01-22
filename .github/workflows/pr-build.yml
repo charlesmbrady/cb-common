@@ -24,6 +24,11 @@ jobs:
           node-version: 20 # Use the Node.js version your project requires
           cache: 'yarn'
 
+      - uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: 'main'
+          workflow-id: 'pr-build.yml'
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: yarn install
