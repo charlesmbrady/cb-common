@@ -1,0 +1,30 @@
+// .vscode/tasks.json
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "TEST: Deploy Mockdat Lambda",
+      "type": "shell",
+      // Adjust the path to deploy_lambda.sh if located elsewhere
+      "command": "../scripts/deploy_lambda.sh",
+      "args": [
+        "--lambda-name",
+        "myLambda",
+        "--handler-file",
+        "dist/apps/my-lambda/index.js",
+        "--role-arn",
+        "arn:aws:iam::123456789012:role/myLambdaRole",
+        "--nx-project",
+        "my-lambda",
+        "--build",
+        "--verbose"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
