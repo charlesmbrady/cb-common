@@ -4,7 +4,9 @@
 dist
 tmp
 /out-tsc
-
+charlesmbrady_Test_services_middleware.zip
+tmp_lambda_charlesmbrady_Test_services_middleware/
+tmp*
 # dependencies
 node_modules
 
