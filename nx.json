@@ -88,6 +88,11 @@
     },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "release": {
@@ -308,10 +313,10 @@
         "unitTestRunner": "jest",
         "e2eTestRunner": "none",
         "appDir": true,
+        "compiler": "tsc",
         "pascalCaseFiles": true,
         "port": 3333,
         "projectNameAndRootFormat": "derived",
-        "bundler": "webpack",
         "framework": "none",
         "docker": false,
         "tags": "app,node",
