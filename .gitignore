@@ -3,7 +3,9 @@
 # compiled output
 dist
 tmp
+tmp*
 /out-tsc
+*.zip
 
 # dependencies
 node_modules

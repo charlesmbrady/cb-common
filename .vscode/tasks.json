@@ -1,22 +1,16 @@
 // .vscode/tasks.json
-
 {
   "version": "2.0.0",
   "tasks": [
     {
       "label": "TEST: Deploy Mockdat Lambda",
       "type": "shell",
-      // Adjust the path to deploy_lambda.sh if located elsewhere
-      "command": "../scripts/deploy_lambda.sh",
+      "command": "${workspaceFolder}/scripts/deploy_lambda.sh",
       "args": [
         "--lambda-name",
-        "myLambda",
-        "--handler-file",
-        "dist/apps/my-lambda/index.js",
-        "--role-arn",
-        "arn:aws:iam::123456789012:role/myLambdaRole",
+        "charlesmbrady_Test_services_middleware",
         "--nx-project",
-        "my-lambda",
+        "mockdat-middleware",
         "--build",
         "--verbose"
       ],
@@ -24,6 +18,40 @@
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "TEST: Deploy Services Lambda",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/deploy_lambda.sh",
+      "args": [
+        "--lambda-name",
+        "charlesmbrady_Test_services_middleware",
+        "--nx-project",
+        "services-middleware",
+        "--build",
+        "--verbose"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
       }
     }
   ]

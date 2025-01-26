@@ -8,6 +8,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "esModuleInterop": true, // Ensure this is true
+    "allowSyntheticDefaultImports": true, // Ensure this is true
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2020", "dom"],
@@ -16,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"],
-      "nest": ["libs/nest/src/index.ts"]
+      "@cb-common/lambda": ["libs/lambda/src/index.ts"],
+      "@cb-common/nest": ["libs/nest/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

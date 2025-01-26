@@ -1,0 +1,32 @@
+{
+  "name": "services-middleware",
+
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/services-middleware/src",
+  "projectType": "application",
+  "tags": ["app", "node"],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "services-middleware:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "services-middleware:build:development"
+        },
+        "production": {
+          "buildTarget": "services-middleware:build:production"
+        }
+      }
+    },
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}
