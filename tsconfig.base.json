@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -15,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"]
+      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"],
+      "@cb-common/lambda": ["libs/lambda/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

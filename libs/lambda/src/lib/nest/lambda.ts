@@ -1,10 +1,8 @@
-import 'multer';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '@cb-common/lambda';
+import { AppModule } from './app.module';
 import express from 'express';
-
 import { Server } from 'http';
 import { Context } from 'aws-lambda';
 import { createServer, proxy, Response } from 'aws-serverless-express';
@@ -28,11 +26,8 @@ async function bootstrap(): Promise<Server> {
 }
 
 export async function handler(event: any, context: Context): Promise<Response> {
-  console.log('Lambda invoked with event:', JSON.stringify(event, null, 2));
   if (!cachedServer) {
-    console.log('Initializing NestJS application...');
     cachedServer = await bootstrap();
-    console.log('NestJS application initialized.');
   }
 
   return proxy(cachedServer, event, context, 'PROMISE').promise;
