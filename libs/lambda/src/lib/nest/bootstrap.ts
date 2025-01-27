@@ -5,8 +5,7 @@ import {
   NestExpressApplication,
 } from '@nestjs/platform-express';
 import * as serverlessExpress from '@vendia/serverless-express';
-import express from 'express';
-import { AppModule } from './app.module';
+import * as express from 'express';
 
 import { getLogger } from '../logger';
 
@@ -18,7 +17,7 @@ const binaryMimeTypes = [
 
 export async function bootstrap(AppModule) {
   if (!cachedServer) {
-    const expressApp = express();
+    const expressApp = express.default();
 
     const nestApp = await NestFactory.create<NestExpressApplication>(
       AppModule,

@@ -1,39 +1,32 @@
-import 'multer';
+import 'reflect-metadata'; // Must be the first import
+import { Handler, Context } from 'aws-lambda';
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { INestApplication } from '@nestjs/common';
-import { AppModule } from '@cb-common/lambda';
-import express from 'express';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { bootstrap, getLogger } from '@cb-common/lambda';
+// import { AppModule, getLogger, bootstrap } from '@cb-common/lambda';
+import { AppModule } from './app/app.module';
 
-import { Server } from 'http';
-import { Context } from 'aws-lambda';
-import { createServer, proxy, Response } from 'aws-serverless-express';
+export const handler: Handler = async (event: any, context: Context) => {
+  console.log('Lambda invoked with event:', JSON.stringify(event, null, 2));
 
-export async function createApp(
-  expressApp: unknown
-): Promise<INestApplication> {
-  return await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
-}
+  const server = await bootstrap(AppModule);
+  return server(event, context, () => void 0);
+};
 
-let cachedServer: Server;
+const logger = getLogger();
+logger.info('Lambda handler loaded');
 
-async function bootstrap(): Promise<Server> {
-  const expressApp = express();
+async function bootstrapLocal() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  const app = await createApp(expressApp);
-  await app.init();
+  app.useLogger(logger);
   app.enableCors();
 
-  return createServer(expressApp);
+  await app.listen(3333);
+  logger.info('Local server started');
 }
 
-export async function handler(event: any, context: Context): Promise<Response> {
-  console.log('Lambda invoked with event:', JSON.stringify(event, null, 2));
-  if (!cachedServer) {
-    console.log('Initializing NestJS application...');
-    cachedServer = await bootstrap();
-    console.log('NestJS application initialized.');
-  }
-
-  return proxy(cachedServer, event, context, 'PROMISE').promise;
+if (process.env.BOOTSTRAP_LOCAL === 'true') {
+  logger.info('Bootstrapping local server');
+  bootstrapLocal();
 }

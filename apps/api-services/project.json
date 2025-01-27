@@ -23,7 +23,14 @@
           "outExtension": {
             ".js": ".js"
           }
-        }
+        },
+        "externalDependencies": [
+          "cache-manager",
+          "class-transformer",
+          "class-validator",
+          "@nestjs/microservices",
+          "@nestjs/microservices/microservices-module"
+        ]
       },
       "configurations": {
         "development": {},
