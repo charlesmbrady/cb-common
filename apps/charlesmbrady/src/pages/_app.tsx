@@ -14,20 +14,23 @@ import type { Navigation } from '@toolpad/core/AppProvider';
 import LogoDevIcon from '@mui/icons-material/LogoDev';
 import { Call, Highlight, Layers } from '@mui/icons-material';
 import {
+  Button,
   Divider,
   Link,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
+  ListItemText,
   Typography,
+  IconButton,
+  Box,
 } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const NAVIGATION: Navigation = [
-  // {
-  //   kind: 'header',
-  //   title: 'Main items',
-  // },
   {
     segment: 'about',
     title: 'About',
@@ -44,8 +47,8 @@ const NAVIGATION: Navigation = [
     icon: <WorkIcon />,
   },
   {
-    segment: 'portfolio',
-    title: 'Portfolio',
+    segment: 'projects',
+    title: 'Projects',
     icon: <DashboardIcon />,
   },
   {
@@ -58,9 +61,17 @@ const NAVIGATION: Navigation = [
 const BRANDING = {
   title: 'Charles Brady',
   logo: (
-    <img
-      src="https://avatars.githubusercontent.com/u/37607365?v=4" //TODO: replace with my own logo
-      alt="Charles Brady"
+    <Box
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: '50%',
+        backgroundImage: 'url(https://avatars.githubusercontent.com/u/37607365?v=4)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        border: '2px solid',
+        borderColor: 'primary.main',
+      }}
     />
   ),
 };
@@ -69,14 +80,58 @@ function SidebarFooter() {
   return (
     <List>
       <ListItem>
-        <ListItemButton>
-          <ListItemIcon>
-            <ContactPageIcon />
-          </ListItemIcon>
-
-          <a href="CharlesBrady_resume.pdf" target="_blank" rel="noreferrer">
-            View Resume
-          </a>
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', width: '100%', mb: 2 }}>
+          <IconButton
+            href="https://www.linkedin.com/in/charlesmbrady/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: 'primary.main',
+              '&:hover': {
+                transform: 'scale(1.1)',
+                color: 'primary.dark',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            <LinkedInIcon />
+          </IconButton>
+          <IconButton
+            href="https://github.com/charlesmbrady"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: 'primary.main',
+              '&:hover': {
+                transform: 'scale(1.1)',
+                color: 'primary.dark',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Box>
+      </ListItem>
+      <ListItem>
+        <ListItemButton
+          component="a"
+          href="CharlesBrady_resume.pdf"
+          target="_blank"
+          rel="noreferrer"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
+            '&:hover': {
+              backgroundColor: 'primary.dark',
+            },
+          }}
+        >
+          <ListItemText primary="View Resume" />
+          <OpenInNewIcon fontSize="small" />
         </ListItemButton>
       </ListItem>
     </List>
