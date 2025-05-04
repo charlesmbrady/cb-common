@@ -18,7 +18,7 @@ const Step3SelectQuantity: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 2 }}>
+      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
         How many records do you want to generate?
       </Typography>
       <TextField
@@ -28,6 +28,8 @@ const Step3SelectQuantity: React.FC = () => {
         onChange={(e) => setRecordCount(Number(e.target.value))}
         inputProps={{ min: 1 }}
         sx={{ mb: 2 }}
+        InputLabelProps={{ sx: { color: 'text.primary' } }}
+        InputProps={{ sx: { color: 'text.primary' } }}
       />
 
       <Box>

@@ -1,10 +1,22 @@
 import MockdatWizard from '../components/wizard/MockdatWizard';
+import { Box, useTheme } from '@mui/material';
 
 export function Index() {
+  const theme = useTheme();
+
   return (
-    <>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: theme.palette.background.default,
+        p: 3,
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+      }}
+    >
       <MockdatWizard />
-    </>
+    </Box>
   );
 }
 

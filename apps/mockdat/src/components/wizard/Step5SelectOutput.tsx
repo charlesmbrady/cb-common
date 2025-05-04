@@ -82,24 +82,37 @@ const Step5SelectOutput: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 1 }}>
-        Choose your output format, then download the data.
+      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+        Choose your output format and download your data.
       </Typography>
 
       <FormControl component="fieldset" sx={{ mb: 2 }}>
-        <FormLabel component="legend">Output Format</FormLabel>
+        <FormLabel component="legend" sx={{ color: 'text.primary' }}>
+          Output Format
+        </FormLabel>
         <RadioGroup
-          row
           value={outputFormat}
           onChange={(e) => setOutputFormat(e.target.value)}
         >
-          <FormControlLabel value="csv" control={<Radio />} label="CSV" />
-          <FormControlLabel value="json" control={<Radio />} label="JSON" />
+          <FormControlLabel
+            value="csv"
+            control={<Radio />}
+            label="CSV"
+            sx={{ color: 'text.primary' }}
+          />
+          <FormControlLabel
+            value="json"
+            control={<Radio />}
+            label="JSON"
+            sx={{ color: 'text.primary' }}
+          />
         </RadioGroup>
       </FormControl>
 
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Button onClick={handleBack}>Back</Button>
+      <Box>
+        <Button onClick={handleBack} sx={{ mr: 1 }}>
+          Back
+        </Button>
         <Button
           variant="contained"
           onClick={handleDownload}
@@ -107,8 +120,8 @@ const Step5SelectOutput: React.FC = () => {
         >
           Download
         </Button>
-        <Button color="warning" onClick={handleReset}>
-          Reset
+        <Button variant="outlined" onClick={handleReset} sx={{ ml: 1 }}>
+          Start Over
         </Button>
       </Box>
     </Box>

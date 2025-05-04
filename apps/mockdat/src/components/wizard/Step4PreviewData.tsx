@@ -47,7 +47,7 @@ const Step4PreviewData: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }} data-cy="step4Container">
-      <Typography variant="body1" sx={{ mb: 1 }}>
+      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
         Preview your fake data below.
       </Typography>
 
@@ -59,9 +59,9 @@ const Step4PreviewData: React.FC = () => {
         // We wrap the DataGrid in a wider container
         <Box
           sx={{
-            width: '90%', // or a fixed width like '800px'
-            mx: 'auto', // center horizontally
-            height: 500, // allow some height
+            width: '100%',
+            mx: 'auto',
+            height: 500,
             mb: 2,
           }}
           data-cy="dataGridContainer"
@@ -69,8 +69,14 @@ const Step4PreviewData: React.FC = () => {
           <DataGrid
             rows={rows}
             columns={columns}
-
-
+            sx={{
+              '& .MuiDataGrid-cell': {
+                color: 'text.primary',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                color: 'text.primary',
+              },
+            }}
           />
         </Box>
       )}
