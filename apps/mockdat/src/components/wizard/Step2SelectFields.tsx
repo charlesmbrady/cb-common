@@ -10,6 +10,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   Checkbox,
   ListItemText,
@@ -49,12 +50,12 @@ const Step2SelectFieldsTransferList: React.FC = () => {
   const handleBack = () => setStep(step - 1);
   const handleNext = () => setStep(step + 1);
 
-  // The “left” list is all fields not currently selected.
+  // The "left" list is all fields not currently selected.
   const leftFields = useMemo(() => {
     return not(allPossibleFields[recordType] || [], selectedFields);
   }, [recordType, selectedFields]);
 
-  // The “right” list is the already selected fields (from context).
+  // The "right" list is the already selected fields (from context).
   const rightFields = selectedFields;
 
   // This is the list of items that are currently checked (in either list).
@@ -114,9 +115,8 @@ const Step2SelectFieldsTransferList: React.FC = () => {
         {items.map((value: string) => {
           const labelId = `transfer-list-item-${value}-label`;
           return (
-            <ListItem
+            <ListItemButton
               key={value}
-              dense
               role="listitem"
               onClick={handleToggle(value)}
             >
@@ -125,11 +125,17 @@ const Step2SelectFieldsTransferList: React.FC = () => {
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
+                  inputProps={{
+                    'aria-labelledby': labelId,
+                  }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={value} />
-            </ListItem>
+              <ListItemText
+                id={labelId}
+                primary={value}
+                primaryTypographyProps={{ color: 'text.primary' }}
+              />
+            </ListItemButton>
           );
         })}
         <ListItem />
@@ -139,18 +145,56 @@ const Step2SelectFieldsTransferList: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        Choose which fields to include in your fake data.
+      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+        Select the fields you want to include in your mock data.
       </Typography>
 
       {/* Transfer List */}
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item>{customList('Available', leftFields)}</Grid>
-        <Grid item>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={5}>
+          <Card>
+            <CardHeader
+              title="Available Fields"
+              titleTypographyProps={{ color: 'text.primary' }}
+            />
+            <Divider />
+            <List dense component="div" role="list">
+              {leftFields.map((value) => {
+                const labelId = `transfer-list-item-${value}-label`;
+                return (
+                  <ListItemButton
+                    key={value}
+                    role="listitem"
+                    onClick={handleToggle(value)}
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        checked={checked.indexOf(value) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{
+                          'aria-labelledby': labelId,
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      id={labelId}
+                      primary={value}
+                      primaryTypographyProps={{ color: 'text.primary' }}
+                    />
+                  </ListItemButton>
+                );
+              })}
+              <ListItem />
+            </List>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={2}>
           <Grid container direction="column" alignItems="center">
             <Button
+              sx={{ my: 0.5 }}
               variant="outlined"
-              sx={{ my: 1 }}
+              size="small"
               onClick={handleAllRight}
               disabled={leftFields.length === 0}
               aria-label="move all right"
@@ -158,26 +202,29 @@ const Step2SelectFieldsTransferList: React.FC = () => {
               ≫
             </Button>
             <Button
+              sx={{ my: 0.5 }}
               variant="outlined"
-              sx={{ my: 1 }}
+              size="small"
               onClick={handleCheckedRight}
-              disabled={intersection(checked, leftFields).length === 0}
+              disabled={leftFields.length === 0}
               aria-label="move selected right"
             >
               &gt;
             </Button>
             <Button
+              sx={{ my: 0.5 }}
               variant="outlined"
-              sx={{ my: 1 }}
+              size="small"
               onClick={handleCheckedLeft}
-              disabled={intersection(checked, rightFields).length === 0}
+              disabled={rightFields.length === 0}
               aria-label="move selected left"
             >
               &lt;
             </Button>
             <Button
+              sx={{ my: 0.5 }}
               variant="outlined"
-              sx={{ my: 1 }}
+              size="small"
               onClick={handleAllLeft}
               disabled={rightFields.length === 0}
               aria-label="move all left"
@@ -186,7 +233,44 @@ const Step2SelectFieldsTransferList: React.FC = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item>{customList('Chosen', rightFields)}</Grid>
+        <Grid item xs={12} sm={5}>
+          <Card>
+            <CardHeader
+              title="Selected Fields"
+              titleTypographyProps={{ color: 'text.primary' }}
+            />
+            <Divider />
+            <List dense component="div" role="list">
+              {rightFields.map((value) => {
+                const labelId = `transfer-list-item-${value}-label`;
+                return (
+                  <ListItemButton
+                    key={value}
+                    role="listitem"
+                    onClick={handleToggle(value)}
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        checked={checked.indexOf(value) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{
+                          'aria-labelledby': labelId,
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      id={labelId}
+                      primary={value}
+                      primaryTypographyProps={{ color: 'text.primary' }}
+                    />
+                  </ListItemButton>
+                );
+              })}
+              <ListItem />
+            </List>
+          </Card>
+        </Grid>
       </Grid>
 
       {/* Buttons: Back / Next */}
@@ -197,7 +281,7 @@ const Step2SelectFieldsTransferList: React.FC = () => {
         <Button
           variant="contained"
           onClick={handleNext}
-          disabled={rightFields.length === 0}
+          disabled={selectedFields.length === 0}
         >
           Next
         </Button>

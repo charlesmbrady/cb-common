@@ -8,10 +8,14 @@ const Dashboard: NextPage = () => {
     <Box sx={{ p: 3 }} data-cy="dashboardPage">
       {/* Scenarios Section */}
       <Box sx={{ mb: 3 }} data-cy="scenariosSection">
-        <Typography variant="h5" data-cy="scenariosTitle">
+        <Typography
+          variant="h5"
+          sx={{ color: 'text.primary' }}
+          data-cy="scenariosTitle"
+        >
           Scenarios
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
+        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
           Quickly create or edit a scenario for generating data.
         </Typography>
         <Button
@@ -29,31 +33,43 @@ const Dashboard: NextPage = () => {
 
       {/* My Saved Scenarios */}
       <Box sx={{ mb: 3 }} data-cy="mySavedScenariosSection">
-        <Typography variant="h5" data-cy="mySavedScenariosTitle">
+        <Typography
+          variant="h5"
+          sx={{ color: 'text.primary' }}
+          data-cy="mySavedScenariosTitle"
+        >
           My Saved Scenarios
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
-          Access scenarios you’ve created or saved.
+        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+          Access scenarios you've created or saved.
         </Typography>
         {/* Example placeholders for a list */}
         <Box data-cy="savedScenariosList">
           {/* Map over user's scenarios if available */}
-          <Typography>No saved scenarios yet. Create your first!</Typography>
+          <Typography sx={{ color: 'text.primary' }}>
+            No saved scenarios yet. Create your first!
+          </Typography>
         </Box>
       </Box>
       <Divider sx={{ mb: 3 }} />
 
       {/* Community Scenarios */}
       <Box sx={{ mb: 3 }} data-cy="communityScenariosSection">
-        <Typography variant="h5" data-cy="communityScenariosTitle">
+        <Typography
+          variant="h5"
+          sx={{ color: 'text.primary' }}
+          data-cy="communityScenariosTitle"
+        >
           Community Scenarios
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
+        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
           Explore scenarios shared by the community.
         </Typography>
         <Box data-cy="communityScenariosList">
           {/* Map over community scenarios if available */}
-          <Typography>No community scenarios available yet.</Typography>
+          <Typography sx={{ color: 'text.primary' }}>
+            No community scenarios available yet.
+          </Typography>
         </Box>
       </Box>
     </Box>
