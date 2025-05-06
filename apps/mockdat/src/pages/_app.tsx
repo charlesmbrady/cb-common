@@ -11,6 +11,11 @@ import type { Navigation } from '@toolpad/core/AppProvider';
 import { DocumentScanner, HelpOutline, Settings } from '@mui/icons-material';
 import { List, ListItem, Box, CssBaseline, IconButton } from '@mui/material';
 import { MockdatProvider } from '../context/MockdatContext';
+
+import { AuthProvider } from '@cb-common/auth';
+import { cognitoConfig } from '../config/amplify';
+import type { AppProps } from 'next/app';
+
 import Image from 'next/image';
 import './styles.css';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -363,12 +368,14 @@ export default function App({ Component }: { Component: React.ElementType }) {
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
   return (
+    <AuthProvider config={cognitoConfig}>
     <AppCacheProvider>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+
         <NextAppProvider navigation={NAVIGATION} branding={BRANDING}>
           <MockdatProvider>
             <DashboardLayout
@@ -377,11 +384,13 @@ export default function App({ Component }: { Component: React.ElementType }) {
             >
               <PageContainer sx={{ backgroundColor: 'background.default' }}>
                 <Component />
+
               </PageContainer>
             </DashboardLayout>
           </MockdatProvider>
         </NextAppProvider>
       </ThemeProvider>
-    </AppCacheProvider>
+      </AppCacheProvider>
+    </AuthProvider>
   );
 }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { Box, Typography, Button, Divider } from '@mui/material';
+import { withAuth } from '@cb-common/auth';
 
 const Dashboard: NextPage = () => {
   return (
@@ -76,4 +77,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
