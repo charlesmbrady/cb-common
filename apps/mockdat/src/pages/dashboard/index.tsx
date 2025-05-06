@@ -2,6 +2,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { Box, Typography, Button, Divider } from '@mui/material';
+import { withAuth } from '@cb-common/auth';
 
 const Dashboard: NextPage = () => {
   return (
@@ -33,7 +34,7 @@ const Dashboard: NextPage = () => {
           My Saved Scenarios
         </Typography>
         <Typography variant="body1" sx={{ mb: 1 }}>
-          Access scenarios you’ve created or saved.
+          Access scenarios you've created or saved.
         </Typography>
         {/* Example placeholders for a list */}
         <Box data-cy="savedScenariosList">
@@ -60,4 +61,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

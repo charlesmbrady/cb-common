@@ -5,13 +5,14 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import Head from 'next/head';
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-
 import InfoIcon from '@mui/icons-material/Info';
 import type { Navigation } from '@toolpad/core/AppProvider';
-
 import { DocumentScanner, HelpOutline, Settings } from '@mui/icons-material';
 import { List, ListItem } from '@mui/material';
 import { MockdatProvider } from '../context/MockdatContext';
+import { AuthProvider } from '@cb-common/auth';
+import { cognitoConfig } from '../config/amplify';
+import type { AppProps } from 'next/app';
 
 const NAVIGATION: Navigation = [
   {
@@ -56,24 +57,26 @@ function SidebarFooter() {
   );
 }
 
-export default function App({ Component }: { Component: React.ElementType }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AppCacheProvider>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <NextAppProvider navigation={NAVIGATION} branding={BRANDING}>
-        <MockdatProvider>
-          <DashboardLayout
-            slots={{ sidebarFooter: SidebarFooter }}
-            disableCollapsibleSidebar
-          >
-            <PageContainer>
-              <Component />
-            </PageContainer>
-          </DashboardLayout>
-        </MockdatProvider>
-      </NextAppProvider>
-    </AppCacheProvider>
+    <AuthProvider config={cognitoConfig}>
+      <AppCacheProvider>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <NextAppProvider navigation={NAVIGATION} branding={BRANDING}>
+          <MockdatProvider>
+            <DashboardLayout
+              slots={{ sidebarFooter: SidebarFooter }}
+              disableCollapsibleSidebar
+            >
+              <PageContainer>
+                <Component {...pageProps} />
+              </PageContainer>
+            </DashboardLayout>
+          </MockdatProvider>
+        </NextAppProvider>
+      </AppCacheProvider>
+    </AuthProvider>
   );
 }

@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import { withAuth } from '@cb-common/auth';
 
 const Settings: NextPage = () => {
   // Example states
@@ -57,4 +58,4 @@ const Settings: NextPage = () => {
   );
 };
 
-export default Settings;
+export default withAuth(Settings);
