@@ -14,13 +14,16 @@ const Help: NextPage = () => {
   return (
     <Box sx={{ p: 3 }} data-cy="helpPage">
       <Box sx={{ mt: 3 }}>
-        <Typography variant="h6" sx={{ mb: 1 }}>
+        <Typography variant="h6" sx={{ mb: 1, color: 'text.primary' }}>
           Common Topics
         </Typography>
         <List data-cy="helpTopicsList">
           {helpTopics.map((topic) => (
             <ListItem key={topic} data-cy={`helpTopic-${topic}`}>
-              <ListItemText primary={topic} />
+              <ListItemText
+                primary={topic}
+                primaryTypographyProps={{ color: 'text.primary' }}
+              />
             </ListItem>
           ))}
         </List>

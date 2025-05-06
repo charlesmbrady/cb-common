@@ -180,8 +180,8 @@ const About: NextPage = () => {
         About Mockdat
       </Typography>
       <Typography variant="body1" paragraph>
-        Mockdat is a powerful tool for generating mock data for your
-        applications.
+        Mockdat is an application designed to help you generate large sets of
+        realistic mock data for testing, demos, and development.
       </Typography>
       <Box
         display="flex"
@@ -192,13 +192,17 @@ const About: NextPage = () => {
         <DotMLogo />
       </Box>
 
-      <Typography variant="body1" sx={{ mb: 2 }}>
+      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
         Version: <strong data-cy="appVersion">1.0.0</strong>
       </Typography>
 
-      <Typography variant="body1" sx={{ mb: 2 }}>
+      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
         Created by the Mockdat team. Learn more at:
-        <Link href="https://example.com" sx={{ ml: 0.5 }} data-cy="aboutLink">
+        <Link
+          href="https://example.com"
+          sx={{ ml: 0.5, color: 'primary.main' }}
+          data-cy="aboutLink"
+        >
           https://example.com
         </Link>
       </Typography>

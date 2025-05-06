@@ -23,7 +23,7 @@ const Documentation: NextPage = () => {
     <Box sx={{ p: 3 }} data-cy="documentationPage">
       {/* TABLE OF CONTENTS */}
       <Box sx={{ mb: 3 }} data-cy="tableOfContents">
-        <Typography variant="h5" sx={{ mb: 1 }}>
+        <Typography variant="h5" sx={{ mb: 1, color: 'text.primary' }}>
           Table of Contents
         </Typography>
         <List>
@@ -33,7 +33,10 @@ const Documentation: NextPage = () => {
             href="#overview"
             data-cy="toc-overviewLink"
           >
-            <ListItemText primary="Overview" />
+            <ListItemText
+              primary="Overview"
+              primaryTypographyProps={{ color: 'text.primary' }}
+            />
           </ListItem>
           <ListItem
             button
@@ -41,7 +44,10 @@ const Documentation: NextPage = () => {
             href="#basicUsage"
             data-cy="toc-basicUsageLink"
           >
-            <ListItemText primary="Basic Usage" />
+            <ListItemText
+              primary="Basic Usage"
+              primaryTypographyProps={{ color: 'text.primary' }}
+            />
           </ListItem>
           <ListItem
             button
@@ -49,20 +55,34 @@ const Documentation: NextPage = () => {
             href="#advancedConfig"
             data-cy="toc-advancedConfigLink"
           >
-            <ListItemText primary="Advanced Configuration" />
+            <ListItemText
+              primary="Advanced Configuration"
+              primaryTypographyProps={{ color: 'text.primary' }}
+            />
           </ListItem>
           <ListItem button component="a" href="#api" data-cy="toc-apiLink">
-            <ListItemText primary="API" />
+            <ListItemText
+              primary="API"
+              primaryTypographyProps={{ color: 'text.primary' }}
+            />
           </ListItem>
         </List>
       </Box>
 
       {/* 1. OVERVIEW */}
       <Box sx={{ mb: 3 }} id="overview" data-cy="overviewSection">
-        <Typography variant="h5" sx={{ mb: 1 }} data-cy="overviewHeader">
+        <Typography
+          variant="h5"
+          sx={{ mb: 1, color: 'text.primary' }}
+          data-cy="overviewHeader"
+        >
           Overview
         </Typography>
-        <Typography variant="body1" data-cy="overviewContent">
+        <Typography
+          variant="body1"
+          sx={{ color: 'text.primary' }}
+          data-cy="overviewContent"
+        >
           This section provides a high-level introduction to Mockdat— what it
           is, why it exists, and how it can help you generate realistic data for
           testing, demos, and development. Include quick links to relevant
@@ -72,12 +92,20 @@ const Documentation: NextPage = () => {
 
       {/* 2. BASIC USAGE */}
       <Box sx={{ mb: 3 }} id="basicUsage" data-cy="basicUsageSection">
-        <Typography variant="h5" sx={{ mb: 1 }} data-cy="basicUsageHeader">
+        <Typography
+          variant="h5"
+          sx={{ mb: 1, color: 'text.primary' }}
+          data-cy="basicUsageHeader"
+        >
           Basic Usage
         </Typography>
-        <Typography variant="body1" data-cy="basicUsageContent">
+        <Typography
+          variant="body1"
+          sx={{ color: 'text.primary' }}
+          data-cy="basicUsageContent"
+        >
           In this section, you might detail how to create a scenario, select
-          fields, set record counts, and generate data using Mockdat’s wizard.
+          fields, set record counts, and generate data using Mockdat's wizard.
           Provide step-by-step instructions, screenshots, or code snippets to
           help users get started.
         </Typography>
@@ -85,10 +113,18 @@ const Documentation: NextPage = () => {
 
       {/* 3. ADVANCED CONFIGURATION */}
       <Box sx={{ mb: 3 }} id="advancedConfig" data-cy="advancedConfigSection">
-        <Typography variant="h5" sx={{ mb: 1 }} data-cy="advancedConfigHeader">
+        <Typography
+          variant="h5"
+          sx={{ mb: 1, color: 'text.primary' }}
+          data-cy="advancedConfigHeader"
+        >
           Advanced Configuration
         </Typography>
-        <Typography variant="body1" data-cy="advancedConfigContent">
+        <Typography
+          variant="body1"
+          sx={{ color: 'text.primary' }}
+          data-cy="advancedConfigContent"
+        >
           Here you can describe more complex usage scenarios, such as
           customizing output formats, integrating with external APIs, using
           environment variables, or advanced plugin settings.
@@ -97,10 +133,18 @@ const Documentation: NextPage = () => {
 
       {/* 4. API */}
       <Box sx={{ mb: 3 }} id="api" data-cy="apiSection">
-        <Typography variant="h5" sx={{ mb: 1 }} data-cy="apiHeader">
+        <Typography
+          variant="h5"
+          sx={{ mb: 1, color: 'text.primary' }}
+          data-cy="apiHeader"
+        >
           API
         </Typography>
-        <Typography variant="body1" data-cy="apiContent">
+        <Typography
+          variant="body1"
+          sx={{ color: 'text.primary' }}
+          data-cy="apiContent"
+        >
           If Mockdat offers an API or programmatic interface, list the
           endpoints, request/response shapes, authentication tokens, or code
           samples. Include details about rate limits, error handling, and

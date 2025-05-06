@@ -1,7 +1,14 @@
 // components/wizard/MockdatWizard.tsx
 import React, { useContext } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
-import { Stepper, Step, StepLabel, StepContent, Box } from '@mui/material';
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Box,
+  useTheme,
+} from '@mui/material';
 
 import Step1SelectRecordType from './Step1SelectRecordType';
 import Step2SelectFieldsTransferList from './Step2SelectFields';
@@ -19,6 +26,8 @@ const steps = [
 
 const MockdatWizard: React.FC = () => {
   const context = useContext(MockdatContext);
+  const theme = useTheme();
+
   if (!context) {
     throw new Error('MockdatWizard must be used within a MockdatProvider');
   }
@@ -27,7 +36,15 @@ const MockdatWizard: React.FC = () => {
   const activeStep = step - 1; // MUI Stepper is 0-based
 
   return (
-    <Box sx={{ maxWidth: 600 }} data-cy="mockdatWizardContainer">
+    <Box
+      sx={{
+        maxWidth: '100%',
+        width: '100%',
+        backgroundColor: 'transparent',
+        p: 3,
+      }}
+      data-cy="mockdatWizardContainer"
+    >
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((s, index) => (
           <Step key={s.label} data-cy={`step-${index + 1}`}>

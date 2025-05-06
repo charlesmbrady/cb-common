@@ -34,11 +34,13 @@ const Step1SelectRecordType: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 1 }}>
+      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
         Choose which type of record you want to generate.
       </Typography>
       <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel id="record-type-label">Record Type</InputLabel>
+        <InputLabel id="record-type-label" sx={{ color: 'text.primary' }}>
+          Record Type
+        </InputLabel>
         <Select
           labelId="record-type-label"
           value={recordType}

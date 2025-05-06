@@ -7,6 +7,7 @@ import {
   Switch,
   Button,
   TextField,
+  Typography,
 } from '@mui/material';
 import { withAuth } from '@cb-common/auth';
 
@@ -21,6 +22,10 @@ const Settings: NextPage = () => {
 
   return (
     <Box sx={{ p: 3 }} data-cy="settingsPage">
+      <Typography variant="h5" sx={{ mb: 3, color: 'text.primary' }}>
+        Settings
+      </Typography>
+
       {/* Example: Dark Mode Toggle */}
       <FormControlLabel
         data-cy="darkModeToggle"
@@ -32,7 +37,7 @@ const Settings: NextPage = () => {
           />
         }
         label="Dark Mode"
-        sx={{ display: 'block', mb: 2 }}
+        sx={{ display: 'block', mb: 2, color: 'text.primary' }}
       />
 
       {/* Example: API Token */}
@@ -43,6 +48,8 @@ const Settings: NextPage = () => {
           value={apiToken}
           onChange={(e) => setApiToken(e.target.value)}
           data-cy="apiTokenInput"
+          InputLabelProps={{ sx: { color: 'text.primary' } }}
+          InputProps={{ sx: { color: 'text.primary' } }}
         />
       </Box>
 

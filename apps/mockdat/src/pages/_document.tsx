@@ -15,10 +15,14 @@ import {
 
 export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
   return (
-    <Html lang="en" data-toolpad-color-scheme="light">
+    <Html lang="en">
       <Head>
         <meta name="emotion-insertion-point" content="" />
         <DocumentHeadTags {...props} />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />
