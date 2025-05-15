@@ -1,5 +1,7 @@
 import express from 'express';
 import serverlessExpress from '@codegenie/serverless-express';
+import rootRoutes from './routes/root.routes';
+import apiRoutes from './routes/api.routes';
 
 // Create Express app
 const app = express();
@@ -8,29 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Define routes
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from Express on Lambda!!' });
-});
-
-app.get('/api/info', (req, res) => {
-  res.json({
-    service: 'API Services',
-    version: '1.0.0',
-    timestamp: new Date().toISOString(),
-  });
-});
-
-// Add more routes as needed
-app.post('/api/data', (req, res) => {
-  const data = req.body;
-  console.log('Received data:', data);
-
-  res.status(201).json({
-    message: 'Data received successfully',
-    data,
-  });
-});
+// Register routes
+app.use('/', rootRoutes);
+app.use('/api', apiRoutes);
 
 // Export the handler function for AWS Lambda
 export const handler = serverlessExpress({ app });
