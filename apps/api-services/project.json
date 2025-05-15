@@ -38,20 +38,10 @@
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
-      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
       "options": {
-        "buildTarget": "api-services:build",
-        "runBuildTargetDependencies": false
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "api-services:build:development"
-        },
-        "production": {
-          "buildTarget": "api-services:build:production"
-        }
+        "command": "npx nodemon -w ./apps/api-services/src --ext ts --exec \"nx run api-services:build:development && NODE_ENV=development LOCAL_SERVER=true node dist/apps/api-services/main.js\"",
+        "cwd": "."
       }
     },
     "test": {
