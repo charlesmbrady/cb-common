@@ -1,0 +1,10 @@
+{
+  "name": "processing-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/processing-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["processing"],
+  "// targets": "to see all targets run: nx show project processing-e2e --web",
+  "targets": {}
+}

@@ -117,6 +117,7 @@
     "@nx/react": {
       "application": {
         "babel": true,
+        "style": "css",
         "linter": "eslint",
         "bundler": "webpack",
         "e2eTestRunner": "cypress",
@@ -169,6 +170,7 @@
         "pascalCaseFiles": false
       },
       "component": {
+        "style": "css",
         "export": true
       },
       "storybook": {
@@ -181,6 +183,7 @@
         "generateCypressSpecs": true
       },
       "library": {
+        "style": "css",
         "linter": "eslint",
         "unitTestRunner": "jest",
         "projectNameAndRootFormat": "derived",

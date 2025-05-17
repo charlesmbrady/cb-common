@@ -2,5 +2,6 @@
   "editor.tokenColorCustomizations": {
     "comments": "",
     "textMateRules": []
-  }
+  },
+  "nxConsole.generateAiAgentRules": true
 }
