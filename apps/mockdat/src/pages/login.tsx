@@ -9,7 +9,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [isAuthenticated, router]);
 

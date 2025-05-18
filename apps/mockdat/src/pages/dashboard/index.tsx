@@ -3,8 +3,10 @@ import React from 'react';
 import { NextPage } from 'next';
 import { Box, Typography, Button, Divider } from '@mui/material';
 import { withAuth } from '@cb-common/auth';
+import { useRouter } from 'next/router';
 
 const Dashboard: NextPage = () => {
+  const router = useRouter();
   return (
     <Box sx={{ p: 3 }} data-cy="dashboardPage">
       {/* Scenarios Section */}
@@ -23,9 +25,7 @@ const Dashboard: NextPage = () => {
           variant="contained"
           color="primary"
           data-cy="createScenarioBtn"
-          onClick={() => {
-            // e.g., router.push('/mockdatWizard') or open scenario creation
-          }}
+          onClick={() => router.push('/wizard')}
         >
           Create New Scenario
         </Button>

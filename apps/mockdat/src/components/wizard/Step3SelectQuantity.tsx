@@ -28,9 +28,14 @@ const Step3SelectQuantity: React.FC = () => {
           type="number"
           label="Record Count"
           value={recordCount}
-          onChange={(e) => setRecordCount(Number(e.target.value))}
-          inputProps={{ min: 1 }}
-          sx={{ mb: 2 }}
+          onChange={(e) => {
+            let val = Number(e.target.value);
+            if (val > 2000000) val = 2000000;
+            if (val < 1) val = 1;
+            setRecordCount(val);
+          }}
+          inputProps={{ min: 1, max: 2000000 }}
+          sx={{ mb: 2, width: '300px' }}
           InputLabelProps={{ sx: { color: 'text.primary' } }}
           InputProps={{ sx: { color: 'text.primary' } }}
         />

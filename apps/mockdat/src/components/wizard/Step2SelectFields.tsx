@@ -59,7 +59,7 @@ const Step2SelectFieldsTransferList: React.FC = () => {
 
   // The "left" list is all fields not currently selected.
   const leftFields = useMemo(() => {
-    if (recordType === 'All') {
+    if (recordType === 'Generic') {
       return not(getAllFields(), selectedFields);
     }
     return not(allPossibleFields[recordType] || [], selectedFields);

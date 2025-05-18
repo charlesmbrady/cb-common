@@ -23,6 +23,9 @@ export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
           href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <link rel="icon" type="image/svg+xml" href="/m-favicon.svg" />
+        <link rel="icon" type="image/png" href="/m-favicon.png" />
+        <link rel="alternate icon" href="/favicon.ico" />
       </Head>
       <body>
         <Main />

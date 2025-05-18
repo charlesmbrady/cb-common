@@ -29,10 +29,10 @@ const Step1SelectRecordType: React.FC = () => {
     setSelectedFields([]); // reset fields if user changes record type
   };
 
-  // Set 'All' as the default value
+  // Set 'Generic' as the default value
   React.useEffect(() => {
     if (!recordType) {
-      setRecordType('All');
+      setRecordType('Generic');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,7 +55,7 @@ const Step1SelectRecordType: React.FC = () => {
             label="Record Type"
             onChange={handleChange}
           >
-            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="Generic">Generic</MenuItem>
             <MenuItem value="Accounts">Accounts</MenuItem>
             <MenuItem value="Contacts">Contacts</MenuItem>
             <MenuItem value="Leads">Leads</MenuItem>

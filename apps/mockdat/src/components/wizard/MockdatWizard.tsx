@@ -1,5 +1,5 @@
 // components/wizard/MockdatWizard.tsx
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
 import {
   Stepper,
@@ -10,6 +10,7 @@ import {
   Paper,
   useTheme,
 } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Step1SelectRecordType from './Step1SelectRecordType';
 import Step2SelectFieldsTransferList from './Step2SelectFields';
@@ -28,6 +29,7 @@ const steps = [
 const MockdatWizard: React.FC = () => {
   const context = useContext(MockdatContext);
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
 
   if (!context) {
     throw new Error('MockdatWizard must be used within a MockdatProvider');
@@ -62,6 +64,16 @@ const MockdatWizard: React.FC = () => {
 
   // Only show the current step's component
   const CurrentStepComponent = steps[activeStep]?.component;
+
+  const handleNext = async () => {
+    setLoading(true);
+    // Simulate async work (replace with real async if needed)
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    setStep(step + 1);
+    setLoading(false);
+  };
+
+  const handleBack = () => setStep(step - 1);
 
   return (
     <Box
@@ -132,19 +144,37 @@ const MockdatWizard: React.FC = () => {
         >
           <Button
             variant="outlined"
-            onClick={() => setStep(step - 1)}
-            disabled={activeStep === 0}
+            onClick={handleBack}
+            disabled={activeStep === 0 || loading}
             sx={{ minWidth: 120, mr: 1 }}
           >
             Back
           </Button>
           <Button
             variant="contained"
-            onClick={() => setStep(step + 1)}
-            disabled={activeStep === steps.length - 1 || isNextDisabled()}
-            sx={{ minWidth: 120 }}
+            onClick={handleNext}
+            disabled={
+              activeStep === steps.length - 1 || isNextDisabled() || loading
+            }
+            sx={{ minWidth: 120, position: 'relative' }}
           >
-            {activeStep === steps.length - 2 ? 'Finish' : 'Next'}
+            {loading ? (
+              <CircularProgress
+                size={20}
+                color="inherit"
+                sx={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  marginTop: '-10px',
+                  marginLeft: '-10px',
+                }}
+              />
+            ) : activeStep === steps.length - 2 ? (
+              'Finish'
+            ) : (
+              'Next'
+            )}
           </Button>
         </Box>
       </Box>

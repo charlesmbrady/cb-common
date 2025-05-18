@@ -1,211 +1,141 @@
 // pages/about/index.tsx
 import React from 'react';
-import { NextPage } from 'next';
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link, useTheme } from '@mui/material';
 
-const DotMLogo = () => (
-  <svg
-    width="1200"
-    height="600"
-    viewBox="0 0 1200 600"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style={{ stopColor: '#1976d2', stopOpacity: 1 }} />
-        <stop offset="50%" style={{ stopColor: '#64b5f6', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#1976d2', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <style>
-      {`
-        /* Base styles */
-        .base {
-          stroke: url(#gradient1);
-          stroke-width: 14;
-          filter: drop-shadow(0 0 2px rgba(25, 118, 210, 0.3));
-        }
+export async function getStaticProps() {
+  const res = await fetch(
+    'https://api.github.com/repos/charlesmbrady/cb-common/commits?path=apps/mockdat&per_page=10'
+  );
+  const commits = await res.json();
+  return { props: { commits } };
+}
 
-        /* Row 1 - Pulse animations with varying speeds */
-        @keyframes pulse1 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        @keyframes pulse2 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        @keyframes pulse3 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        .pulse1 { stroke-dasharray: 20 980; stroke-dashoffset: 1000; animation: pulse1 1.5s linear infinite; stroke: white; stroke-width: 8; }
-        .pulse2 { stroke-dasharray: 20 980; stroke-dashoffset: 1000; animation: pulse2 2s linear infinite; stroke: white; stroke-width: 8; }
-        .pulse3 { stroke-dasharray: 20 980; stroke-dashoffset: 1000; animation: pulse3 3s linear infinite; stroke: white; stroke-width: 8; }
-
-        /* Row 2 - Flash animations with different patterns */
-        @keyframes flash1 { 
-          0%, 100% { opacity: 0; }
-          25% { opacity: 1; }
-        }
-        @keyframes flash2 { 
-          0%, 100% { opacity: 0; }
-          15% { opacity: 1; }
-          30% { opacity: 0; }
-          45% { opacity: 1; }
-          60% { opacity: 0; }
-        }
-        @keyframes flash3 { 
-          0%, 100% { opacity: 0; }
-          10% { opacity: 1; }
-          20% { opacity: 0; }
-          30% { opacity: 1; }
-          40% { opacity: 0; }
-          50% { opacity: 1; }
-          60% { opacity: 0; }
-        }
-        .flash { stroke: white; stroke-width: 14; opacity: 0; }
-        .flash1 { animation: flash1 2s linear infinite; }
-        .flash2 { animation: flash2 3s linear infinite; }
-        .flash3 { animation: flash3 4s linear infinite; }
-
-        /* Row 3 - Left to right pulse across single M */
-        @keyframes ltrPulse1 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        @keyframes ltrPulse2 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        @keyframes ltrPulse3 { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
-        .ltrPulse1 { stroke-dasharray: 40 960; stroke-dashoffset: 1000; animation: ltrPulse1 2s linear infinite; stroke: white; stroke-width: 10; }
-        .ltrPulse2 { stroke-dasharray: 40 960; stroke-dashoffset: 1000; animation: ltrPulse2 2s linear infinite 0.3s; stroke: white; stroke-width: 10; }
-        .ltrPulse3 { stroke-dasharray: 40 960; stroke-dashoffset: 1000; animation: ltrPulse3 2s linear infinite 0.6s; stroke: white; stroke-width: 10; }
-      `}
-    </style>
-
-    {/* Row 1 - Pulse animations with varying speeds */}
-    <g transform="translate(0,0)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="pulse1"
-        fill="none"
-      />
-    </g>
-    <g transform="translate(200,0)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="pulse2"
-        fill="none"
-      />
-    </g>
-    <g transform="translate(400,0)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="pulse3"
-        fill="none"
-      />
-    </g>
-
-    {/* Row 2 - Flash animations with different patterns */}
-    <g transform="translate(0,200)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="flash flash1"
-        fill="none"
-      />
-    </g>
-    <g transform="translate(200,200)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="flash flash2"
-        fill="none"
-      />
-    </g>
-    <g transform="translate(400,200)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="flash flash3"
-        fill="none"
-      />
-    </g>
-
-    {/* Row 3 - Left to right pulse across single M */}
-    <g transform="translate(400,400)">
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="base"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="ltrPulse1"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="ltrPulse2"
-        fill="none"
-      />
-      <path
-        d="M 40 190 L 40 30 L 100 170 L 160 30 L 160 190"
-        className="ltrPulse3"
-        fill="none"
-      />
-    </g>
-  </svg>
-);
-
-const About: NextPage = () => {
+const About = ({ commits = [] }) => {
+  const theme = useTheme();
   return (
     <Box sx={{ p: 3 }} data-cy="aboutPage">
-      <Typography variant="h4" gutterBottom>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ color: theme.palette.text.primary }}
+      >
         About Mockdat
       </Typography>
-      <Typography variant="body1" paragraph>
-        Mockdat is an application designed to help you generate large sets of
-        realistic mock data for testing, demos, and development.
+      <Typography
+        variant="body1"
+        paragraph
+        sx={{ color: theme.palette.text.primary }}
+      >
+        Mockdat is a powerful tool for generating large sets of realistic mock
+        data for testing, demos, and development. Whether you need to populate a
+        database, test an application, or create sample data for a demo, Mockdat
+        makes it easy and flexible.
       </Typography>
+      <Typography
+        variant="body1"
+        paragraph
+        sx={{ color: theme.palette.text.primary }}
+      >
+        <strong>Key Features:</strong>
+      </Typography>
+      <ul
+        style={{
+          color: theme.palette.text.primary,
+          marginTop: 0,
+          marginBottom: 16,
+        }}
+      >
+        <li>
+          Generate data for common business objects (Accounts, Contacts, Leads,
+          Opportunities, and more)
+        </li>
+        <li>Customizable fields and record types</li>
+        <li>Preview generated data before export</li>
+        <li>Export data in CSV or JSON format</li>
+        <li>Modern, step-by-step wizard interface</li>
+        <li>Dark mode and responsive design</li>
+      </ul>
+      <Typography
+        variant="body1"
+        paragraph
+        sx={{ color: theme.palette.text.primary }}
+      >
+        <strong>How to Use:</strong>
+      </Typography>
+      <ol
+        style={{
+          color: theme.palette.text.primary,
+          marginTop: 0,
+          marginBottom: 16,
+        }}
+      >
+        <li>
+          Choose a record type or select "All" to access every available field.
+        </li>
+        <li>Select the fields you want to include in your mock data.</li>
+        <li>Specify the number of records to generate.</li>
+        <li>Preview your data and make adjustments as needed.</li>
+        <li>Download your data in the desired format.</li>
+      </ol>
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         sx={{ mt: 4 }}
       >
-        <DotMLogo />
+        {/* DotMLogo component removed as per instructions */}
       </Box>
-
-      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
+      <Typography
+        variant="body1"
+        sx={{ mb: 2, color: theme.palette.text.primary }}
+      >
         Version: <strong data-cy="appVersion">1.0.0</strong>
       </Typography>
-
-      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
-        Created by the Mockdat team. Learn more at:
+      <Typography
+        variant="body1"
+        sx={{ mb: 2, color: theme.palette.text.primary }}
+      >
+        Created by the Mockdat team. Learn more at:{' '}
         <Link
-          href="https://example.com"
-          sx={{ ml: 0.5, color: 'primary.main' }}
-          data-cy="aboutLink"
+          href="https://github.com/charlesmbrady/cb-common/tree/main/apps/mockdat"
+          target="_blank"
+          rel="noopener"
+          sx={{ color: theme.palette.primary.main }}
         >
-          https://example.com
+          GitHub
         </Link>
       </Typography>
+      <Box sx={{ mt: 4 }}>
+        <Typography
+          variant="h5"
+          sx={{ mb: 2, color: theme.palette.text.primary }}
+        >
+          Changelog
+        </Typography>
+        {commits && Array.isArray(commits) && commits.length > 0 ? (
+          <Box component="ul" sx={{ pl: 2, color: theme.palette.text.primary }}>
+            {commits.map((commit) => (
+              <li key={commit.sha} style={{ marginBottom: 12 }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.primary }}
+                >
+                  <strong>{commit.commit.message.split('\n')[0]}</strong>
+                  <br />
+                  <span style={{ color: theme.palette.text.secondary }}>
+                    {commit.commit.author.name} &mdash;{' '}
+                    {new Date(commit.commit.author.date).toLocaleDateString()}
+                  </span>
+                </Typography>
+              </li>
+            ))}
+          </Box>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No recent changes found.
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };

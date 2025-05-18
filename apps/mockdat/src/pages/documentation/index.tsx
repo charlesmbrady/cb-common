@@ -60,12 +60,6 @@ const Documentation: NextPage = () => {
               primaryTypographyProps={{ color: 'text.primary' }}
             />
           </ListItem>
-          <ListItem button component="a" href="#api" data-cy="toc-apiLink">
-            <ListItemText
-              primary="API"
-              primaryTypographyProps={{ color: 'text.primary' }}
-            />
-          </ListItem>
         </List>
       </Box>
 
@@ -83,10 +77,12 @@ const Documentation: NextPage = () => {
           sx={{ color: 'text.primary' }}
           data-cy="overviewContent"
         >
-          This section provides a high-level introduction to Mockdat— what it
-          is, why it exists, and how it can help you generate realistic data for
-          testing, demos, and development. Include quick links to relevant
-          resources here.
+          <strong>Mockdat</strong> is a modern tool for generating large sets of
+          realistic mock data for testing, demos, and development. It features a
+          step-by-step wizard, customizable fields, and support for common
+          business objects like Accounts, Contacts, Leads, and Opportunities.
+          Mockdat is designed for developers, QA engineers, and anyone who needs
+          high-quality sample data quickly and easily.
         </Typography>
       </Box>
 
@@ -99,57 +95,29 @@ const Documentation: NextPage = () => {
         >
           Basic Usage
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: 'text.primary' }}
-          data-cy="basicUsageContent"
-        >
-          In this section, you might detail how to create a scenario, select
-          fields, set record counts, and generate data using Mockdat's wizard.
-          Provide step-by-step instructions, screenshots, or code snippets to
-          help users get started.
-        </Typography>
-      </Box>
-
-      {/* 3. ADVANCED CONFIGURATION */}
-      <Box sx={{ mb: 3 }} id="advancedConfig" data-cy="advancedConfigSection">
-        <Typography
-          variant="h5"
-          sx={{ mb: 1, color: 'text.primary' }}
-          data-cy="advancedConfigHeader"
-        >
-          Advanced Configuration
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: 'text.primary' }}
-          data-cy="advancedConfigContent"
-        >
-          Here you can describe more complex usage scenarios, such as
-          customizing output formats, integrating with external APIs, using
-          environment variables, or advanced plugin settings.
-        </Typography>
-      </Box>
-
-      {/* 4. API */}
-      <Box sx={{ mb: 3 }} id="api" data-cy="apiSection">
-        <Typography
-          variant="h5"
-          sx={{ mb: 1, color: 'text.primary' }}
-          data-cy="apiHeader"
-        >
-          API
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: 'text.primary' }}
-          data-cy="apiContent"
-        >
-          If Mockdat offers an API or programmatic interface, list the
-          endpoints, request/response shapes, authentication tokens, or code
-          samples. Include details about rate limits, error handling, and
-          versioning.
-        </Typography>
+        <Box sx={{ color: 'text.primary' }}>
+          <ol
+            style={{ margin: 0, paddingLeft: 20 }}
+            data-cy="basicUsageContent"
+          >
+            <li>
+              Open the Mockdat app and click <strong>Get Started</strong> to
+              launch the wizard.
+            </li>
+            <li>
+              Select a record type (e.g., Accounts, Contacts, Leads,
+              Opportunities, or Generic for all fields).
+            </li>
+            <li>
+              Choose the fields you want to include in your mock data set.
+            </li>
+            <li>
+              Specify the number of records to generate (up to 2,000,000).
+            </li>
+            <li>Preview your generated data in the table view.</li>
+            <li>Download your data as CSV or JSON for use in your projects.</li>
+          </ol>
+        </Box>
       </Box>
     </Box>
   );
