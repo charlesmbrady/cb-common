@@ -1,0 +1,15 @@
+export const streetDesignators: string[] = [
+  'Rd',
+  'Road',
+  'Ln',
+  'Lane',
+  'Avenue',
+  'Ave',
+  'Court',
+  'Ct',
+  'Drive',
+  'Dr',
+  'Street',
+  'St',
+  'Way',
+];
