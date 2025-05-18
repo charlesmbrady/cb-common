@@ -8,8 +8,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography,
 } from '@mui/material';
+import InstructionsText from '../InstructionsText';
 
 const Step1SelectRecordType: React.FC = () => {
   const ctx = useContext(MockdatContext);
@@ -42,9 +42,9 @@ const Step1SelectRecordType: React.FC = () => {
       sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
     >
       <Box sx={{ width: '100%', maxWidth: 500 }}>
-        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+        <InstructionsText>
           Choose which type of record you want to generate.
-        </Typography>
+        </InstructionsText>
         <FormControl fullWidth sx={{ mb: 2 }}>
           <InputLabel id="record-type-label" sx={{ color: 'text.primary' }}>
             Record Type

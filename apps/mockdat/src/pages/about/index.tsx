@@ -1,6 +1,6 @@
 // pages/about/index.tsx
 import React from 'react';
-import { Box, Typography, Link, useTheme } from '@mui/material';
+import { Box, Typography, Link, useTheme, List, ListItem } from '@mui/material';
 
 export async function getStaticProps() {
   const res = await fetch(
@@ -38,23 +38,17 @@ const About = ({ commits = [] }) => {
       >
         <strong>Key Features:</strong>
       </Typography>
-      <ul
-        style={{
-          color: theme.palette.text.primary,
-          marginTop: 0,
-          marginBottom: 16,
-        }}
-      >
-        <li>
+      <List sx={{ color: theme.palette.text.primary, mt: 0, mb: 2 }}>
+        <ListItem>
           Generate data for common business objects (Accounts, Contacts, Leads,
           Opportunities, and more)
-        </li>
-        <li>Customizable fields and record types</li>
-        <li>Preview generated data before export</li>
-        <li>Export data in CSV or JSON format</li>
-        <li>Modern, step-by-step wizard interface</li>
-        <li>Dark mode and responsive design</li>
-      </ul>
+        </ListItem>
+        <ListItem>Customizable fields and record types</ListItem>
+        <ListItem>Preview generated data before export</ListItem>
+        <ListItem>Export data in CSV or JSON format</ListItem>
+        <ListItem>Modern, step-by-step wizard interface</ListItem>
+        <ListItem>Dark mode and responsive design</ListItem>
+      </List>
       <Typography
         variant="body1"
         paragraph
@@ -62,21 +56,33 @@ const About = ({ commits = [] }) => {
       >
         <strong>How to Use:</strong>
       </Typography>
-      <ol
-        style={{
+      <List
+        sx={{
           color: theme.palette.text.primary,
-          marginTop: 0,
-          marginBottom: 16,
+          mt: 0,
+          mb: 2,
+          listStyleType: 'decimal',
+          pl: 3,
         }}
+        component="ol"
       >
-        <li>
-          Choose a record type or select "All" to access every available field.
-        </li>
-        <li>Select the fields you want to include in your mock data.</li>
-        <li>Specify the number of records to generate.</li>
-        <li>Preview your data and make adjustments as needed.</li>
-        <li>Download your data in the desired format.</li>
-      </ol>
+        <ListItem component="li" sx={{ display: 'list-item' }}>
+          Choose a record type or select "Generic" to access every available
+          field.
+        </ListItem>
+        <ListItem component="li" sx={{ display: 'list-item' }}>
+          Select the fields you want to include in your mock data.
+        </ListItem>
+        <ListItem component="li" sx={{ display: 'list-item' }}>
+          Specify the number of records to generate.
+        </ListItem>
+        <ListItem component="li" sx={{ display: 'list-item' }}>
+          Preview your data and make adjustments as needed.
+        </ListItem>
+        <ListItem component="li" sx={{ display: 'list-item' }}>
+          Download your data in the desired format.
+        </ListItem>
+      </List>
       <Box
         display="flex"
         justifyContent="center"
@@ -113,9 +119,9 @@ const About = ({ commits = [] }) => {
           Changelog
         </Typography>
         {commits && Array.isArray(commits) && commits.length > 0 ? (
-          <Box component="ul" sx={{ pl: 2, color: theme.palette.text.primary }}>
+          <List sx={{ pl: 2, color: theme.palette.text.primary }}>
             {commits.map((commit) => (
-              <li key={commit.sha} style={{ marginBottom: 12 }}>
+              <ListItem key={commit.sha} sx={{ display: 'list-item', mb: 1 }}>
                 <Typography
                   variant="body2"
                   sx={{ color: theme.palette.text.primary }}
@@ -127,9 +133,9 @@ const About = ({ commits = [] }) => {
                     {new Date(commit.commit.author.date).toLocaleDateString()}
                   </span>
                 </Typography>
-              </li>
+              </ListItem>
             ))}
-          </Box>
+          </List>
         ) : (
           <Typography variant="body2" color="text.secondary">
             No recent changes found.

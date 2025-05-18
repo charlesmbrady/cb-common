@@ -41,7 +41,7 @@ function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const handleSignOut = async () => {
     if (auth.user) {
       const clientId = auth.user.profile.aud as string;
-      const logoutUri = auth.settings.redirect_uri;
+      const logoutUri = auth.settings.logout_uri || auth.settings.redirect_uri;
       const cognitoDomain = auth.settings.authority;
       window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
         logoutUri

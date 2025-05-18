@@ -14,8 +14,9 @@ import {
   ListItemIcon,
   Checkbox,
   ListItemText,
-  Typography,
 } from '@mui/material';
+import InstructionsText from '../InstructionsText';
+import { not, intersection } from '../../utils/index';
 
 const allPossibleFields: Record<any, string[]> = {
   '': [],
@@ -39,14 +40,6 @@ const getAllFields = () => {
   const allFields = fieldSets.flat();
   return Array.from(new Set(allFields));
 };
-
-function not(a: string[], b: string[]): string[] {
-  return a.filter((value) => b.indexOf(value) === -1);
-}
-
-function intersection(a: string[], b: string[]): string[] {
-  return a.filter((value) => b.indexOf(value) !== -1);
-}
 
 const Step2SelectFieldsTransferList: React.FC = () => {
   const ctx = useContext(MockdatContext);
@@ -172,12 +165,9 @@ const Step2SelectFieldsTransferList: React.FC = () => {
           maxHeight: '60vh',
         }}
       >
-        <Typography
-          variant="body1"
-          sx={{ mb: 1, color: 'text.primary', flexShrink: 0 }}
-        >
+        <InstructionsText sx={{ flexShrink: 0, mb: 2 }}>
           Select the fields you want to include in your mock data.
-        </Typography>
+        </InstructionsText>
         <Grid
           container
           spacing={2}

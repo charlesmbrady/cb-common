@@ -1,7 +1,8 @@
 // components/wizard/Step3SelectQuantity.tsx
 import React, { useContext } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
+import InstructionsText from '../InstructionsText';
 
 const Step3SelectQuantity: React.FC = () => {
   const ctx = useContext(MockdatContext);
@@ -21,9 +22,9 @@ const Step3SelectQuantity: React.FC = () => {
       sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
     >
       <Box sx={{ width: '100%', maxWidth: 400 }}>
-        <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
+        <InstructionsText sx={{ mb: 2 }}>
           How many records do you want to generate?
-        </Typography>
+        </InstructionsText>
         <TextField
           type="number"
           label="Record Count"

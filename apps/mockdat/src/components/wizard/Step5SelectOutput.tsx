@@ -9,20 +9,9 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  Typography,
 } from '@mui/material';
-
-/** Simple CSV converter function */
-function toCSV(data: Array<Record<string, any>>): string {
-  if (data.length === 0) return '';
-  const header = Object.keys(data[0]).join(',');
-  const rows = data.map((row) =>
-    Object.keys(row)
-      .map((key) => row[key])
-      .join(',')
-  );
-  return [header, ...rows].join('\n');
-}
+import InstructionsText from '../InstructionsText';
+import { toCSV } from '../../utils/utils';
 
 const Step5SelectOutput: React.FC = () => {
   const ctx = useContext(MockdatContext);
@@ -85,9 +74,9 @@ const Step5SelectOutput: React.FC = () => {
       sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
     >
       <Box sx={{ width: '100%', maxWidth: 500 }}>
-        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+        <InstructionsText>
           Choose your output format and download your data.
-        </Typography>
+        </InstructionsText>
 
         <FormControl component="fieldset" sx={{ mb: 2 }}>
           <FormLabel component="legend" sx={{ color: 'text.primary' }}>

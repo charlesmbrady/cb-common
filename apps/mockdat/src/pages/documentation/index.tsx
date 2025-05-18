@@ -49,17 +49,6 @@ const Documentation: NextPage = () => {
               primaryTypographyProps={{ color: 'text.primary' }}
             />
           </ListItem>
-          <ListItem
-            button
-            component="a"
-            href="#advancedConfig"
-            data-cy="toc-advancedConfigLink"
-          >
-            <ListItemText
-              primary="Advanced Configuration"
-              primaryTypographyProps={{ color: 'text.primary' }}
-            />
-          </ListItem>
         </List>
       </Box>
 
@@ -96,27 +85,32 @@ const Documentation: NextPage = () => {
           Basic Usage
         </Typography>
         <Box sx={{ color: 'text.primary' }}>
-          <ol
-            style={{ margin: 0, paddingLeft: 20 }}
+          <List
+            component="ol"
+            sx={{ pl: 3, color: 'text.primary', listStyleType: 'decimal' }}
             data-cy="basicUsageContent"
           >
-            <li>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
               Open the Mockdat app and click <strong>Get Started</strong> to
               launch the wizard.
-            </li>
-            <li>
+            </ListItem>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
               Select a record type (e.g., Accounts, Contacts, Leads,
               Opportunities, or Generic for all fields).
-            </li>
-            <li>
+            </ListItem>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
               Choose the fields you want to include in your mock data set.
-            </li>
-            <li>
+            </ListItem>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
               Specify the number of records to generate (up to 2,000,000).
-            </li>
-            <li>Preview your generated data in the table view.</li>
-            <li>Download your data as CSV or JSON for use in your projects.</li>
-          </ol>
+            </ListItem>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
+              Preview your generated data in the table view.
+            </ListItem>
+            <ListItem component="li" sx={{ display: 'list-item' }}>
+              Download your data as CSV or JSON for use in your projects.
+            </ListItem>
+          </List>
         </Box>
       </Box>
     </Box>
