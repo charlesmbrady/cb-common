@@ -81,48 +81,49 @@ const Step5SelectOutput: React.FC = () => {
   };
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
-        Choose your output format and download your data.
-      </Typography>
+    <Box
+      sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
+    >
+      <Box sx={{ width: '100%', maxWidth: 500 }}>
+        <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+          Choose your output format and download your data.
+        </Typography>
 
-      <FormControl component="fieldset" sx={{ mb: 2 }}>
-        <FormLabel component="legend" sx={{ color: 'text.primary' }}>
-          Output Format
-        </FormLabel>
-        <RadioGroup
-          value={outputFormat}
-          onChange={(e) => setOutputFormat(e.target.value)}
-        >
-          <FormControlLabel
-            value="csv"
-            control={<Radio />}
-            label="CSV"
-            sx={{ color: 'text.primary' }}
-          />
-          <FormControlLabel
-            value="json"
-            control={<Radio />}
-            label="JSON"
-            sx={{ color: 'text.primary' }}
-          />
-        </RadioGroup>
-      </FormControl>
+        <FormControl component="fieldset" sx={{ mb: 2 }}>
+          <FormLabel component="legend" sx={{ color: 'text.primary' }}>
+            Output Format
+          </FormLabel>
+          <RadioGroup
+            value={outputFormat}
+            onChange={(e) => setOutputFormat(e.target.value)}
+          >
+            <FormControlLabel
+              value="csv"
+              control={<Radio />}
+              label="CSV"
+              sx={{ color: 'text.primary' }}
+            />
+            <FormControlLabel
+              value="json"
+              control={<Radio />}
+              label="JSON"
+              sx={{ color: 'text.primary' }}
+            />
+          </RadioGroup>
+        </FormControl>
 
-      <Box>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleDownload}
-          disabled={previewData.length === 0}
-        >
-          Download
-        </Button>
-        <Button variant="outlined" onClick={handleReset} sx={{ ml: 1 }}>
-          Start Over
-        </Button>
+        <Box>
+          <Button
+            variant="contained"
+            onClick={handleDownload}
+            disabled={previewData.length === 0}
+          >
+            Download
+          </Button>
+          <Button variant="outlined" onClick={handleReset} sx={{ ml: 1 }}>
+            Start Over
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

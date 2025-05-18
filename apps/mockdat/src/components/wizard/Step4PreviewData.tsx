@@ -60,7 +60,6 @@ const Step4PreviewData: React.FC = () => {
         <Box
           sx={{
             width: '100%',
-            mx: 'auto',
             height: 500,
             mb: 2,
           }}
@@ -77,23 +76,10 @@ const Step4PreviewData: React.FC = () => {
                 color: 'text.primary',
               },
             }}
+            autoHeight={false}
           />
         </Box>
       )}
-
-      <Box>
-        <Button onClick={handleBack} sx={{ mr: 1 }} data-cy="backBtn">
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleNext}
-          disabled={previewData.length === 0}
-          data-cy="nextBtn"
-        >
-          Next
-        </Button>
-      </Box>
     </Box>
   );
 };

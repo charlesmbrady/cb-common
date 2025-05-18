@@ -33,6 +33,13 @@ const allPossibleFields: Record<any, string[]> = {
   Opportunities: ['Name', 'Stage', 'Amount', 'Close Date'],
 };
 
+// Helper to get all unique fields from all record types
+const getAllFields = () => {
+  const fieldSets = Object.values(allPossibleFields);
+  const allFields = fieldSets.flat();
+  return Array.from(new Set(allFields));
+};
+
 function not(a: string[], b: string[]): string[] {
   return a.filter((value) => b.indexOf(value) === -1);
 }
@@ -52,6 +59,9 @@ const Step2SelectFieldsTransferList: React.FC = () => {
 
   // The "left" list is all fields not currently selected.
   const leftFields = useMemo(() => {
+    if (recordType === 'All') {
+      return not(getAllFields(), selectedFields);
+    }
     return not(allPossibleFields[recordType] || [], selectedFields);
   }, [recordType, selectedFields]);
 
@@ -104,7 +114,7 @@ const Step2SelectFieldsTransferList: React.FC = () => {
 
   /** Render a List of items (either left or right) with checkboxes. */
   const customList = (title: React.ReactNode, items: string[]) => (
-    <Card sx={{ width: 200, height: 230, overflow: 'auto' }}>
+    <Card sx={{ overflow: 'scroll' }}>
       <CardHeader
         sx={{ px: 2, py: 1 }}
         titleTypographyProps={{ variant: 'subtitle1' }}
@@ -144,53 +154,103 @@ const Step2SelectFieldsTransferList: React.FC = () => {
   );
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
-        Select the fields you want to include in your mock data.
-      </Typography>
-
-      {/* Transfer List */}
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={5}>
-          <Card>
-            <CardHeader
-              title="Available Fields"
-              titleTypographyProps={{ color: 'text.primary' }}
-            />
-            <Divider />
-            <List dense component="div" role="list">
-              {leftFields.map((value) => {
-                const labelId = `transfer-list-item-${value}-label`;
-                return (
-                  <ListItemButton
-                    key={value}
-                    role="listitem"
-                    onClick={handleToggle(value)}
-                  >
-                    <ListItemIcon>
-                      <Checkbox
-                        checked={checked.indexOf(value) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      id={labelId}
-                      primary={value}
-                      primaryTypographyProps={{ color: 'text.primary' }}
-                    />
-                  </ListItemButton>
-                );
-              })}
-              <ListItem />
-            </List>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Grid container direction="column" alignItems="center">
+    <Box
+      sx={{
+        mb: 2,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        height: '100%',
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          height: 500,
+          maxHeight: '60vh',
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{ mb: 1, color: 'text.primary', flexShrink: 0 }}
+        >
+          Select the fields you want to include in your mock data.
+        </Typography>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          sx={{ flex: 1, minHeight: 0 }}
+        >
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            md={4}
+            lg={3}
+            sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+          >
+            <Card
+              sx={{
+                width: 280,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <CardHeader
+                title="Available Fields"
+                titleTypographyProps={{ color: 'text.primary' }}
+                sx={{ flexShrink: 0 }}
+              />
+              <Divider />
+              <Box sx={{ flex: 1, overflow: 'auto' }}>
+                <List dense component="div" role="list">
+                  {leftFields.map((value) => {
+                    const labelId = `transfer-list-item-${value}-label`;
+                    return (
+                      <ListItemButton
+                        key={value}
+                        role="listitem"
+                        onClick={handleToggle(value)}
+                      >
+                        <ListItemIcon>
+                          <Checkbox
+                            checked={checked.indexOf(value) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          id={labelId}
+                          primary={value}
+                          primaryTypographyProps={{ color: 'text.primary' }}
+                        />
+                      </ListItemButton>
+                    );
+                  })}
+                  <ListItem />
+                </List>
+              </Box>
+            </Card>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={2}
+            md={1}
+            lg={1}
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ height: '100%' }}
+          >
             <Button
               sx={{ my: 0.5 }}
               variant="outlined"
@@ -232,59 +292,62 @@ const Step2SelectFieldsTransferList: React.FC = () => {
               ≪
             </Button>
           </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            md={4}
+            lg={3}
+            sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+          >
+            <Card
+              sx={{
+                width: 280,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <CardHeader
+                title="Selected Fields"
+                titleTypographyProps={{ color: 'text.primary' }}
+                sx={{ flexShrink: 0 }}
+              />
+              <Divider />
+              <Box sx={{ flex: 1, overflow: 'auto' }}>
+                <List dense component="div" role="list">
+                  {rightFields.map((value) => {
+                    const labelId = `transfer-list-item-${value}-label`;
+                    return (
+                      <ListItemButton
+                        key={value}
+                        role="listitem"
+                        onClick={handleToggle(value)}
+                      >
+                        <ListItemIcon>
+                          <Checkbox
+                            checked={checked.indexOf(value) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          id={labelId}
+                          primary={value}
+                          primaryTypographyProps={{ color: 'text.primary' }}
+                        />
+                      </ListItemButton>
+                    );
+                  })}
+                  <ListItem />
+                </List>
+              </Box>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={5}>
-          <Card>
-            <CardHeader
-              title="Selected Fields"
-              titleTypographyProps={{ color: 'text.primary' }}
-            />
-            <Divider />
-            <List dense component="div" role="list">
-              {rightFields.map((value) => {
-                const labelId = `transfer-list-item-${value}-label`;
-                return (
-                  <ListItemButton
-                    key={value}
-                    role="listitem"
-                    onClick={handleToggle(value)}
-                  >
-                    <ListItemIcon>
-                      <Checkbox
-                        checked={checked.indexOf(value) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      id={labelId}
-                      primary={value}
-                      primaryTypographyProps={{ color: 'text.primary' }}
-                    />
-                  </ListItemButton>
-                );
-              })}
-              <ListItem />
-            </List>
-          </Card>
-        </Grid>
-      </Grid>
-
-      {/* Buttons: Back / Next */}
-      <Box sx={{ mt: 2 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleNext}
-          disabled={selectedFields.length === 0}
-        >
-          Next
-        </Button>
       </Box>
     </Box>
   );

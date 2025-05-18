@@ -17,32 +17,23 @@ const Step3SelectQuantity: React.FC = () => {
   };
 
   return (
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
-        How many records do you want to generate?
-      </Typography>
-      <TextField
-        type="number"
-        label="Record Count"
-        value={recordCount}
-        onChange={(e) => setRecordCount(Number(e.target.value))}
-        inputProps={{ min: 1 }}
-        sx={{ mb: 2 }}
-        InputLabelProps={{ sx: { color: 'text.primary' } }}
-        InputProps={{ sx: { color: 'text.primary' } }}
-      />
-
-      <Box>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleNext}
-          disabled={recordCount < 1}
-        >
-          Next
-        </Button>
+    <Box
+      sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
+    >
+      <Box sx={{ width: '100%', maxWidth: 400 }}>
+        <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
+          How many records do you want to generate?
+        </Typography>
+        <TextField
+          type="number"
+          label="Record Count"
+          value={recordCount}
+          onChange={(e) => setRecordCount(Number(e.target.value))}
+          inputProps={{ min: 1 }}
+          sx={{ mb: 2 }}
+          InputLabelProps={{ sx: { color: 'text.primary' } }}
+          InputProps={{ sx: { color: 'text.primary' } }}
+        />
       </Box>
     </Box>
   );
