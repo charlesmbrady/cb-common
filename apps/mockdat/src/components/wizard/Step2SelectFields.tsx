@@ -1,5 +1,5 @@
 // components/wizard/Step2SelectFieldsTransferList.tsx
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
 import {
   Box,
@@ -18,45 +18,41 @@ import {
 import InstructionsText from '../InstructionsText';
 import { not, intersection } from '../../utils/index';
 
-const allPossibleFields: Record<any, string[]> = {
-  '': [],
-  Accounts: [
-    'Account Name',
-    'Company Name',
-    'State',
-    'Street',
-    'Email',
-    'Industry',
-    'Employee Count',
-  ],
-  Contacts: ['First', 'Last', 'Middle', 'State', 'Street', 'Email'],
-  Leads: ['Name', 'Company', 'Phone', 'Email', 'Status'],
-  Opportunities: ['Name', 'Stage', 'Amount', 'Close Date'],
-};
-
-// Helper to get all unique fields from all record types
-const getAllFields = () => {
-  const fieldSets = Object.values(allPossibleFields);
-  const allFields = fieldSets.flat();
-  return Array.from(new Set(allFields));
-};
-
 const Step2SelectFieldsTransferList: React.FC = () => {
   const ctx = useContext(MockdatContext);
+  const [availableFields, setAvailableFields] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   if (!ctx) return null;
 
   const { recordType, selectedFields, setSelectedFields, step, setStep } = ctx;
+
+  useEffect(() => {
+    if (!recordType) return;
+    setLoading(true);
+    fetch(
+      `http://localhost:3333/services/mockdat/data/fields?type=${encodeURIComponent(
+        recordType
+      )}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setAvailableFields(data.data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to load fields');
+        setLoading(false);
+      });
+  }, [recordType]);
 
   const handleBack = () => setStep(step - 1);
   const handleNext = () => setStep(step + 1);
 
   // The "left" list is all fields not currently selected.
   const leftFields = useMemo(() => {
-    if (recordType === 'Generic') {
-      return not(getAllFields(), selectedFields);
-    }
-    return not(allPossibleFields[recordType] || [], selectedFields);
-  }, [recordType, selectedFields]);
+    return not(availableFields, selectedFields);
+  }, [availableFields, selectedFields]);
 
   // The "right" list is the already selected fields (from context).
   const rightFields = selectedFields;
@@ -168,6 +164,7 @@ const Step2SelectFieldsTransferList: React.FC = () => {
         <InstructionsText sx={{ flexShrink: 0, mb: 2 }}>
           Select the fields you want to include in your mock data.
         </InstructionsText>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
         <Grid
           container
           spacing={2}

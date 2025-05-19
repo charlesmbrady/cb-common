@@ -71,48 +71,45 @@ const Step5SelectOutput: React.FC = () => {
 
   return (
     <Box
-      sx={{ mb: 2, width: '100%', display: 'flex', justifyContent: 'center' }}
+      sx={{
+        mb: 2,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
-      <Box sx={{ width: '100%', maxWidth: 500 }}>
-        <InstructionsText>
-          Choose your output format and download your data.
-        </InstructionsText>
-
-        <FormControl component="fieldset" sx={{ mb: 2 }}>
-          <FormLabel component="legend" sx={{ color: 'text.primary' }}>
-            Output Format
-          </FormLabel>
-          <RadioGroup
-            value={outputFormat}
-            onChange={(e) => setOutputFormat(e.target.value)}
-          >
-            <FormControlLabel
-              value="csv"
-              control={<Radio />}
-              label="CSV"
-              sx={{ color: 'text.primary' }}
-            />
-            <FormControlLabel
-              value="json"
-              control={<Radio />}
-              label="JSON"
-              sx={{ color: 'text.primary' }}
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Box>
-          <Button
-            variant="contained"
-            onClick={handleDownload}
-            disabled={previewData.length === 0}
-          >
-            Download
-          </Button>
-          <Button variant="outlined" onClick={handleReset} sx={{ ml: 1 }}>
-            Start Over
-          </Button>
-        </Box>
+      <InstructionsText sx={{ mb: 2 }}>
+        Choose your output format and download your mock data.
+      </InstructionsText>
+      <FormControl component="fieldset" sx={{ mb: 2 }}>
+        <FormLabel component="legend">Output Format</FormLabel>
+        <RadioGroup
+          row
+          value={outputFormat}
+          onChange={(e) => setOutputFormat(e.target.value)}
+        >
+          <FormControlLabel value="csv" control={<Radio />} label="CSV" />
+          <FormControlLabel value="json" control={<Radio />} label="JSON" />
+        </RadioGroup>
+      </FormControl>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          width: '100%',
+          mt: 2,
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleDownload}
+          disabled={previewData.length === 0}
+        >
+          Download
+        </Button>
       </Box>
     </Box>
   );

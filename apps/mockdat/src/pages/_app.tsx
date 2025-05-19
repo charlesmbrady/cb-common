@@ -39,6 +39,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Link from 'next/link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { lightTheme, darkTheme } from '../theme';
+import ListItemButton from '@mui/material/ListItemButton';
 
 const NAVIGATION: Navigation = [
   {
@@ -140,16 +141,17 @@ export default function App({ Component }: { Component: React.ElementType }) {
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
   // Navigation items
-  const navItems = [
+  type NavItem =
+    | { label: string; href: string; icon: React.ReactNode }
+    | { divider: true };
+  const navItems: NavItem[] = [
     { label: 'Dashboard', href: '/dashboard', icon: <DashboardIcon /> },
     { divider: true },
-    { label: 'About', href: '/about', icon: <InfoIcon /> },
     {
       label: 'Documentation',
       href: '/documentation',
       icon: <DocumentScanner />,
     },
-    { label: 'Help', href: '/help', icon: <HelpOutline /> },
   ];
 
   return (
@@ -231,18 +233,23 @@ export default function App({ Component }: { Component: React.ElementType }) {
               >
                 <List>
                   {navItems.map((item, idx) =>
-                    item.divider ? (
+                    'divider' in item ? (
                       <Divider key={idx} sx={{ my: 1 }} />
                     ) : (
-                      <ListItem
-                        button
-                        key={item.label}
-                        component={Link}
+                      <Link
                         href={item.href}
+                        passHref
+                        legacyBehavior
+                        key={item.label}
                       >
-                        <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.label} />
-                      </ListItem>
+                        <ListItemButton
+                          component="a"
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <ListItemIcon>{item.icon}</ListItemIcon>
+                          <ListItemText primary={item.label} />
+                        </ListItemButton>
+                      </Link>
                     )
                   )}
                 </List>

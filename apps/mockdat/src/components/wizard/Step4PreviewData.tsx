@@ -24,15 +24,29 @@ const Step4PreviewData: React.FC = () => {
 
   useEffect(() => {
     if (step === 4 && selectedFields.length > 0 && recordType) {
-      const generated: Array<Record<string, any>> = [];
-      for (let i = 0; i < recordCount; i++) {
-        const row: Record<string, any> = {};
-        selectedFields.forEach((field) => {
-          row[field] = `Fake_${field}_${i}`;
-        });
-        generated.push(row);
-      }
-      setPreviewData(generated);
+      // Build scenario object
+      const scenario = {
+        id: '',
+        name: 'Preview',
+        userId: '',
+        status: 'preview',
+        type: recordType,
+        data: {
+          mainObjectType: recordType,
+          totalRecords: recordCount,
+          fieldsData: selectedFields.map((field) => ({ type: field })),
+        },
+      };
+      fetch('http://localhost:3333/services/mockdat/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(scenario),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPreviewData(data.data || []);
+        })
+        .catch(() => setPreviewData([]));
     }
   }, [step, recordType, selectedFields, recordCount, setPreviewData]);
 

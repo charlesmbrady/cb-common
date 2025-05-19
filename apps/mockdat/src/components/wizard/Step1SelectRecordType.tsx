@@ -1,5 +1,5 @@
 // components/wizard/Step1SelectRecordType.tsx
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
 import {
   Box,
@@ -13,6 +13,9 @@ import InstructionsText from '../InstructionsText';
 
 const Step1SelectRecordType: React.FC = () => {
   const ctx = useContext(MockdatContext);
+  const [recordTypes, setRecordTypes] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   if (!ctx) return null; // or throw
 
   const {
@@ -24,18 +27,33 @@ const Step1SelectRecordType: React.FC = () => {
     setStep,
   } = ctx;
 
+  useEffect(() => {
+    setLoading(true);
+    fetch('http://localhost:3333/services/mockdat/data/object-types')
+      .then((res) => res.json())
+      .then((data) => {
+        const types = data.data || [];
+        setRecordTypes(['Generic', ...types]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to load record types');
+        setLoading(false);
+      });
+  }, []);
+
   const handleChange = (e: any) => {
     setRecordType(e.target.value);
     setSelectedFields([]); // reset fields if user changes record type
   };
 
-  // Set 'Generic' as the default value
-  React.useEffect(() => {
-    if (!recordType) {
-      setRecordType('Generic');
+  // Set first record type as default value
+  useEffect(() => {
+    if (!recordType && recordTypes.length > 0) {
+      setRecordType(recordTypes[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [recordTypes]);
 
   return (
     <Box
@@ -54,14 +72,16 @@ const Step1SelectRecordType: React.FC = () => {
             value={recordType}
             label="Record Type"
             onChange={handleChange}
+            disabled={loading}
           >
-            <MenuItem value="Generic">Generic</MenuItem>
-            <MenuItem value="Accounts">Accounts</MenuItem>
-            <MenuItem value="Contacts">Contacts</MenuItem>
-            <MenuItem value="Leads">Leads</MenuItem>
-            <MenuItem value="Opportunities">Opportunities</MenuItem>
+            {recordTypes.map((type) => (
+              <MenuItem value={type} key={type}>
+                {type}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
       </Box>
     </Box>
   );

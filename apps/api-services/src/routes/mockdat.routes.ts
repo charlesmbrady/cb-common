@@ -10,6 +10,7 @@ const router = Router();
 
 router.get('/scenarios', getScenarioData);
 router.get('/data/objects', getAllObjectTypes);
+router.get('/data/object-types', getAllObjectTypes);
 router.get('/data/fields', getAllFields);
 router.post('/data', processScenario);
 

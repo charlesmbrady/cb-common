@@ -75,6 +75,16 @@ const MockdatWizard: React.FC = () => {
 
   const handleBack = () => setStep(step - 1);
 
+  // Add a reset handler for the wizard
+  const handleReset = () => {
+    context.setRecordType('');
+    context.setSelectedFields([]);
+    context.setRecordCount(10);
+    context.setPreviewData([]);
+    context.setOutputFormat('csv');
+    context.setStep(1);
+  };
+
   return (
     <Box
       sx={{
@@ -150,32 +160,43 @@ const MockdatWizard: React.FC = () => {
           >
             Back
           </Button>
-          <Button
-            variant="contained"
-            onClick={handleNext}
-            disabled={
-              activeStep === steps.length - 1 || isNextDisabled() || loading
-            }
-            sx={{ minWidth: 120, position: 'relative' }}
-          >
-            {loading ? (
-              <CircularProgress
-                size={20}
-                color="inherit"
-                sx={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  marginTop: '-10px',
-                  marginLeft: '-10px',
-                }}
-              />
-            ) : activeStep === steps.length - 2 ? (
-              'Finish'
-            ) : (
-              'Next'
-            )}
-          </Button>
+          {activeStep === steps.length - 1 ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleReset}
+              sx={{ minWidth: 120 }}
+            >
+              Start Over
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              disabled={
+                activeStep === steps.length - 1 || isNextDisabled() || loading
+              }
+              sx={{ minWidth: 120, position: 'relative' }}
+            >
+              {loading ? (
+                <CircularProgress
+                  size={20}
+                  color="inherit"
+                  sx={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    marginTop: '-10px',
+                    marginLeft: '-10px',
+                  }}
+                />
+              ) : activeStep === steps.length - 2 ? (
+                'Finish'
+              ) : (
+                'Next'
+              )}
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>
