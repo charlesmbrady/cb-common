@@ -10,52 +10,9 @@ import {
   useTheme,
 } from '@mui/material';
 import Link from 'next/link';
-
-// Large, static, faded, tall, and thin DotMLogo (no animation)
-const DotMLogo = ({ style = {} }) => (
-  <svg
-    viewBox="0 0 1200 900"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ display: 'block', width: '100%', height: 'auto', ...style }}
-  >
-    <defs>
-      <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#1976d2" stopOpacity="1" />
-        <stop offset="50%" stopColor="#64b5f6" stopOpacity="1" />
-        <stop offset="100%" stopColor="#1976d2" stopOpacity="1" />
-      </linearGradient>
-    </defs>
-    <g transform="translate(0,0)">
-      <path
-        d="M 40 650 L 40 60 L 100 600 L 160 60 L 160 650"
-        stroke="url(#gradient1)"
-        strokeWidth="22"
-        filter="drop-shadow(0 0 32px #6366F1)"
-        fill="none"
-      />
-    </g>
-  </svg>
-);
-
-const features = [
-  {
-    title: 'Generate Data',
-    desc: 'Create large sets of realistic mock data for testing, demos, and development.',
-  },
-  {
-    title: 'Customizable Fields',
-    desc: 'Select from common business objects or customize your own fields.',
-  },
-  {
-    title: 'Preview & Export',
-    desc: 'Preview your data and export in CSV or JSON format.',
-  },
-  {
-    title: 'Modern UI',
-    desc: 'Step-by-step wizard, dark mode, and responsive design.',
-  },
-];
+import DotMLogo from '../components/DotMLogo';
+import { features } from '../utils/features';
+import { initStreamAnimation } from '../utils/streamAnimation';
 
 // Typing animation for record types
 const recordTypes = [
@@ -121,94 +78,12 @@ export default function LandingPage() {
   const typedRecordType = useTypingRecordType(recordTypes);
 
   React.useEffect(() => {
-    // Data stream/starfield animation
     const canvas = document.getElementById(
       'datastream-canvas'
     ) as HTMLCanvasElement | null;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let width = canvas.offsetWidth;
-    let height = canvas.offsetHeight;
-    let dpr = window.devicePixelRatio || 1;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
-
-    // Responsive resize
-    function handleResize() {
-      width = canvas.offsetWidth;
-      height = canvas.offsetHeight;
-      dpr = window.devicePixelRatio || 1;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
-    }
-    window.addEventListener('resize', handleResize);
-
-    // Data stream/starfield params
-    const STREAMS = 80;
-    const SPEED = 0.008;
-    const LENGTH = 0.18; // relative to radius
-    const COLORS = ['#6366F1', '#34D399', '#818CF8'];
-    const DOT_SIZE = 2;
-    const DOTS_PER_STREAM = 8;
-    const FOV = 650; // further outward
-    const CENTER = () => [width / 2, height / 2];
-    let streams = Array.from({ length: STREAMS }, () => ({
-      angle: Math.random() * Math.PI * 2,
-      radius: Math.random() * 0.2 + 0.1,
-      speed: SPEED * (0.7 + Math.random() * 0.6),
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      offset: Math.random(),
-    }));
-
-    function draw() {
-      ctx.clearRect(0, 0, width, height);
-      const [cx, cy] = CENTER();
-      for (let s of streams) {
-        // Animate radius outward
-        s.radius += s.speed;
-        if (s.radius > 1.1) {
-          s.radius = Math.random() * 0.1 + 0.05;
-          s.angle = Math.random() * Math.PI * 2;
-          s.speed = SPEED * (0.7 + Math.random() * 0.6);
-          s.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-          s.offset = Math.random();
-        }
-        // Draw dotted line (data stream)
-        for (let i = 0; i < DOTS_PER_STREAM; i++) {
-          const frac = i / DOTS_PER_STREAM;
-          const r = s.radius * FOV + frac * LENGTH * FOV;
-          const x = cx + Math.cos(s.angle) * r;
-          const y = cy + Math.sin(s.angle) * r * 0.7; // squish vertically
-          ctx.beginPath();
-          ctx.arc(x, y, DOT_SIZE, 0, Math.PI * 2);
-          ctx.fillStyle = s.color;
-          ctx.globalAlpha = 0.7 * (1 - frac) * (1 - s.radius);
-          ctx.shadowColor = s.color;
-          ctx.shadowBlur = 8 * (1 - frac);
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    let running = true;
-    function animate() {
-      if (!running) return;
-      draw();
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    return () => {
-      running = false;
-      window.removeEventListener('resize', handleResize);
-    };
+    const { stop } = initStreamAnimation(canvas);
+    return () => stop && stop();
   }, []);
 
   return (

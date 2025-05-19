@@ -1,25 +1,19 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAuth } from './auth-context';
 
 export function withAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) {
   return function WithAuth(props: P) {
-    const { isAuthenticated, loading } = useAuth();
-    const router = useRouter();
+    const { isAuthenticated, loading, signIn } = useAuth();
 
     useEffect(() => {
       if (!loading && !isAuthenticated) {
-        router.push('/login');
+        signIn(); // Redirect to Cognito Hosted UI
       }
-    }, [isAuthenticated, loading, router]);
+    }, [isAuthenticated, loading, signIn]);
 
-    if (loading) {
-      return null;
-    }
-
-    if (!isAuthenticated) {
+    if (loading || !isAuthenticated) {
       return null;
     }
 

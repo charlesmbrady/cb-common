@@ -7,6 +7,7 @@
 // Set environment variables
 process.env.NODE_ENV = 'development';
 process.env.LOCAL_SERVER = 'true';
+// process.env.PORT = '3333';
 
 console.log('Starting dev server with environment:');
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);

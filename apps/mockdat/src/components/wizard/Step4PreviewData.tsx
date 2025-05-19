@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
 import { Box, Button, Typography } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import InstructionsText from '../InstructionsText';
 
 const Step4PreviewData: React.FC = () => {
   const ctx = useContext(MockdatContext);
@@ -23,22 +24,36 @@ const Step4PreviewData: React.FC = () => {
 
   useEffect(() => {
     if (step === 4 && selectedFields.length > 0 && recordType) {
-      const generated: Array<Record<string, any>> = [];
-      for (let i = 0; i < recordCount; i++) {
-        const row: Record<string, any> = {};
-        selectedFields.forEach((field) => {
-          row[field] = `Fake_${field}_${i}`;
-        });
-        generated.push(row);
-      }
-      setPreviewData(generated);
+      // Build scenario object
+      const scenario = {
+        id: '',
+        name: 'Preview',
+        userId: '',
+        status: 'preview',
+        type: recordType,
+        data: {
+          mainObjectType: recordType,
+          totalRecords: recordCount,
+          fieldsData: selectedFields.map((field) => ({ type: field })),
+        },
+      };
+      fetch('http://localhost:3333/services/mockdat/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(scenario),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPreviewData(data.data || []);
+        })
+        .catch(() => setPreviewData([]));
     }
   }, [step, recordType, selectedFields, recordCount, setPreviewData]);
 
   const columns: GridColDef[] = selectedFields.map((field) => ({
     field,
     headerName: field,
-    flex: 1,
+    minWidth: Math.max(120, field.length * 16),
   }));
   const rows: GridRowsProp = previewData.map((dataRow, idx) => ({
     id: idx,
@@ -47,9 +62,9 @@ const Step4PreviewData: React.FC = () => {
 
   return (
     <Box sx={{ mb: 2 }} data-cy="step4Container">
-      <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
-        Preview your fake data below.
-      </Typography>
+      <InstructionsText sx={{ mb: 1 }}>
+        Preview your mock data below.
+      </InstructionsText>
 
       {previewData.length === 0 ? (
         <Typography color="text.secondary" data-cy="noDataMessage">
@@ -77,6 +92,8 @@ const Step4PreviewData: React.FC = () => {
               },
             }}
             autoHeight={false}
+            pageSize={25}
+            rowsPerPageOptions={[25, 50, 100]}
           />
         </Box>
       )}
