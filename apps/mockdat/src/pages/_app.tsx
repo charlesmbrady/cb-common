@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { MockdatProvider } from '../context/MockdatContext';
 
-import { AuthProvider, useAuth } from '@cb-common/auth';
+import { AppConfigProvider, UserProvider, useUser } from '@cb-common/auth';
 import { cognitoConfig } from '../config/amplify';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -40,6 +40,7 @@ import Link from 'next/link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { lightTheme, darkTheme } from '../theme';
 import ListItemButton from '@mui/material/ListItemButton';
+import { useEffect } from 'react';
 
 const NAVIGATION: Navigation = [
   {
@@ -118,24 +119,23 @@ const DotMLogo = () => (
   </svg>
 );
 
-function DrawerLoginLogout() {
-  const { user, signIn, signOut } = useAuth?.() || {};
+function AuthenticatedApp({ children }: { children: React.ReactNode }) {
+  const [userState, { signIn, signOut }] = useUser();
+  if (userState.isLoading) return <div>Loading...</div>;
+  if (!userState.data) return <button onClick={signIn}>Sign In</button>;
   return (
-    <Box sx={{ p: 2, textAlign: 'center' }}>
-      {user ? (
-        <Button variant="outlined" color="primary" onClick={signOut} fullWidth>
-          Log out
-        </Button>
-      ) : (
-        <Button variant="contained" color="primary" onClick={signIn} fullWidth>
-          Log in
-        </Button>
-      )}
-    </Box>
+    <div>
+      <div>
+        Welcome, {userState.data.firstName} {userState.data.lastName} (
+        {userState.data.email})
+      </div>
+      <button onClick={signOut}>Sign Out</button>
+      {children}
+    </div>
   );
 }
 
-export default function App({ Component }: { Component: React.ElementType }) {
+function MyApp({ Component, pageProps }: any) {
   const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const theme = mode === 'light' ? lightTheme : darkTheme;
@@ -155,129 +155,140 @@ export default function App({ Component }: { Component: React.ElementType }) {
   ];
 
   return (
-    <AuthProvider config={cognitoConfig}>
-      <AppCacheProvider>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <MockdatProvider>
-            <AppBar position="fixed" color="primary" elevation={1}>
-              <Toolbar>
-                <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
-                  <DotMLogo />
-                </Box>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Link href="/" passHref legacyBehavior>
-                    <Typography
-                      component="a"
-                      sx={{
-                        fontFamily: 'Orbitron, sans-serif',
-                        fontWeight: 700,
-                        fontSize: '1.5rem',
-                        letterSpacing: 2,
-                        color: 'inherit',
-                        textDecoration: 'none',
-                        cursor: 'pointer',
-                        transition: 'color 0.2s',
-                        '&:hover': {
-                          color: 'primary.light',
-                        },
-                      }}
-                    >
-                      Mockdat
-                    </Typography>
-                  </Link>
-                </Box>
-                <IconButton
-                  color="inherit"
-                  size="medium"
-                  onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-                  sx={{ ml: 1 }}
-                >
-                  {mode === 'light' ? (
-                    <Brightness4Icon fontSize="medium" />
-                  ) : (
-                    <Brightness7Icon fontSize="medium" />
-                  )}
-                </IconButton>
-                <IconButton
-                  color="inherit"
-                  edge="end"
-                  size="medium"
-                  onClick={() => setDrawerOpen(true)}
-                  sx={{ ml: 2 }}
-                >
-                  <MenuIcon fontSize="medium" />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              anchor="right"
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-            >
-              <Box
-                sx={(theme) => ({
-                  width: 260,
-                  pt: 2,
-                  color: theme.palette.mode === 'dark' ? '#fff' : 'inherit',
-                  '& .MuiListItemText-root, & .MuiListItemIcon-root, & .MuiTypography-root, & svg':
-                    {
-                      color: theme.palette.mode === 'dark' ? '#fff' : 'inherit',
-                    },
-                })}
-                role="presentation"
-                onClick={() => setDrawerOpen(false)}
-              >
-                <List>
-                  {navItems.map((item, idx) =>
-                    'divider' in item ? (
-                      <Divider key={idx} sx={{ my: 1 }} />
-                    ) : (
-                      <Link
-                        href={item.href}
-                        passHref
-                        legacyBehavior
-                        key={item.label}
-                      >
-                        <ListItemButton
+    <AppConfigProvider>
+      <UserProvider>
+        <AuthenticatedApp>
+          <AppCacheProvider>
+            <Head>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+            </Head>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <MockdatProvider>
+                <AppBar position="fixed" color="primary" elevation={1}>
+                  <Toolbar>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+                      <DotMLogo />
+                    </Box>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Link href="/" passHref legacyBehavior>
+                        <Typography
                           component="a"
-                          sx={{ cursor: 'pointer' }}
+                          sx={{
+                            fontFamily: 'Orbitron, sans-serif',
+                            fontWeight: 700,
+                            fontSize: '1.5rem',
+                            letterSpacing: 2,
+                            color: 'inherit',
+                            textDecoration: 'none',
+                            cursor: 'pointer',
+                            transition: 'color 0.2s',
+                            '&:hover': {
+                              color: 'primary.light',
+                            },
+                          }}
                         >
-                          <ListItemIcon>{item.icon}</ListItemIcon>
-                          <ListItemText primary={item.label} />
-                        </ListItemButton>
+                          Mockdat
+                        </Typography>
                       </Link>
-                    )
-                  )}
-                </List>
-                <Box sx={{ p: 2, textAlign: 'center' }}>
-                  <a
-                    href="https://github.com/charlesmbrady/cb-common/tree/main/apps/mockdat"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: 'inherit', textDecoration: 'none' }}
+                    </Box>
+                    <IconButton
+                      color="inherit"
+                      size="medium"
+                      onClick={() =>
+                        setMode(mode === 'light' ? 'dark' : 'light')
+                      }
+                      sx={{ ml: 1 }}
+                    >
+                      {mode === 'light' ? (
+                        <Brightness4Icon fontSize="medium" />
+                      ) : (
+                        <Brightness7Icon fontSize="medium" />
+                      )}
+                    </IconButton>
+                    <IconButton
+                      color="inherit"
+                      edge="end"
+                      size="medium"
+                      onClick={() => setDrawerOpen(true)}
+                      sx={{ ml: 2 }}
+                    >
+                      <MenuIcon fontSize="medium" />
+                    </IconButton>
+                  </Toolbar>
+                </AppBar>
+                <Drawer
+                  anchor="right"
+                  open={drawerOpen}
+                  onClose={() => setDrawerOpen(false)}
+                >
+                  <Box
+                    sx={(theme) => ({
+                      width: 260,
+                      pt: 2,
+                      color: theme.palette.mode === 'dark' ? '#fff' : 'inherit',
+                      '& .MuiListItemText-root, & .MuiListItemIcon-root, & .MuiTypography-root, & svg':
+                        {
+                          color:
+                            theme.palette.mode === 'dark' ? '#fff' : 'inherit',
+                        },
+                    })}
+                    role="presentation"
+                    onClick={() => setDrawerOpen(false)}
                   >
-                    <GitHubIcon fontSize="large" />
-                  </a>
+                    <List>
+                      {navItems.map((item, idx) =>
+                        'divider' in item ? (
+                          <Divider key={idx} sx={{ my: 1 }} />
+                        ) : (
+                          <Link
+                            href={item.href}
+                            passHref
+                            legacyBehavior
+                            key={item.label}
+                          >
+                            <ListItemButton
+                              component="a"
+                              sx={{ cursor: 'pointer' }}
+                            >
+                              <ListItemIcon>{item.icon}</ListItemIcon>
+                              <ListItemText primary={item.label} />
+                            </ListItemButton>
+                          </Link>
+                        )
+                      )}
+                    </List>
+                    <Box sx={{ p: 2, textAlign: 'center' }}>
+                      <a
+                        href="https://github.com/charlesmbrady/cb-common/tree/main/apps/mockdat"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                      >
+                        <GitHubIcon fontSize="large" />
+                      </a>
+                    </Box>
+                  </Box>
+                </Drawer>
+                <Toolbar /> {/* Spacer for fixed AppBar */}
+                <Box
+                  sx={{
+                    minHeight: '100vh',
+                    backgroundColor: theme.palette.background.default,
+                  }}
+                >
+                  <Component {...pageProps} />
                 </Box>
-                <DrawerLoginLogout />
-              </Box>
-            </Drawer>
-            <Toolbar /> {/* Spacer for fixed AppBar */}
-            <Box
-              sx={{
-                minHeight: '100vh',
-                backgroundColor: theme.palette.background.default,
-              }}
-            >
-              <Component />
-            </Box>
-          </MockdatProvider>
-        </ThemeProvider>
-      </AppCacheProvider>
-    </AuthProvider>
+              </MockdatProvider>
+            </ThemeProvider>
+          </AppCacheProvider>
+        </AuthenticatedApp>
+      </UserProvider>
+    </AppConfigProvider>
   );
 }
+
+export default MyApp;

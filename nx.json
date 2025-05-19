@@ -116,6 +116,7 @@
   "generators": {
     "@nx/react": {
       "application": {
+        "port": 3333,
         "babel": true,
         "style": "css",
         "linter": "eslint",
