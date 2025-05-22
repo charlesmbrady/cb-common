@@ -120,7 +120,7 @@ export function App() {
 
   return (
     <AppConfigProvider>
-      <UserProvider protectedRoutes={['/dashboard']}>
+      <UserProvider protectedRoutes={['/dashboard', '/wizard']}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <MockdatProvider>
@@ -250,7 +250,14 @@ export function App() {
                   }
                 />
                 <Route path="/documentation" element={<Documentation />} />
-                <Route path="/wizard" element={<WizardPage />} />
+                <Route
+                  path="/wizard"
+                  element={
+                    <AuthenticatedApp>
+                      <WizardPage />
+                    </AuthenticatedApp>
+                  }
+                />
                 <Route path="/logout" element={<LogoutPage />} />
               </Routes>
             </Box>

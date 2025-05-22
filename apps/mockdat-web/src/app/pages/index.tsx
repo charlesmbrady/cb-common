@@ -200,7 +200,7 @@ export default function LandingPage() {
             The easiest way to generate, preview, and export realistic mock data
             for your apps.
           </Typography>
-          <Link to="/wizard">
+          <Link to="/dashboard">
             <Button
               variant="contained"
               color="primary"
