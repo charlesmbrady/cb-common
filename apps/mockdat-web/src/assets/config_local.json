@@ -6,5 +6,6 @@
   "oauthDomain": "auth-test.charlesmbrady.com",
   "redirectSignOut": "http://localhost:3000",
   "userPoolId": "us-east-1_YIYfB6zj2",
-  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o"
+  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o",
+  "redirectSignIn": "http://localhost:3000/dashboard"
 }

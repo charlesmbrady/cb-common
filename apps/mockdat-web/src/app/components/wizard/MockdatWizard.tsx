@@ -1,5 +1,5 @@
 // components/wizard/MockdatWizard.tsx
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { MockdatContext } from '../../context/MockdatContext';
 import {
   Stepper,
@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useLocation } from 'react-router-dom';
 
 import Step1SelectRecordType from './Step1SelectRecordType';
 import Step2SelectFieldsTransferList from './Step2SelectFields';
@@ -29,7 +30,17 @@ const steps = [
 const MockdatWizard: React.FC = () => {
   const context = useContext(MockdatContext);
   const theme = useTheme();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const [loadedScenarioName, setLoadedScenarioName] = useState<
+    string | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (location.state?.loadedScenarioName) {
+      setLoadedScenarioName(location.state.loadedScenarioName);
+    }
+  }, [location.state?.loadedScenarioName]);
 
   if (!context) {
     throw new Error('MockdatWizard must be used within a MockdatProvider');
@@ -83,6 +94,7 @@ const MockdatWizard: React.FC = () => {
     context.setPreviewData([]);
     context.setOutputFormat('csv');
     context.setStep(1);
+    setLoadedScenarioName(undefined);
   };
 
   return (
@@ -98,6 +110,21 @@ const MockdatWizard: React.FC = () => {
       }}
       data-cy="mockdatWizardContainer"
     >
+      {/* Loaded Scenario Name */}
+      {loadedScenarioName && (
+        <Box sx={{ textAlign: 'center', mt: 1, mb: 0 }}>
+          <span
+            style={{
+              fontSize: '0.95rem',
+              color: theme.palette.secondary.main,
+              opacity: 0.8,
+              fontWeight: 500,
+            }}
+          >
+            Loaded Scenario: {loadedScenarioName}
+          </span>
+        </Box>
+      )}
       {/* Horizontal Stepper at the top */}
       <Box sx={{ pt: 0, pb: 1 }}>
         <Stepper activeStep={activeStep} alternativeLabel>
