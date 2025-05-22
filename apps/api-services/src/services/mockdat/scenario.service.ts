@@ -5,7 +5,10 @@ import { Scenario } from '@cb-common/mockdat-svc';
 import { queryItems } from '@cb-common/lambda';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import { deleteItem } from '@cb-common/lambda';
+import { config } from '../../config';
+const { ENVIRONMENT } = config;
 
+const MOCKDAT_TABLE_NAME = `mockdat-${ENVIRONMENT}`;
 export type ScenarioDbItem = {
   id: string;
   name: string;
@@ -13,16 +16,9 @@ export type ScenarioDbItem = {
   [key: string]: any;
 };
 
-// It should take in the userId as parameter as well as the scenario definition
-export const createScenario = async (
-  userId: string,
-  scenario: Scenario,
-  environmentTag: string
-) => {
+export const createScenario = async (userId: string, scenario: Scenario) => {
   const { id, name, description } = scenario;
 
-  const TABLE_NAME = `mockdat-${environmentTag}`;
-  // add to dynamodb
   const item = {
     pk: `user#${userId}`,
     sk: `scenario#${id}`,
@@ -35,31 +31,20 @@ export const createScenario = async (
     data: scenario.data,
     status: scenario.status,
   };
-  const result = await putItem(TABLE_NAME, item);
+  const result = await putItem(MOCKDAT_TABLE_NAME, item);
   return result;
 };
 
-// Need function for getting a scenario by id from dynamodb
-
-// Need function for getting all scenarios (community) from dynamodb
-// Need function for getting all scenarios by user id from dynamodb
-
-// Need function for updating a scenario by id
-
-// Need function for deleting a scenario by id
-
 export const getUserScenarios = async (
-  userId: string,
-  environmentTag: string
+  userId: string
 ): Promise<ScenarioDbItem[]> => {
-  const TABLE_NAME = `mockdat-${environmentTag}`;
   const pk = `user#${userId}`;
   const result = await queryItems({
-    tableName: TABLE_NAME,
+    tableName: MOCKDAT_TABLE_NAME,
     keyConditionExpression: 'pk = :pk',
     expressionAttributeValues: { ':pk': { S: pk } },
   });
-  // Unmarshall all items and return as plain objects
+
   return (result || []).map((item: any) => {
     const unmarshalled = unmarshall(item);
     return {
@@ -71,16 +56,11 @@ export const getUserScenarios = async (
   });
 };
 
-export const deleteScenario = async (
-  userId: string,
-  scenarioId: string,
-  environmentTag: string
-) => {
-  const TABLE_NAME = `mockdat-${environmentTag}`;
+export const deleteScenario = async (userId: string, scenarioId: string) => {
   const pk = `user#${userId}`;
   const sk = `scenario#${scenarioId}`;
   return deleteItem({
-    tableName: TABLE_NAME,
+    tableName: MOCKDAT_TABLE_NAME,
     key: {
       pk: { S: pk },
       sk: { S: sk },
