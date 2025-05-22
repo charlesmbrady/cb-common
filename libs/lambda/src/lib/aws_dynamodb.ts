@@ -7,33 +7,33 @@ import {
   QueryCommand,
   AttributeValue,
 } from '@aws-sdk/client-dynamodb';
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { logger } from './logger';
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient({
+  region: process.env.AWS_REGION || 'us-east-1',
+});
 
-export async function createItem(params: {
-  tableName: string;
-  item: Record<string, AttributeValue>;
-}) {
+export async function putItem<T>(tableName: string, item: T) {
   try {
     logger.info('Creating item in DynamoDB', {
-      tableName: params.tableName,
-      item: params.item,
+      tableName,
+      item,
     });
     const command = new PutItemCommand({
-      TableName: params.tableName,
-      Item: params.item,
+      TableName: tableName,
+      Item: marshall(item),
     });
     const result = await client.send(command);
     logger.info('Item created successfully', {
-      tableName: params.tableName,
+      tableName,
       result,
     });
     return result;
   } catch (error) {
     logger.error('Error creating item in DynamoDB', error as Error, {
-      tableName: params.tableName,
-      item: params.item,
+      tableName,
+      item,
     });
     throw error;
   }

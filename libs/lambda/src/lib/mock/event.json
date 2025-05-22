@@ -68,7 +68,11 @@
   "stageVariables": null,
   "requestContext": {
     "resourceId": "lut066",
-    "authorizer": ["REPLACE_WITH_AUTHORIZER****************TODO:*********"],
+    "authorizer": {
+      "claims": {
+        "sub": "1234567890"
+      }
+    },
     "resourcePath": "/services/{proxy+}",
     "httpMethod": "GET",
     "extendedRequestId": "K7kWsEzpIAMEmfA=",

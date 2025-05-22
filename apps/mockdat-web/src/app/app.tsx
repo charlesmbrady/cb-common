@@ -137,7 +137,7 @@ export function App() {
                         fontWeight: 700,
                         fontSize: '1.5rem',
                         letterSpacing: 2,
-                        color: 'inherit',
+                        color: mode === 'light' ? '#fff' : 'inherit',
                         textDecoration: 'none',
                         cursor: 'pointer',
                         transition: 'color 0.2s',

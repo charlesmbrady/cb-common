@@ -1888,6 +1888,13 @@
     "@aws-sdk/types" "3.47.1"
     tslib "^2.3.0"
 
+"@aws-sdk/util-dynamodb@^3.812.0":
+  version "3.812.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/util-dynamodb/-/util-dynamodb-3.812.0.tgz#704b215c490346dfc93e65c87d67ccc89227cf3d"
+  integrity sha512-vzRawF3rH7qpdO7ncolyRmxCo+iXC2F6xIQVa4tI2667twG+5DbcJOr/Tn4w1c8QOcf+GJfwaRdCcTywH/0/GA==
+  dependencies:
+    tslib "^2.6.2"
+
 "@aws-sdk/util-format-url@3.6.1":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/@aws-sdk/util-format-url/-/util-format-url-3.6.1.tgz#a011444aed0c47698d65095bcce95d7b4716324b"
