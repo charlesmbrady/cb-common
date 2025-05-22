@@ -27,6 +27,117 @@
         "showReuseMessage": true,
         "clear": false
       }
+    },
+    {
+      "label": "PROD: Deploy services Lambda",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/deploy_lambda.sh",
+      "args": [
+        "--lambda-name",
+        "charlesmbrady_Production_services_middleware",
+        "--nx-project",
+        "api-services",
+        "--build",
+        "--verbose"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    // Build and Deploy tasks for charlesmbrady
+    {
+      "label": "Build: charlesmbrady",
+      "type": "shell",
+      "command": "yarn nx build charlesmbrady",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: charlesmbrady Test",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": ["charlesmbrady", "charlesmbrady-test-website-content"],
+      "dependsOn": ["Build: charlesmbrady"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: charlesmbrady Prod",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": ["charlesmbrady", "charlesmbrady-production-website-content"],
+      "dependsOn": ["Build: charlesmbrady"],
+      "problemMatcher": []
+    },
+    // Build and Deploy tasks for mockdat-web
+    {
+      "label": "Build: mockdat-web",
+      "type": "shell",
+      "command": "yarn nx build mockdat-web",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: mockdat-web Test",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": [
+        "--verbose",
+        "--type",
+        "react",
+        "mockdat-web",
+        "mockdat-test-website-content"
+      ],
+      "dependsOn": ["Build: mockdat-web"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: mockdat-web Prod",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": [
+        "mockdat-web",
+        "mockdat-production-website-content",
+        "--type",
+        "react"
+      ],
+      "dependsOn": ["Build: mockdat-web"],
+      "problemMatcher": []
+    },
+    // Build and Deploy tasks for processing
+    {
+      "label": "Build: processing",
+      "type": "shell",
+      "command": "yarn nx build processing",
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: processing Test",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": ["processing", "labs-test-website-content", "--type", "react"],
+      "dependsOn": ["Build: processing"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Deploy: processing Prod",
+      "type": "shell",
+      "command": "./scripts/deploy_app.sh",
+      "args": [
+        "processing",
+        "labs-production-website-content",
+        "--type",
+        "react"
+      ],
+      "dependsOn": ["Build: processing"],
+      "problemMatcher": []
     }
   ]
 }
