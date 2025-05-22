@@ -116,11 +116,11 @@
   "generators": {
     "@nx/react": {
       "application": {
-        "port": 3333,
         "babel": true,
         "style": "css",
         "linter": "eslint",
         "bundler": "webpack",
+        "port": 3333,
         "e2eTestRunner": "cypress",
         "appDir": true,
         "projectNameAndRootFormat": "derived",
