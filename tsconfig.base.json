@@ -22,8 +22,11 @@
       "@cb-common/p5-core": ["libs/p5-core/src/index.ts"],
       "@cb-common/react-gamepad": ["libs/react-gamepad/src/index.ts"],
       "@cb-common/ui-react": ["libs/ui-react/src/index.ts"],
-      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"]
-    }
+      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"],
+      "@cb-common/lambda": ["libs/lambda/src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "tmp"]
 }
