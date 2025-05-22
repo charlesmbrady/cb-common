@@ -1,7 +1,6 @@
 {
-  "apiDomain": "localhost:3000",
-  "apiUrl": "http://localhost:3000",
-  "authorizedRoles": ["admin", "user"],
+  "apiDomain": "localhost:3333",
+  "apiUrl": "http://localhost:3333",
   "domain": "localhost",
   "environment": "development",
   "oauthDomain": "auth-test.charlesmbrady.com",

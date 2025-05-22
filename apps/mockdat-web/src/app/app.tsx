@@ -11,6 +11,7 @@ import LandingPage from './pages/index';
 import Dashboard from './pages/dashboard/index';
 import Documentation from './pages/documentation/index';
 import WizardPage from './pages/wizard';
+import LogoutPage from './pages/logout';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -97,19 +98,10 @@ function LoginButton() {
 }
 
 function AuthenticatedApp({ children }: { children: React.ReactNode }) {
-  const [userState, { signIn, signOut }] = useUser();
+  const [userState, { signIn }] = useUser();
   if (userState.isLoading) return <div>Loading...</div>;
   if (!userState.data) return <button onClick={signIn}>Sign In</button>;
-  return (
-    <div>
-      <div>
-        Welcome, {userState.data.firstName} {userState.data.lastName} (
-        {userState.data.email})
-      </div>
-      <button onClick={signOut}>Sign Out</button>
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
 
 export function App() {
@@ -259,6 +251,7 @@ export function App() {
                 />
                 <Route path="/documentation" element={<Documentation />} />
                 <Route path="/wizard" element={<WizardPage />} />
+                <Route path="/logout" element={<LogoutPage />} />
               </Routes>
             </Box>
           </MockdatProvider>
