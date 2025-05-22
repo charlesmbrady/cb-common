@@ -1,10 +1,5 @@
 import React from 'react';
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Grid,
-} from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import { technologies } from '../../components/techData';
 import { TechnologyCard } from '../../components/TechnologyCard';
 
@@ -17,14 +12,23 @@ const Technologies: React.FC = () => {
         of the technologies I regularly work with:
       </Typography>
 
-      <Grid container spacing={3}>
-        {technologies.map(tech => (
-          <Grid item xs={6} sm={4} md={3} key={tech.name}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr 1fr',
+            sm: '1fr 1fr 1fr',
+            md: '1fr 1fr 1fr 1fr',
+          },
+          gap: 3,
+        }}
+      >
+        {technologies.map((tech) => (
+          <Box key={tech.name}>
             <TechnologyCard technology={tech} />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
-
+      </Box>
     </Container>
   );
 };

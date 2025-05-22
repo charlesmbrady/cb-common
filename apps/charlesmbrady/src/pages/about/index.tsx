@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   Paper,
-  Grid,
   useTheme,
   useMediaQuery,
   Divider,
@@ -22,22 +21,26 @@ const About: React.FC = () => {
     {
       icon: <CodeIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
       title: 'Technical Expertise',
-      content: 'With a background spanning from QA Engineering to Senior Software Engineering, I bring a comprehensive understanding of software development. My experience includes building robust applications, implementing best practices, and ensuring code quality at every step.',
+      content:
+        'With a background spanning from QA Engineering to Senior Software Engineering, I bring a comprehensive understanding of software development. My experience includes building robust applications, implementing best practices, and ensuring code quality at every step.',
     },
     {
       icon: <PeopleIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
       title: 'User-Centric Approach',
-      content: 'Having worked in customer-facing roles like Technical Support and Customer Success, I understand the importance of building software that truly serves its users. I focus on creating intuitive, accessible, and meaningful experiences.',
+      content:
+        'Having worked in customer-facing roles like Technical Support and Customer Success, I understand the importance of building software that truly serves its users. I focus on creating intuitive, accessible, and meaningful experiences.',
     },
     {
       icon: <LightbulbIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
       title: 'Innovative Problem Solving',
-      content: 'I thrive on turning complex challenges into elegant solutions. Whether it\'s optimizing performance, improving user experience, or implementing new features, I approach each problem with creativity and technical precision.',
+      content:
+        "I thrive on turning complex challenges into elegant solutions. Whether it's optimizing performance, improving user experience, or implementing new features, I approach each problem with creativity and technical precision.",
     },
     {
       icon: <PsychologyIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
       title: 'Collaborative Mindset',
-      content: 'I believe the best solutions come from diverse perspectives. I enjoy working in teams, sharing knowledge, and creating an environment where everyone can contribute their best work.',
+      content:
+        'I believe the best solutions come from diverse perspectives. I enjoy working in teams, sharing knowledge, and creating an environment where everyone can contribute their best work.',
     },
   ];
 
@@ -90,7 +93,11 @@ const About: React.FC = () => {
             color: 'text.primary',
           }}
         >
-          I'm a passionate problem solver who loves turning ideas into real-world applications. My background spans a unique blend of customer-facing roles—like Technical Support and Customer Success—and highly technical positions as a QA Engineer, Software Engineer, and eventually a Senior Software Engineer.
+          I'm a passionate problem solver who loves turning ideas into
+          real-world applications. My background spans a unique blend of
+          customer-facing roles—like Technical Support and Customer Success—and
+          highly technical positions as a QA Engineer, Software Engineer, and
+          eventually a Senior Software Engineer.
         </Typography>
 
         <Typography
@@ -102,49 +109,58 @@ const About: React.FC = () => {
             color: 'text.primary',
           }}
         >
-          Over the years, I've discovered that the key to building transformative software is a deep respect for the people who use it. I strive for code that's both clean and purposeful, ensuring that each feature adds value (and maybe a little joy) to someone's day.
+          Over the years, I've discovered that the key to building
+          transformative software is a deep respect for the people who use it. I
+          strive for code that's both clean and purposeful, ensuring that each
+          feature adds value (and maybe a little joy) to someone's day.
         </Typography>
 
         <Divider sx={{ my: 6 }} />
 
-        <Grid container spacing={4}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+            gap: 4,
+          }}
+        >
           {sections.map((section, index) => (
-            <Grid item xs={12} sm={6} key={index}>
-              <Box
+            <Box
+              key={index}
+              sx={{
+                p: 3,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                background: 'none',
+              }}
+            >
+              {section.icon}
+              <Typography
+                variant="h6"
                 sx={{
-                  p: 3,
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
+                  mt: 2,
+                  mb: 2,
+                  fontWeight: 600,
+                  color: 'text.primary',
                 }}
               >
-                {section.icon}
-                <Typography
-                  variant="h6"
-                  sx={{
-                    mt: 2,
-                    mb: 2,
-                    fontWeight: 600,
-                    color: 'text.primary',
-                  }}
-                >
-                  {section.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: 'text.secondary',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {section.content}
-                </Typography>
-              </Box>
-            </Grid>
+                {section.title}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'text.secondary',
+                  lineHeight: 1.6,
+                }}
+              >
+                {section.content}
+              </Typography>
+            </Box>
           ))}
-        </Grid>
+        </Box>
 
         <Typography
           variant="body1"
@@ -157,7 +173,11 @@ const About: React.FC = () => {
             fontStyle: 'italic',
           }}
         >
-          When I'm not busy engineering the next big solution, you might find me brainstorming visionary concepts, refining user experiences, or adding a playful dash of humor to keep team morale high. I believe in a future where technology is as seamless as a well-placed punchline—and I'm dedicated to making that happen.
+          When I'm not busy engineering the next big solution, you might find me
+          brainstorming visionary concepts, refining user experiences, or adding
+          a playful dash of humor to keep team morale high. I believe in a
+          future where technology is as seamless as a well-placed punchline—and
+          I'm dedicated to making that happen.
         </Typography>
       </Paper>
     </Container>

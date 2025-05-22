@@ -12,7 +12,7 @@ import {
   P5Experiment,
   MatterExperiment,
   CtxExperiment,
-} from '@cb-common/ui-react';
+} from '@cb-common/react-gamepad';
 import * as p5SketchTemplate from './experiments/templates/p5SketchTemplate';
 import * as p5GameTemplate from './experiments/templates/p5GameTemplate';
 import * as ctxSketchTemplate from './experiments/templates/ctxSketchTemplate';
@@ -124,7 +124,7 @@ export default function App() {
             onMenuClick={handleDrawerOpen}
             onBottomDrawerClick={handleBottomDrawerToggle}
             bottomDrawerOpen={bottomOpen}
-            title="Processing Sketches"
+            title="Labs Sketches"
           />
           <Main open={open}>
             <Toolbar />

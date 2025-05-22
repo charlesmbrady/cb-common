@@ -1,7 +1,7 @@
 {
-  "name": "processing",
+  "name": "labs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/processing/src",
+  "sourceRoot": "apps/labs/src",
   "projectType": "application",
   "tags": ["app", "react"],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/processing/jest.config.ts"
+        "jestConfig": "apps/labs/jest.config.ts"
       }
     }
   }

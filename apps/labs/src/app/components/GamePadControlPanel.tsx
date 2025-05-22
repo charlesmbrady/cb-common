@@ -3,8 +3,8 @@ import { useGamepad, useGamepadContext } from '@cb-common/react-gamepad'; // TOD
 import {
   ControlPanelToolbar,
   ControlPanelSettingsModal,
-  PSControllerDisplay,
 } from '@cb-common/ui-react';
+import { PSControllerDisplay } from '@cb-common/react-gamepad';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
