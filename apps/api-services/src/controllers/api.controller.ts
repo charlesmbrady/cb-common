@@ -1,6 +1,9 @@
+import { getCurrentInvoke } from '@cb-common/lambda';
 import { Request, Response } from 'express';
 
 export const getInfo = (req: Request, res: Response) => {
+  const event = getCurrentInvoke();
+  console.log('event', event);
   res.json({
     service: 'API Services',
     version: '1.0.0',

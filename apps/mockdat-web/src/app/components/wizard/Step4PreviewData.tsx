@@ -4,10 +4,16 @@ import { MockdatContext } from '../../context/MockdatContext';
 import { Box, Button, Typography } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import InstructionsText from '../InstructionsText';
+import { useAppConfig } from '@cb-common/auth';
+import { useUser } from '@cb-common/auth';
 
 const Step4PreviewData: React.FC = () => {
   const ctx = useContext(MockdatContext);
-  if (!ctx) return null;
+  const { data: appConfig } = useAppConfig();
+  const [userState, { getAuthToken }] = useUser();
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  if (!ctx || !appConfig) return null;
 
   const {
     step,
@@ -22,9 +28,36 @@ const Step4PreviewData: React.FC = () => {
   const handleNext = () => setStep(step + 1);
   const handleBack = () => setStep(step - 1);
 
+  const handlePreview = async () => {
+    setLoading(true);
+    setError(null);
+    const idToken = await getAuthToken();
+    fetch(`${appConfig.apiUrl}/services/mockdat/data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(idToken ? { Authorization: idToken } : {}),
+      },
+      body: JSON.stringify({
+        recordType,
+        selectedFields,
+        quantity: recordCount,
+        userId: '',
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPreviewData(data.data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to preview data');
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (step === 4 && selectedFields.length > 0 && recordType) {
-      // Build scenario object
       const scenario = {
         id: '',
         name: 'Preview',
@@ -37,18 +70,32 @@ const Step4PreviewData: React.FC = () => {
           fieldsData: selectedFields.map((field) => ({ type: field })),
         },
       };
-      fetch('http://localhost:3333/services/mockdat/data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(scenario),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPreviewData(data.data || []);
+      (async () => {
+        const idToken = await getAuthToken();
+        fetch(`${appConfig.apiUrl}/services/mockdat/data`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(idToken ? { Authorization: idToken } : {}),
+          },
+          body: JSON.stringify(scenario),
         })
-        .catch(() => setPreviewData([]));
+          .then((res) => res.json())
+          .then((data) => {
+            setPreviewData(data.data || []);
+          })
+          .catch(() => setPreviewData([]));
+      })();
     }
-  }, [step, recordType, selectedFields, recordCount, setPreviewData]);
+  }, [
+    step,
+    recordType,
+    selectedFields,
+    recordCount,
+    setPreviewData,
+    getAuthToken,
+    appConfig.apiUrl,
+  ]);
 
   const columns: GridColDef[] = selectedFields.map((field) => ({
     field,

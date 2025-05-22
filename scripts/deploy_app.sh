@@ -10,7 +10,7 @@
 #   -o | --obnoxious : Includes flashy ASCII art and color spam
 #
 # Usage:
-#   ./sync_CMB_Root_TEST.sh [-v|-q|-s|-o] <PROJECT_NAME> <S3_BUCKET>
+#   ./sync_CMB_Root_TEST.sh [-v|-q|-s|-o] <PROJECT_NAME> <S3_BUCKET> [--type <next|react>]
 #
 # Example:
 #   ./sync_CMB_Root_TEST.sh -v charlesmbrady charlesmbrady-test-website-content
@@ -118,11 +118,12 @@ EOF
 # Usage Function
 # ------------------------------------------------------------------------------
 usage() {
-  echo -e "${MAGENTA}Usage: ${BOLD}$0 [-v|-q|-s|-o] <PROJECT_NAME> <S3_BUCKET>${NC}"
+  echo -e "${MAGENTA}Usage: ${BOLD}$0 [-v|-q|-s|-o] <PROJECT_NAME> <S3_BUCKET> [--type <next|react>]${NC}"
   echo -e "  -v | --verbose    : More detailed logs"
   echo -e "  -q | --quiet      : Minimal output, only success or error"
   echo -e "  -s | --silent     : No output unless there's an error"
   echo -e "  -o | --obnoxious  : Verbose + ASCII-art mania!"
+  echo -e "  --type <next|react> : App type. 'next' (default) uses apps/<project>/out, 'react' uses dist/apps/<project>"
   exit 1
 }
 
@@ -130,6 +131,8 @@ usage() {
 # Parse Flags
 # ------------------------------------------------------------------------------
 # We'll parse flags first, then read positional args for PROJECT_NAME and S3_BUCKET.
+
+APP_TYPE="next"  # Default
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -150,14 +153,18 @@ while [[ $# -gt 0 ]]; do
       VERBOSE=true    # Obnoxious implies verbose
       shift
       ;;
+    --type)
+      APP_TYPE="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       ;;
-    -*)
+    -* )
       echo -e "${RED}[ERROR]${NC} Unknown option: $1"
       usage
       ;;
-    *)
+    * )
       # We've reached the first non-flag argument => PROJECT_NAME
       break
       ;;
@@ -169,6 +176,9 @@ done
 # ------------------------------------------------------------------------------
 PROJECT_NAME=$1
 S3_BUCKET=$2
+
+# Debug: Show parsed arguments
+log_verbose "[DEBUG] PROJECT_NAME='$PROJECT_NAME' S3_BUCKET='$S3_BUCKET' APP_TYPE='$APP_TYPE'"
 
 # ------------------------------------------------------------------------------
 # Obnoxious Welcome
@@ -223,7 +233,13 @@ fi
 # Validate Directory Structure
 # ------------------------------------------------------------------------------
 APPS_DIR="$NX_ROOT/apps"
-TARGET_OUT_DIR="$APPS_DIR/$PROJECT_NAME/out"
+DIST_DIR="$NX_ROOT/dist/apps"
+
+if [[ "$APP_TYPE" == "react" ]]; then
+  TARGET_OUT_DIR="$DIST_DIR/$PROJECT_NAME"
+else
+  TARGET_OUT_DIR="$APPS_DIR/$PROJECT_NAME/out"
+fi
 
 if [[ ! -d "$APPS_DIR" ]]; then
   log_error "Directory '$APPS_DIR' does not exist. Invalid Nx project structure."
@@ -242,7 +258,11 @@ if [[ ! -d "$APPS_DIR/$PROJECT_NAME" ]]; then
 fi
 
 if [[ ! -d "$TARGET_OUT_DIR" ]]; then
-  log_warn "'out' directory not found at '$TARGET_OUT_DIR'."
+  if [[ "$APP_TYPE" == "react" ]]; then
+    log_warn "Build output directory not found at '$TARGET_OUT_DIR'. (React/SPA apps should output to dist/apps/<project> after build)"
+  else
+    log_warn "Static export directory 'out' not found at '$TARGET_OUT_DIR'. (Next.js static export should output to apps/<project>/out after build/export)"
+  fi
   if ! $SILENT; then
     read -rp "$(echo -e "${YELLOW}Are you sure you want to continue? (y/n) ${NC}")" CONTINUE_NO_OUT
     if [[ "$CONTINUE_NO_OUT" != "y" && "$CONTINUE_NO_OUT" != "Y" ]]; then
@@ -268,7 +288,7 @@ fi
 # Final Confirmation Prompt (only if not silent)
 # ------------------------------------------------------------------------------
 if ! $SILENT; then
-  log_bold "About to sync '$APPS_DIR/$PROJECT_NAME/out' to S3 bucket: $S3_BUCKET"
+  log_bold "About to sync '$TARGET_OUT_DIR' to S3 bucket: $S3_BUCKET"
   log_bold "Nx root directory: $NX_ROOT"
   echo -e "${BOLD}---------------------------------------------------------------${NC}"
 

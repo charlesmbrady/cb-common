@@ -1,10 +1,11 @@
 {
-  "apiDomain": "localhost:3333",
-  "apiUrl": "http://localhost:3333/services",
-  "domain": "localhost",
-  "environment": "development",
+  "apiDomain": "api-test.charlesmbrady.com",
+  "apiUrl": "https://api-test.charlesmbrady.com",
+  "domain": "mockdat-test.charlesmbrady.com",
+  "environment": "production",
   "oauthDomain": "auth-test.charlesmbrady.com",
-  "redirectSignOut": "http://localhost:3000",
+  "redirectSignOut": "https://mockdat-test.charlesmbrady.com/logout",
   "userPoolId": "us-east-1_YIYfB6zj2",
-  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o"
+  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o",
+  "redirectSignIn": "https://mockdat-test.charlesmbrady.com/dashboard"
 }

@@ -16,7 +16,10 @@
         "bundle": false,
         "main": "apps/api-services/src/main.ts",
         "tsConfig": "apps/api-services/tsconfig.app.json",
-        "assets": ["apps/api-services/src/assets"],
+        "assets": [
+          "apps/api-services/src/assets",
+          "libs/lambda/src/lib/mock/*.json"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,

@@ -1,6 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
 import { processScenarioData } from '../services/mockdat/data.service';
 import { objectTypes, fields } from '@cb-common/mockdat-svc';
+import { getCurrentInvoke } from '@cb-common/lambda';
 
 // Mapping of record types to their valid fields
 const recordTypeFields: Record<string, string[]> = {
@@ -60,6 +61,8 @@ export const getScenarioData: RequestHandler = (req, res) => {
   });
 };
 export const getAllObjectTypes: RequestHandler = (req, res) => {
+  const event = getCurrentInvoke();
+  console.log('event', event);
   res.json({
     status: 'ok',
     message: 'success',

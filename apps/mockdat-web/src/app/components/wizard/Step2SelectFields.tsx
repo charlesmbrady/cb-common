@@ -17,34 +17,46 @@ import {
 } from '@mui/material';
 import InstructionsText from '../InstructionsText';
 import { not, intersection } from '../../utils/index';
+import { useAppConfig } from '@cb-common/auth';
+import { useUser } from '@cb-common/auth';
 
 const Step2SelectFieldsTransferList: React.FC = () => {
+  const { data: appConfig } = useAppConfig();
   const ctx = useContext(MockdatContext);
   const [availableFields, setAvailableFields] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  if (!ctx) return null;
+  const [userState, { getAuthToken }] = useUser();
+  if (!ctx || !appConfig) return null; // or throw
 
   const { recordType, selectedFields, setSelectedFields, step, setStep } = ctx;
 
   useEffect(() => {
     if (!recordType) return;
     setLoading(true);
-    fetch(
-      `http://localhost:3333/services/mockdat/data/fields?type=${encodeURIComponent(
-        recordType
-      )}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAvailableFields(data.data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError('Failed to load fields');
-        setLoading(false);
-      });
-  }, [recordType]);
+    (async () => {
+      const idToken = await getAuthToken();
+      fetch(
+        `${
+          appConfig.apiUrl
+        }/services/mockdat/data/fields?type=${encodeURIComponent(recordType)}`,
+        {
+          headers: {
+            ...(idToken ? { Authorization: idToken } : {}),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setAvailableFields(data.data || []);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError('Failed to load fields');
+          setLoading(false);
+        });
+    })();
+  }, [recordType, appConfig.apiDomain]);
 
   const handleBack = () => setStep(step - 1);
   const handleNext = () => setStep(step + 1);

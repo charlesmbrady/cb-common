@@ -10,13 +10,17 @@ import {
   Select,
 } from '@mui/material';
 import InstructionsText from '../InstructionsText';
+import { useAppConfig } from '@cb-common/auth';
+import { useUser } from '@cb-common/auth';
 
 const Step1SelectRecordType: React.FC = () => {
   const ctx = useContext(MockdatContext);
   const [recordTypes, setRecordTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  if (!ctx) return null; // or throw
+  const { data: appConfig, isLoading } = useAppConfig();
+  const [userState, { getAuthToken }] = useUser();
+  if (!ctx || isLoading || !appConfig) return null; // or throw
 
   const {
     recordType,
@@ -29,18 +33,25 @@ const Step1SelectRecordType: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:3333/services/mockdat/data/object-types')
-      .then((res) => res.json())
-      .then((data) => {
-        const types = data.data || [];
-        setRecordTypes(['Generic', ...types]);
-        setLoading(false);
+    (async () => {
+      const idToken = await getAuthToken();
+      fetch(`${appConfig.apiUrl}/services/mockdat/data/object-types`, {
+        headers: {
+          ...(idToken ? { Authorization: idToken } : {}),
+        },
       })
-      .catch((err) => {
-        setError('Failed to load record types');
-        setLoading(false);
-      });
-  }, []);
+        .then((res) => res.json())
+        .then((data) => {
+          const types = data.data || [];
+          setRecordTypes(['Generic', ...types]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError('Failed to load record types');
+          setLoading(false);
+        });
+    })();
+  }, [appConfig.apiDomain]);
 
   const handleChange = (e: any) => {
     setRecordType(e.target.value);
