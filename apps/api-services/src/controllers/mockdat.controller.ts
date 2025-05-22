@@ -7,6 +7,7 @@ import {
   getUserScenarios,
   deleteScenario,
 } from '../services/mockdat/scenario.service';
+import { logger } from 'libs/lambda/src/lib/logger';
 
 // Mapping of record types to their valid fields
 const recordTypeFields: Record<string, string[]> = {
@@ -60,14 +61,16 @@ const recordTypeFields: Record<string, string[]> = {
 };
 
 export const getScenarioData: RequestHandler = (req, res) => {
+  const { event } = getCurrentInvoke();
+  logger.info('getScenarioData called', { event });
   res.json({
     status: 'ok',
     message: 'getting stored scenario data coming soon',
   });
 };
 export const getAllObjectTypes: RequestHandler = (req, res) => {
-  const event = getCurrentInvoke();
-  console.log('event', event);
+  const { event } = getCurrentInvoke();
+  logger.info('getAllObjectTypes called', { event });
   res.json({
     status: 'ok',
     message: 'success',
@@ -80,6 +83,7 @@ export const getAllFields: RequestHandler = (req, res) => {
   if (type && typeof type === 'string' && recordTypeFields[type]) {
     resultFields = recordTypeFields[type];
   }
+  logger.info('getAllFields called', { type, resultFields });
   res.json({
     status: 'ok',
     message: 'success',
@@ -88,36 +92,34 @@ export const getAllFields: RequestHandler = (req, res) => {
 };
 
 export const processScenario: RequestHandler = (req, res) => {
+  const { event } = getCurrentInvoke();
+  logger.info('processScenario called', { event });
   const data = req.body;
-  console.log('Received request to process scenario:', data);
-
+  logger.info('Received request to process scenario', { data });
   const processedData = processScenarioData(data);
-
   res.status(201).json({
-    message: 'Processing capability comming soon.',
+    message: 'Scenario processed successfully',
     data: processedData,
   });
 };
 
 export const createScenarioController: RequestHandler = async (req, res) => {
   try {
-    console.log('createScenarioController');
     const { event } = getCurrentInvoke();
+    logger.info('createScenarioController called', { event });
     const data: Scenario = req.body;
-    console.log('Received request to create scenario:', data);
-    const environmentTag = process.env.ENVIRONMENT_TAG || 'Test';
-    // Patch the table name in the service if needed
+    logger.info('Received request to create scenario', { data });
     const result = await createScenario(
       event.requestContext.authorizer.claims.sub,
-      data,
-      environmentTag
+      data
     );
+    logger.info('Scenario created successfully', { result });
     res.status(201).json({
       message: 'Scenario created successfully',
       data: result,
     });
   } catch (error) {
-    console.error('Error creating scenario:', error);
+    logger.error('Error creating scenario', error as Error);
     res.status(500).json({
       message: 'Failed to create scenario',
       error: error instanceof Error ? error.message : error,
@@ -128,15 +130,19 @@ export const createScenarioController: RequestHandler = async (req, res) => {
 export const getUserScenariosController: RequestHandler = async (req, res) => {
   try {
     const { event } = getCurrentInvoke();
-    const environmentTag = process.env.ENVIRONMENT_TAG || 'Test';
+    logger.info('getUserScenariosController called', { event });
     const userId = event.requestContext.authorizer.claims.sub;
-    const scenarios = await getUserScenarios(userId, environmentTag);
+    const scenarios = await getUserScenarios(userId);
+    logger.info('User scenarios fetched successfully', {
+      userId,
+      count: scenarios.length,
+    });
     res.status(200).json({
       message: 'User scenarios fetched successfully',
       data: scenarios,
     });
   } catch (error) {
-    console.error('Error fetching user scenarios:', error);
+    logger.error('Error fetching user scenarios', error as Error);
     res.status(500).json({
       message: 'Failed to fetch user scenarios',
       error: error instanceof Error ? error.message : error,
@@ -147,13 +153,14 @@ export const getUserScenariosController: RequestHandler = async (req, res) => {
 export const deleteScenarioController: RequestHandler = async (req, res) => {
   try {
     const { event } = getCurrentInvoke();
-    const environmentTag = process.env.ENVIRONMENT_TAG || 'Test';
+    logger.info('deleteScenarioController called', { event });
     const userId = event.requestContext.authorizer.claims.sub;
     const scenarioId = req.params.id;
-    await deleteScenario(userId, scenarioId, environmentTag);
+    await deleteScenario(userId, scenarioId);
+    logger.info('Scenario deleted successfully', { userId, scenarioId });
     res.status(204).send();
   } catch (error) {
-    console.error('Error deleting scenario:', error);
+    logger.error('Error deleting scenario', error as Error);
     res.status(500).json({
       message: 'Failed to delete scenario',
       error: error instanceof Error ? error.message : error,

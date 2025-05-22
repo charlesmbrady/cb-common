@@ -17,10 +17,10 @@ import {
   countries,
   descriptors,
 } from '@cb-common/mockdat-svc';
+import { config } from '../../config';
+const { LOCAL_SERVER } = config;
 
 // Utility for colored logs (only in local/dev)
-const isLocal =
-  process.env.NODE_ENV === 'development' || process.env.LOCAL_SERVER === 'true';
 const color = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
@@ -30,7 +30,7 @@ const color = {
   fgYellow: '\x1b[33m',
 };
 function logLocal(msg, emoji = '', clr = color.reset) {
-  if (isLocal) {
+  if (LOCAL_SERVER) {
     // eslint-disable-next-line no-console
     console.log(`${clr}${emoji} ${msg}${color.reset}`);
   }
@@ -80,8 +80,9 @@ function randomAccountName() {
 export function processScenarioData(
   processScenarioRequest: Scenario
 ): Array<any> {
-  const { data } = processScenarioRequest;
-  const { mainObjectType, totalRecords, fieldsData } = data;
+  const {
+    data: { mainObjectType, totalRecords, fieldsData },
+  } = processScenarioRequest;
 
   logLocal(
     `Received scenario for type: ${mainObjectType} with ${totalRecords} records and fields: [${fieldsData
