@@ -1,26 +1,21 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
-// import { UserRole } from '@curi-com-services/data';
 export type UserRole = string;
 
-// import { FullScreenLoader } from '../FullScreenLoader/FullScreenLoader';
 const FullScreenLoader = ({ open }: { open: boolean; transparent?: boolean }) =>
   open ? <div>Loading...</div> : null;
 
 export type AppConfig = {
   apiDomain: string;
   apiUrl: string;
-  authorizedRoles: UserRole[];
+  // authorizedRoles: UserRole[];
   domain: string;
   environment: string;
   oauthDomain: string;
+  redirectSignIn: string;
   redirectSignOut: string;
   userPoolId: string;
   userPoolWebClientId: string;
-  streamClientApiKey: string | null;
-  phsUrl?: string;
-  websiteUrl?: string;
-  memberProfileUrl?: string;
 };
 
 type State = {
@@ -81,7 +76,7 @@ function AppConfigProvider({ children }: AppConfigProviderProps): JSX.Element {
     async function fetchConfig() {
       try {
         dispatch({ type: 'fetchAppConfigRequest' });
-        const response = await fetch('/config.json');
+        const response = await fetch('/config.json?v=' + Date.now());
         if (response.status !== 200) {
           throw new Error(`Failed request, status=${response.status}`);
         }

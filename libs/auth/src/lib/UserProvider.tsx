@@ -213,8 +213,8 @@ function configureAws(appConfig: AppConfig) {
       oauth: {
         domain: appConfig.oauthDomain,
         scope: ['aws.cognito.signin.user.admin', 'profile', 'email', 'openid'],
-        redirectSignIn: `http://localhost:3000`,
-        redirectSignOut: `http://localhost:3000`,
+        redirectSignIn: appConfig.redirectSignIn,
+        redirectSignOut: appConfig.redirectSignOut,
         responseType: 'code',
       },
     },
