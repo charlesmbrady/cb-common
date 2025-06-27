@@ -23,8 +23,12 @@ jobs:
       - name: Get affected apps
         id: affected
         run: |
-          npx nx show projects --affected --type=app --base=origin/main --head=HEAD > affected_raw.txt || true
-          # Only consider these apps
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            BASE="HEAD~1"
+          else
+            BASE="origin/main"
+          fi
+          npx nx show projects --affected --type=app --base=$BASE --head=HEAD > affected_raw.txt || true
           ALLOWED_APPS="api-services charlesmbrady-web labs mockdat-web"
           grep -w -E "$(echo $ALLOWED_APPS | sed 's/ /|/g')" affected_raw.txt > affected.txt || true
           cat affected.txt
