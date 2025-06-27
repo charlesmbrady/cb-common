@@ -23,7 +23,10 @@ jobs:
       - name: Get affected apps
         id: affected
         run: |
-          yarn nx show projects --affected --type=app --base=origin/main --head=HEAD > affected.txt || true
+          npx nx show projects --affected --type=app --base=origin/main --head=HEAD > affected_raw.txt || true
+          # Only consider these apps
+          ALLOWED_APPS="api-services charlesmbrady-web labs mockdat-web"
+          grep -w -E "$(echo $ALLOWED_APPS | sed 's/ /|/g')" affected_raw.txt > affected.txt || true
           cat affected.txt
           APPS=$(cat affected.txt | paste -sd "," -)
           echo "apps=$APPS" >> $GITHUB_OUTPUT
