@@ -23,9 +23,9 @@ jobs:
       - name: Get affected apps
         id: affected
         run: |
-          yarn nx print-affected --type=app --base=origin/main --head=HEAD > affected.json || true
-          cat affected.json
-          APPS=$(cat affected.json | jq -r '.apps | join(",")')
+          yarn nx show projects --affected --type=app --base=origin/main --head=HEAD > affected.txt || true
+          cat affected.txt
+          APPS=$(cat affected.txt | paste -sd "," -)
           echo "apps=$APPS" >> $GITHUB_OUTPUT
 
       - name: Deploy affected apps
