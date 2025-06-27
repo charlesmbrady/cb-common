@@ -1,0 +1,47 @@
+name: Deploy s3 app to AWS
+
+on:
+  workflow_call:
+    inputs:
+      appName:
+        required: true
+        type: string
+      bucketName:
+        required: true
+        type: string
+      s3SyncOptions:
+        required: false
+        type: string
+        default: ''
+      appType:
+        required: false
+        type: string
+        default: 'next'
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  deploy-s3:
+    name: Deploy s3 app to AWS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo ${{ inputs.appName }} ${{ inputs.bucketName }} ${{ inputs.appType }}
+
+      - name: Retrieve deployment bundle
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Debug
+        run: pwd && ls -R .
+
+      - name: Upload artifacts to AWS S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ./scripts/deploy_app.sh -s "${{ inputs.appName }}" "${{ inputs.bucketName }}" --type "${{ inputs.appType }}" ${{ inputs.s3SyncOptions }}
