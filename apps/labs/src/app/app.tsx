@@ -19,6 +19,7 @@ import * as ctxSketchTemplate from './experiments/templates/ctxSketchTemplate';
 import * as ctxGameTemplate from './experiments/templates/ctxGameTemplate';
 import * as matterSketchTemplate from './experiments/templates/matterSketchTemplate';
 import * as matterGameTemplate from './experiments/templates/matterGameTemplate';
+import * as pongP5Template from './experiments/Pong/Pong';
 import { GamePadControlPanel } from './components/GamePadControlPanel';
 import {
   GamepadProvider,
@@ -27,6 +28,7 @@ import {
 import * as zurvival from './experiments/Zurvival/zurvival';
 import Toolbar from '@mui/material/Toolbar';
 import { CameraProvider, useCamera } from './contexts/CameraContext';
+import * as dirt from './experiments/dirt/dirt';
 
 const drawerWidth = 240;
 
@@ -72,6 +74,17 @@ function ZurvivalExperimentWrapper() {
 
 const experimentComponents = [
   () => (
+    <MatterExperiment
+      setup={dirt.setup}
+      update={dirt.update}
+      width={800}
+      height={600}
+    />
+  ),
+  () => (
+    <P5Experiment setup={pongP5Template.setup} draw={pongP5Template.draw} />
+  ),
+  () => (
     <P5Experiment setup={p5SketchTemplate.setup} draw={p5SketchTemplate.draw} />
   ),
   () => (
@@ -95,6 +108,8 @@ const experimentComponents = [
 ];
 
 const experiments = [
+  { name: 'Dirtbike Simulator' },
+  { name: 'Pong' },
   { name: 'p5.js Sketch Template' },
   { name: 'p5.js Game Template' },
   { name: 'Canvas 2D Sketch Template' },
