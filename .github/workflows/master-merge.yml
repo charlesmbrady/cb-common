@@ -1,0 +1,66 @@
+name: Build & Deploy Affected Apps
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy-affected:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Get affected apps
+        id: affected
+        run: |
+          yarn nx affected:apps --base=origin/main --head=HEAD > affected.txt
+          cat affected.txt
+          echo "apps=$(cat affected.txt | tr '\n' ',' | sed 's/,$//')" >> $GITHUB_OUTPUT
+
+      - name: Deploy affected apps
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1 # or your region
+        run: |
+          # Define your app lists
+          LAMBDA_APPS=("api-services")
+          WEB_APPS=("charlesmbrady-web" "labs" "mockdat-web")
+
+          # Map web apps to S3 buckets
+          get_s3_bucket() {
+            case "$1" in
+              charlesmbrady-web) echo "charlesmbrady-test-website-content" ;;
+              labs) echo "labs-test-website-content" ;;
+              mockdat-web) echo "mockdat-test-website-content" ;;
+              *) echo "" ;;
+            esac
+          }
+
+          IFS=',' read -ra APPS <<< "${{ steps.affected.outputs.apps }}"
+          for APP in "${APPS[@]}"; do
+            if [[ " ${LAMBDA_APPS[*]} " == *" $APP "* ]]; then
+              echo "Deploying Lambda: $APP"
+              ./scripts/deploy_lambda.sh --lambda-name "$APP" --nx-project "$APP" --build --silent
+            elif [[ " ${WEB_APPS[*]} " == *" $APP "* ]]; then
+              S3_BUCKET=$(get_s3_bucket "$APP")
+              if [[ -z "$S3_BUCKET" ]]; then
+                echo "No S3 bucket mapping for $APP, skipping."
+                continue
+              fi
+              echo "Deploying Web App: $APP to $S3_BUCKET"
+              ./scripts/deploy_app.sh -s "$APP" "$S3_BUCKET"
+            else
+              echo "App $APP is not in Lambda or Web app lists, skipping."
+            fi
+          done
