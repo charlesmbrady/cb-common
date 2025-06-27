@@ -1,0 +1,49 @@
+name: Deploy lambda to AWS
+
+on:
+  workflow_call:
+    inputs:
+      appName:
+        required: true
+        type: string
+      lambdaFunctionName:
+        required: true
+        type: string
+      extraFiles:
+        required: false
+        type: string
+        default: ''
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  deploy-lambda:
+    name: Deploy lambda to AWS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo app=${{ inputs.appName }} lambda=${{ inputs.lambdaFunctionName }} extraFiles=${{ inputs.extraFiles }}
+
+      - name: Retrieve deployment bundle
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Debug
+        run: pwd && ls -R .
+
+      - name: Zip lambda for deployment
+        run: zip -r ${{ inputs.appName }}.zip ${{ inputs.appName }} ${{ inputs.extraFiles }}
+
+      - name: Debug
+        run: pwd && ls -R .
+
+      - name: Upload lambda function code to AWS Lambda
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws lambda update-function-code --function-name "${{ inputs.lambdaFunctionName }}" --zip-file "fileb://${{ github.workspace }}/${{ inputs.appName }}.zip"

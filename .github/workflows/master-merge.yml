@@ -53,19 +53,37 @@ jobs:
             esac
           }
 
+          # Map web apps to type (default: next, override for mockdat-web)
+          get_webapp_type() {
+            case "$1" in
+              mockdat-web) echo "react" ;;
+              *) echo "next" ;;
+            esac
+          }
+
+          # Map lambda Nx project to AWS Lambda function name
+          get_lambda_name() {
+            case "$1" in
+              api-services) echo "charlesmbrady_Test_services_middleware" ;;
+              *) echo "$1" ;;
+            esac
+          }
+
           IFS=',' read -ra APPS <<< "${{ steps.affected.outputs.apps }}"
           for APP in "${APPS[@]}"; do
             if [[ " ${LAMBDA_APPS[*]} " == *" $APP "* ]]; then
-              echo "Deploying Lambda: $APP"
-              ./scripts/deploy_lambda.sh --lambda-name "$APP" --nx-project "$APP" --build --silent
+              LAMBDA_NAME=$(get_lambda_name "$APP")
+              echo "Deploying Lambda: $APP as $LAMBDA_NAME"
+              ./scripts/deploy_lambda.sh --lambda-name "$LAMBDA_NAME" --nx-project "$APP" --build --silent
             elif [[ " ${WEB_APPS[*]} " == *" $APP "* ]]; then
               S3_BUCKET=$(get_s3_bucket "$APP")
+              APP_TYPE=$(get_webapp_type "$APP")
               if [[ -z "$S3_BUCKET" ]]; then
                 echo "No S3 bucket mapping for $APP, skipping."
                 continue
               fi
-              echo "Deploying Web App: $APP to $S3_BUCKET"
-              ./scripts/deploy_app.sh -s "$APP" "$S3_BUCKET"
+              echo "Deploying Web App: $APP to $S3_BUCKET (type: $APP_TYPE)"
+              ./scripts/deploy_app.sh -s "$APP" "$S3_BUCKET" --type "$APP_TYPE"
             else
               echo "App $APP is not in Lambda or Web app lists, skipping."
             fi
