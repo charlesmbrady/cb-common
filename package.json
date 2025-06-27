@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/ui-react": "^6.11.2",
+    "@aws-sdk/client-dynamodb": "^3.835.0",
     "@aws-sdk/util-dynamodb": "^3.812.0",
     "@codegenie/serverless-express": "^4.16.0",
     "@emotion/cache": "^11.14.0",
