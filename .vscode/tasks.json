@@ -103,40 +103,35 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "mockdat-web",
-        "mockdat-production-website-content",
         "--type",
-        "react"
+        "react",
+        "mockdat-web",
+        "mockdat-production-website-content"
       ],
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
     },
-    // Build and Deploy tasks for processing
+    // Build and Deploy tasks for labs
     {
-      "label": "Build: processing",
+      "label": "Build: labs",
       "type": "shell",
-      "command": "yarn nx build processing",
+      "command": "yarn nx build labs",
       "problemMatcher": []
     },
     {
-      "label": "Deploy: processing Test",
+      "label": "Deploy: labs Test",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": ["processing", "labs-test-website-content", "--type", "react"],
-      "dependsOn": ["Build: processing"],
+      "args": ["--type", "react", "labs", "labs-test-website-content"],
+      "dependsOn": ["Build: labs"],
       "problemMatcher": []
     },
     {
-      "label": "Deploy: processing Prod",
+      "label": "Deploy: labs Prod",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": [
-        "processing",
-        "labs-production-website-content",
-        "--type",
-        "react"
-      ],
-      "dependsOn": ["Build: processing"],
+      "args": ["--type", "react", "labs", "labs-production-website-content"],
+      "dependsOn": ["Build: labs"],
       "problemMatcher": []
     }
   ]

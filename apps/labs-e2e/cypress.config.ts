@@ -6,10 +6,10 @@ export default defineConfig({
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
       webServerCommands: {
-        default: 'yarn nx run processing:serve',
-        production: 'yarn nx run processing:serve-static',
+        default: 'yarn nx run labs:serve',
+        production: 'yarn nx run labs:serve-static',
       },
-      ciWebServerCommand: 'yarn nx run processing:serve-static',
+      ciWebServerCommand: 'yarn nx run labs:serve-static',
       ciBaseUrl: 'http://localhost:4200',
     }),
     baseUrl: 'http://localhost:4200',

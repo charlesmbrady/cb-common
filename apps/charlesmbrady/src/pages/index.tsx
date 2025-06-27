@@ -31,7 +31,10 @@ const Home: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Calculate years of experience since 2018
-  const yearsOfExperience = Math.floor((new Date().getTime() - new Date('2018-01-01').getTime()) / (1000 * 60 * 60 * 24 * 365));
+  const yearsOfExperience = Math.floor(
+    (new Date().getTime() - new Date('2018-01-01').getTime()) /
+      (1000 * 60 * 60 * 24 * 365)
+  );
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -44,9 +47,9 @@ const Home: React.FC = () => {
       transition: {
         duration: 1.5,
         repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
+        ease: 'easeInOut',
+      },
+    },
   };
 
   return (
@@ -203,21 +206,42 @@ const Home: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.6 }}
           >
-            <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{ textAlign: 'center', mb: 6 }}
+            >
               About Me
             </Typography>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Typography variant="body1" sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-                  I'm a passionate problem solver who loves turning ideas into real-world applications that solve problems. My background spans a unique blend of customer-facing roles and highly technical positions.
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: 4,
+              }}
+            >
+              <Box sx={{ flex: 1 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
+                >
+                  I'm a passionate problem solver who loves turning ideas into
+                  real-world applications that solve problems. My background
+                  spans a unique blend of customer-facing roles and highly
+                  technical positions.
                 </Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="body1" sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-                  Over the years, I've discovered that the key to building transformative software is a deep respect for the people who use it. I strive for code that's both clean and purposeful.
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
+                >
+                  Over the years, I've discovered that the key to building
+                  transformative software is a deep respect for the people who
+                  use it. I strive for code that's both clean and purposeful.
                 </Typography>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </motion.div>
         </Container>
       </Box>
@@ -231,17 +255,28 @@ const Home: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.6 }}
           >
-            <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{ textAlign: 'center', mb: 6 }}
+            >
               Featured Projects
             </Typography>
-            <Grid container spacing={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: 4,
+              }}
+            >
               {projects.slice(0, 3).map((project) => (
-                <Grid item xs={12} md={4} key={project.id}>
+                <Box key={project.id} sx={{ flex: 1, display: 'flex' }}>
                   <Card
                     sx={{
-                      height: '100%',
+                      width: '100%',
                       display: 'flex',
                       flexDirection: 'column',
+                      height: '100%',
                       '&:hover': {
                         transform: 'translateY(-8px)',
                         transition: 'transform 0.3s ease-in-out',
@@ -258,7 +293,11 @@ const Home: React.FC = () => {
                       <Typography gutterBottom variant="h5" component="h2">
                         {project.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mb: 2 }}
+                      >
                         {project.description}
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -268,9 +307,9 @@ const Home: React.FC = () => {
                       </Box>
                     </CardContent>
                   </Card>
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           </motion.div>
         </Container>
       </Box>
@@ -284,38 +323,52 @@ const Home: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.6 }}
           >
-            <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{ textAlign: 'center', mb: 6 }}
+            >
               Technologies
             </Typography>
-            <Grid container spacing={2} justifyContent="center">
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: 'repeat(3, 1fr)',
+                  sm: 'repeat(4, 1fr)',
+                  md: 'repeat(6, 1fr)',
+                },
+                gap: 2,
+                justifyContent: 'center',
+              }}
+            >
               {technologies.slice(0, 12).map((tech) => (
-                <Grid item xs={4} sm={3} md={2} key={tech.name}>
+                <Box
+                  key={tech.name}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    p: 2,
+                  }}
+                >
                   <Box
+                    component="img"
+                    src={tech.logo}
+                    alt={tech.name}
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      p: 2,
+                      width: 40,
+                      height: 40,
+                      objectFit: 'contain',
+                      mb: 1,
                     }}
-                  >
-                    <Box
-                      component="img"
-                      src={tech.logo}
-                      alt={tech.name}
-                      sx={{
-                        width: 40,
-                        height: 40,
-                        objectFit: 'contain',
-                        mb: 1,
-                      }}
-                    />
-                    <Typography variant="caption" align="center">
-                      {tech.name}
-                    </Typography>
-                  </Box>
-                </Grid>
+                  />
+                  <Typography variant="caption" align="center">
+                    {tech.name}
+                  </Typography>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           </motion.div>
         </Container>
       </Box>
@@ -341,7 +394,8 @@ const Home: React.FC = () => {
                 Let's Connect
               </Typography>
               <Typography variant="body1" sx={{ mb: 4 }}>
-                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+                I'm always open to discussing new projects, creative ideas, or
+                opportunities to be part of your visions.
               </Typography>
               <Stack
                 direction="row"
@@ -363,10 +417,7 @@ const Home: React.FC = () => {
                 >
                   <GitHubIcon />
                 </IconButton>
-                <IconButton
-                  href="mailto:charlesmbrady@gmail.com"
-                  size="large"
-                >
+                <IconButton href="mailto:charlesmbrady@gmail.com" size="large">
                   <EmailIcon />
                 </IconButton>
               </Stack>

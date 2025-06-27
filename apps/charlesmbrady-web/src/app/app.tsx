@@ -26,12 +26,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CodeIcon from '@mui/icons-material/Code';
 import EmailIcon from '@mui/icons-material/Email';
+import WorkIcon from '@mui/icons-material/Work';
 import { lightTheme, darkTheme } from './theme';
 
 const navItems = [
   { label: 'About', href: '/about', icon: <InfoIcon /> },
   { label: 'Projects', href: '/projects', icon: <DashboardIcon /> },
   { label: 'Technologies', href: '/technologies', icon: <CodeIcon /> },
+  { label: 'Work', href: '/work', icon: <WorkIcon /> },
   { label: 'Contact', href: '/contact', icon: <EmailIcon /> },
 ];
 
@@ -39,6 +41,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const TechnologiesPage = lazy(() => import('./pages/TechnologiesPage'));
+const WorkPage = lazy(() => import('./pages/WorkPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 
 function App() {
@@ -171,6 +174,14 @@ function App() {
             element={
               <Suspense fallback={<div>Loading...</div>}>
                 <TechnologiesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/work"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <WorkPage />
               </Suspense>
             }
           />
