@@ -30,6 +30,11 @@ jobs:
       - name: Build affected apps
         run: yarn nx affected:build
 
+      - name: Debug dist folder
+        run: |
+          ls -l dist || true
+          ls -l dist/apps || true
+
       - name: Check if any apps changed
         id: check_dist_apps
         uses: andstor/file-existence-action@v1.1.0
@@ -49,9 +54,9 @@ jobs:
           if [ -d dist/apps ]; then
             FOUND_APPS=$(find dist/apps -type d -maxdepth 1 -mindepth 1 | cut -d '/' -f 3)
             APPS=$(echo $FOUND_APPS | tr ' ' ',')
-            echo "::set-output name=AFFECTED_APPS::$APPS"
+            echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=AFFECTED_APPS::"
+            echo "AFFECTED_APPS=" >> $GITHUB_OUTPUT
           fi
 
   deploy-charlesmbrady-web:
