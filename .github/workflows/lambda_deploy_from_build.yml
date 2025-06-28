@@ -41,9 +41,15 @@ jobs:
       - name: Debug
         run: pwd && ls -R .
 
+      - name: Debug root and scripts directory
+        run: |
+          ls -l
+          ls -l scripts || true
+
       - name: Upload lambda function code to AWS Lambda
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
         run: |
           aws lambda update-function-code --function-name "${{ inputs.lambdaFunctionName }}" --zip-file "fileb://${{ github.workspace }}/${{ inputs.appName }}.zip"
