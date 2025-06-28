@@ -27,8 +27,13 @@ jobs:
         with:
           main-branch-name: 'main'
 
-      - name: Build affected apps
-        run: yarn nx affected:build
+      - name: Build apps
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            yarn nx run-many --target=build --all
+          else
+            yarn nx affected:build
+          fi
 
       - name: Debug dist folder
         run: |
