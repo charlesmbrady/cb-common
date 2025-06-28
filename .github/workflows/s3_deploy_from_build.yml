@@ -31,6 +31,9 @@ jobs:
       - name: Echo
         run: echo ${{ inputs.appName }} ${{ inputs.bucketName }} ${{ inputs.appType }}
 
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Retrieve deployment bundle
         uses: actions/download-artifact@v4
         with:
