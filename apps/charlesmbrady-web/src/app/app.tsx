@@ -69,7 +69,7 @@ function App() {
                   '&:hover': { color: 'primary.light' },
                 }}
               >
-                Charles Brady
+                Charles M Brady
               </Typography>
             </Link>
           </Box>

@@ -28,7 +28,7 @@ jobs:
         run: echo app=${{ inputs.appName }} lambda=${{ inputs.lambdaFunctionName }} extraFiles=${{ inputs.extraFiles }}
 
       - name: Retrieve deployment bundle
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
 
