@@ -32,7 +32,7 @@ jobs:
         run: echo ${{ inputs.appName }} ${{ inputs.bucketName }} ${{ inputs.appType }}
 
       - name: Retrieve deployment bundle
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
 
