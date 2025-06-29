@@ -98,7 +98,7 @@ jobs:
       appName: 'labs'
       bucketName: 'labs-test-website-content'
       s3SyncOptions: '--delete'
-      appType: 'next'
+      appType: 'react'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
