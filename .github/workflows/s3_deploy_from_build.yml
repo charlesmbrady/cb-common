@@ -53,5 +53,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          echo "Syncing build/${{ inputs.appName }}/ to s3://${{ inputs.bucketName }}/"
-          aws s3 sync "build/${{ inputs.appName }}/" "s3://${{ inputs.bucketName }}/" ${{ inputs.s3SyncOptions }}
+          echo "Syncing ${{ inputs.appName }}/ to s3://${{ inputs.bucketName }}/"
+          aws s3 sync "${{ inputs.appName }}/" "s3://${{ inputs.bucketName }}/" ${{ inputs.s3SyncOptions }}
