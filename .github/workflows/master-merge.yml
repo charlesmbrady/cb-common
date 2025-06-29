@@ -66,10 +66,10 @@ jobs:
 
   deploy-charlesmbrady-web:
     needs: build
-    if: contains(needs.build.outputs.affected_apps, 'charlesmbrady')
+    if: contains(needs.build.outputs.affected_apps, 'charlesmbrady-web')
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
-      appName: 'charlesmbrady'
+      appName: 'charlesmbrady-web'
       bucketName: 'charlesmbrady-test-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
