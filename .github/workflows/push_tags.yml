@@ -1,0 +1,64 @@
+name: Deploy to production environment (tag)
+
+# When we push a tag, we want to build and deploy the app
+on:
+  push:
+    tags:
+      - 'charlesmbrady-web-*.*.*'
+      - 'mockdat-web-*.*.*'
+      - 'labs-*.*.*'
+      - 'api-services-*.*.*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - app_name: charlesmbrady-web
+            bucket: charlesmbrady-production-website-content
+            type: s3
+          - app_name: mockdat-web
+            bucket: mockdat-production-website-content
+            type: s3
+          - app_name: labs
+            bucket: labs-production-website-content
+            type: s3
+          - app_name: api-services
+            lambda_function: api-services-prod
+            type: lambda
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build app
+        run: yarn nx run ${{ matrix.app_name }}:build
+
+      - name: Debug dist folder
+        run: |
+          ls -l dist || true
+          ls -l dist/apps || true
+
+      - name: Persist deployment bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ${{ github.workspace }}/dist/apps/${{ matrix.app_name }}
+
+      - name: Deploy to S3
+        if: matrix.type == 's3'
+        run: ./scripts/deploy_app.sh --env production ${{ matrix.app_name }} ${{ matrix.bucket }} --type react
+
+      - name: Deploy Lambda
+        if: matrix.type == 'lambda'
+        run: ./scripts/deploy_lambda.sh --env production --nx-project-name ${{ matrix.app_name }} --lambda-name ${{ matrix.lambda_function }}

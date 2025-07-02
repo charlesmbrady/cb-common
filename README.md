@@ -32,12 +32,14 @@ A modern monorepo built with Nx, featuring a collection of shared libraries and 
 ## 🚀 Getting Started
 
 1. **Clone the repository**
+
    ```bash
    git clone [repository-url]
    cd cb-common
    ```
 
 2. **Install dependencies**
+
    ```bash
    yarn install
    ```
@@ -64,6 +66,7 @@ The project uses multiple testing tools:
 - **Storybook** for component testing and documentation
 
 Run tests with:
+
 ```bash
 yarn nx test [app-name]
 yarn nx e2e [app-name]
@@ -95,6 +98,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📦 Dependencies
 
 The project uses:
+
 - Material-UI for UI components
 - React Router for routing
 - Axios for HTTP requests

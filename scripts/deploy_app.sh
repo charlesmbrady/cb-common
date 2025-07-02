@@ -133,6 +133,7 @@ usage() {
 # We'll parse flags first, then read positional args for PROJECT_NAME and S3_BUCKET.
 
 APP_TYPE="next"  # Default
+ENVIRONMENT="production" # Default
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -157,6 +158,10 @@ while [[ $# -gt 0 ]]; do
       APP_TYPE="$2"
       shift 2
       ;;
+    --env)
+      ENVIRONMENT="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       ;;
@@ -178,7 +183,7 @@ PROJECT_NAME=$1
 S3_BUCKET=$2
 
 # Debug: Show parsed arguments
-log_verbose "[DEBUG] PROJECT_NAME='$PROJECT_NAME' S3_BUCKET='$S3_BUCKET' APP_TYPE='$APP_TYPE'"
+log_verbose "[DEBUG] PROJECT_NAME='$PROJECT_NAME' S3_BUCKET='$S3_BUCKET' APP_TYPE='$APP_TYPE' ENVIRONMENT='$ENVIRONMENT'"
 
 # ------------------------------------------------------------------------------
 # Obnoxious Welcome
@@ -297,6 +302,26 @@ if ! $SILENT; then
     log_error "Sync aborted by user."
     exit 1
   fi
+fi
+
+# ------------------------------------------------------------------------------
+# Copy the correct config file for the environment
+# ------------------------------------------------------------------------------
+CONFIG_SRC=""
+if [[ "$ENVIRONMENT" == "production" ]]; then
+  CONFIG_SRC="config_prod.json"
+elif [[ "$ENVIRONMENT" == "test" ]]; then
+  CONFIG_SRC="config_test.json"
+else
+  CONFIG_SRC="config.json"
+fi
+
+CONFIG_DIR="$APPS_DIR/$PROJECT_NAME/src/assets"
+if [[ -f "$CONFIG_DIR/$CONFIG_SRC" ]]; then
+  cp "$CONFIG_DIR/$CONFIG_SRC" "$CONFIG_DIR/config.json"
+  log_info "Copied $CONFIG_SRC to config.json for $ENVIRONMENT environment."
+else
+  log_warn "Config file $CONFIG_SRC not found in $CONFIG_DIR. Skipping config copy."
 fi
 
 # ------------------------------------------------------------------------------

@@ -73,6 +73,7 @@
     "@testing-library/react": "15.0.6",
     "@types/aws-lambda": "^8.10.149",
     "@types/jest": "^29.5.12",
+    "@types/lambda-log": "^3.0.3",
     "@types/matter-js": "^0.19.8",
     "@types/node": "18.16.9",
     "@types/react": "18.3.1",

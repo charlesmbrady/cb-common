@@ -7,9 +7,8 @@ import {
   getUserScenarios,
   deleteScenario,
 } from '../services/mockdat/scenario.service';
-import { logger } from 'libs/lambda/src/lib/logger';
+import { logger } from '@cb-common/lambda';
 
-// Mapping of record types to their valid fields
 const recordTypeFields: Record<string, string[]> = {
   Account: [
     'Account Name',
@@ -68,6 +67,7 @@ export const getScenarioData: RequestHandler = (req, res) => {
     message: 'getting stored scenario data coming soon',
   });
 };
+
 export const getAllObjectTypes: RequestHandler = (req, res) => {
   const { event } = getCurrentInvoke();
   logger.info('getAllObjectTypes called', { event });
@@ -77,6 +77,7 @@ export const getAllObjectTypes: RequestHandler = (req, res) => {
     data: objectTypes,
   });
 };
+
 export const getAllFields: RequestHandler = (req, res) => {
   const { type } = req.query;
   let resultFields = fields;
