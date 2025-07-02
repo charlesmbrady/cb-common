@@ -6,6 +6,6 @@
   "oauthDomain": "auth.charlesmbrady.com",
   "redirectSignOut": "https://mockdat.charlesmbrady.com/logout",
   "userPoolId": "us-east-1_CKbYONuNe",
-  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o",
+  "userPoolWebClientId": "6hmc9vn08daqf5necjchlqgdc",
   "redirectSignIn": "https://mockdat.charlesmbrady.com/dashboard"
 }
