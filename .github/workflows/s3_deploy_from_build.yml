@@ -53,4 +53,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          ./scripts/deploy_app.sh --env test ${{ inputs.appName }} ${{ inputs.bucketName }} --type ${{ inputs.appType }}
+          ./scripts/deploy_app.sh --env test --project-name ${{ inputs.appName }} --type ${{ inputs.appType }} --bucket-name ${{ inputs.bucketName }}

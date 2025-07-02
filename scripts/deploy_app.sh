@@ -134,6 +134,8 @@ usage() {
 
 APP_TYPE="next"  # Default
 ENVIRONMENT="production" # Default
+PROJECT_NAME=""
+S3_BUCKET=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -162,6 +164,14 @@ while [[ $# -gt 0 ]]; do
       ENVIRONMENT="$2"
       shift 2
       ;;
+    --project-name)
+      PROJECT_NAME="$2"
+      shift 2
+      ;;
+    --bucket-name)
+      S3_BUCKET="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       ;;
@@ -170,20 +180,17 @@ while [[ $# -gt 0 ]]; do
       usage
       ;;
     * )
-      # We've reached the first non-flag argument => PROJECT_NAME
-      break
+      echo -e "${RED}[ERROR]${NC} Unknown positional argument: $1"
+      usage
       ;;
   esac
 done
 
-# ------------------------------------------------------------------------------
-# After flags, read required positional args
-# ------------------------------------------------------------------------------
-PROJECT_NAME=$1
-S3_BUCKET=$2
-
-# Debug: Show parsed arguments
-log_verbose "[DEBUG] PROJECT_NAME='$PROJECT_NAME' S3_BUCKET='$S3_BUCKET' APP_TYPE='$APP_TYPE' ENVIRONMENT='$ENVIRONMENT'"
+# Check required flags
+if [[ -z "$PROJECT_NAME" || -z "$S3_BUCKET" ]]; then
+  log_error "Missing required arguments. Usage: $0 --project-name <PROJECT_NAME> --bucket-name <S3_BUCKET> [--type <next|react>] [--env <environment>]"
+  exit 1
+fi
 
 # ------------------------------------------------------------------------------
 # Obnoxious Welcome
@@ -217,22 +224,6 @@ if [[ -z "$NX_ROOT" ]]; then
   exit 1
 fi
 log_verbose "Nx root found at: $NX_ROOT"
-
-# ------------------------------------------------------------------------------
-# Check for missing args
-# ------------------------------------------------------------------------------
-if [[ -z "$PROJECT_NAME" || -z "$S3_BUCKET" ]]; then
-  log_error "Missing required arguments. Usage: $0 [-v|-q|-s|-o] <PROJECT_NAME> <S3_BUCKET>"
-  log_warn "Example: $0 charlesmbrady charlesmbrady-test-website-content"
-
-  if ! $SILENT; then
-    read -rp "$(echo -e "${YELLOW}Do you want to continue anyway? (y/n) ${NC}")" CONTINUE_ANYWAY
-    if [[ "$CONTINUE_ANYWAY" != "y" && "$CONTINUE_ANYWAY" != "Y" ]]; then
-      log_error "Aborting script due to missing arguments."
-      exit 1
-    fi
-  fi
-fi
 
 # ------------------------------------------------------------------------------
 # Validate Directory Structure
