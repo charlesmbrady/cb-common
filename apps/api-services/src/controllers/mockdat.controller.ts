@@ -7,7 +7,7 @@ import {
   getUserScenarios,
   deleteScenario,
 } from '../services/mockdat/scenario.service';
-import { logger } from 'libs/lambda/src/lib/logger';
+import { logger } from '@cb-common/lambda';
 
 // Mapping of record types to their valid fields
 const recordTypeFields: Record<string, string[]> = {

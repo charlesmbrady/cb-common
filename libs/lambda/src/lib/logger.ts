@@ -4,7 +4,7 @@ export class Logger {
   private lambdaLog = LambdaLog;
 
   log(message: string, meta?: Record<string, any>) {
-    this.lambdaLog.log(message, meta);
+    this.lambdaLog.log('info', message, meta);
   }
 
   info(message: string, meta?: Record<string, any>) {
@@ -24,10 +24,6 @@ export class Logger {
 
   debug(message: string, meta?: Record<string, any>) {
     this.lambdaLog.debug(message, meta);
-  }
-
-  verbose(message: string, meta?: Record<string, any>) {
-    this.lambdaLog.verbose(message, meta);
   }
 
   request(requestId: string, meta?: Record<string, any>) {
