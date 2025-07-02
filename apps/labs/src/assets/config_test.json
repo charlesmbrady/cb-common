@@ -1,0 +1,11 @@
+{
+  "apiDomain": "api-test.charlesmbrady.com",
+  "apiUrl": "https://api-test.charlesmbrady.com",
+  "domain": "labs-test.charlesmbrady.com",
+  "environment": "test",
+  "oauthDomain": "auth-test.charlesmbrady.com",
+  "redirectSignOut": "https://labs-test.charlesmbrady.com/logout",
+  "userPoolId": "us-east-1_YIYfB6zj2",
+  "userPoolWebClientId": "38422ul09pum9k82av9dhurbsm",
+  "redirectSignIn": "https://labs-test.charlesmbrady.com/dashboard"
+}
