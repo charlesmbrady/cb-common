@@ -35,6 +35,12 @@ jobs:
             yarn nx affected:build
           fi
 
+      - name: Build labs app explicitly
+        run: yarn nx build labs
+
+      - name: Build api-services lambda explicitly
+        run: yarn nx build api-services
+
       - name: Debug dist folder
         run: |
           ls -l dist || true
