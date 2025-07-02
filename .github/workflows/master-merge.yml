@@ -27,13 +27,8 @@ jobs:
         with:
           main-branch-name: 'main'
 
-      - name: Build apps
-        run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
-            yarn nx run-many --target=build --all
-          else
-            yarn nx affected:build
-          fi
+      - name: Build all apps
+        run: yarn nx run-many --target=build --all
 
       - name: Build labs app explicitly
         run: yarn nx build labs
