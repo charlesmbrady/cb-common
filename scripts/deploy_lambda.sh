@@ -61,38 +61,40 @@ DO_BUILD=false
 NX_PROJECT_NAME=""
 
 USAGE="
-${BOLD}Usage:${NC} $0 --lambda-name <STRING> --nx-project <STRING> [OPTIONS]
+${BOLD}Usage:${NC} $0 --env <environment> --nx-project-name <NX_PROJECT_NAME> --lambda-name <LAMBDA_FUNCTION_NAME>
 
 Example:
-  $0 --lambda-name myLambda \\
-     --nx-project services-middleware \\
-     --build \\
-     --verbose
+  $0 --env production --nx-project-name services-middleware --lambda-name myLambda
 
 ${BOLD}Options:${NC}
-  --lambda-name <STRING>    The existing Lambda function name (required)
-  --nx-project <STRING>     Nx project name (required for copying build output)
-  --build                   Run 'yarn nx build' before zipping
-  --runtime <STRING>        Lambda runtime if needed (default: ${RUNTIME})
-  --silent                  Minimal output
-  --verbose                 More detailed output
-  --obnoxious               Maximum output
-  -h, --help                Show this help message and exit
+  --env <STRING>              Environment (default: production)
+  --nx-project-name <STRING>  Nx project name (required for copying build output)
+  --lambda-name <STRING>      The existing Lambda function name (required)
+  --build                     Run 'yarn nx build' before zipping
+  --runtime <STRING>          Lambda runtime if needed (default: ${RUNTIME})
+  --silent                    Minimal output
+  --verbose                   More detailed output
+  --obnoxious                 Maximum output
+  -h, --help                  Show this help message and exit
 "
 
 ###############################################################################
 #                        PARSE CLI ARGUMENTS
 ###############################################################################
-LAMBDA_NAME=""
+ENVIRONMENT="production"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --lambda-name)
-      LAMBDA_NAME="$2"
+    --env)
+      ENVIRONMENT="$2"
       shift 2
       ;;
-    --nx-project)
+    --nx-project-name)
       NX_PROJECT_NAME="$2"
+      shift 2
+      ;;
+    --lambda-name)
+      LAMBDA_NAME="$2"
       shift 2
       ;;
     --build)
@@ -127,8 +129,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$LAMBDA_NAME" || -z "$NX_PROJECT_NAME" ]]; then
-  echo -e "${RED}ERROR:${NC} --lambda-name and --nx-project are required."
+if [[ -z "$NX_PROJECT_NAME" || -z "$LAMBDA_NAME" ]]; then
+  echo -e "${RED}ERROR:${NC} --nx-project-name and --lambda-name are required."
   echo -e "$USAGE"
   exit 1
 fi

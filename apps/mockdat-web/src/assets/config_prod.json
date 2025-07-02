@@ -1,0 +1,11 @@
+{
+  "apiDomain": "api.charlesmbrady.com",
+  "apiUrl": "https://api.charlesmbrady.com",
+  "domain": "mockdat.charlesmbrady.com",
+  "environment": "production",
+  "oauthDomain": "auth.charlesmbrady.com",
+  "redirectSignOut": "https://mockdat.charlesmbrady.com/logout",
+  "userPoolId": "us-east-1_CKbYONuNe",
+  "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o",
+  "redirectSignIn": "https://mockdat.charlesmbrady.com/dashboard"
+}
