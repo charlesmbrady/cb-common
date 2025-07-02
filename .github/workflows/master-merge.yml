@@ -30,12 +30,6 @@ jobs:
       - name: Build all apps
         run: yarn nx run-many --target=build --all
 
-      - name: Build labs app explicitly
-        run: yarn nx build labs
-
-      - name: Build api-services lambda explicitly
-        run: yarn nx build api-services
-
       - name: Debug dist folder
         run: |
           ls -l dist || true
@@ -53,17 +47,6 @@ jobs:
         with:
           name: build
           path: ${{ github.workspace }}/dist/apps/
-
-      - name: Set affected apps output
-        id: affected-apps
-        run: |
-          if [ -d dist/apps ]; then
-            FOUND_APPS=$(find dist/apps -type d -maxdepth 1 -mindepth 1 | cut -d '/' -f 3)
-            APPS=$(echo $FOUND_APPS | tr ' ' ',')
-            echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
-          else
-            echo "AFFECTED_APPS=" >> $GITHUB_OUTPUT
-          fi
 
   deploy-charlesmbrady-web:
     needs: build
