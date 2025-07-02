@@ -1,0 +1,11 @@
+{
+  "apiDomain": "localhost",
+  "apiUrl": "http://localhost:3333",
+  "domain": "localhost",
+  "environment": "development",
+  "oauthDomain": "auth-test.charlesmbrady.com",
+  "redirectSignOut": "http://localhost:3000/logout",
+  "userPoolId": "us-east-1_YIYfB6zj2",
+  "userPoolWebClientId": "38422ul09pum9k82av9dhurbsm",
+  "redirectSignIn": "http://localhost:3000/dashboard"
+}
