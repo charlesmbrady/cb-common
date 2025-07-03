@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
 
+# env:
+#   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#   TEST_COGNITO_USERNAME: ${{ secrets.TEST_COGNITO_USERNAME }}
+#   TEST_COGNITO_PASSWORD: ${{ secrets.TEST_COGNITO_PASSWORD }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: dist/apps/
+          path: ${{ github.workspace }}/dist/apps/
 
       - name: Set affected apps output
         id: affected-apps
