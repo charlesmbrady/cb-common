@@ -30,22 +30,11 @@ jobs:
       - name: Build all apps
         run: yarn nx run-many --target=build --all
 
-      - name: Build labs app explicitly
-        run: yarn nx build labs
-
-      - name: Build api-services lambda explicitly
-        run: yarn nx build api-services
-
       - name: Debug dist folder
         run: |
-          ls -l dist || true
-          ls -l dist/apps || true
-
-      - name: Check if any apps changed
-        id: check_dist_apps
-        uses: andstor/file-existence-action@v1.1.0
-        with:
-          files: 'dist/apps'
+          pwd
+          ls dist || true
+          ls dist/apps || true
 
       - name: Persist deployment bundle
         if: steps.check_dist_apps.outputs.files_exists == 'true'

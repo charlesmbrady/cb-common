@@ -5,6 +5,23 @@
   "projectType": "application",
   "tags": ["app", "next"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx run charlesmbrady:next-build && mkdir -p dist/apps/charlesmbrady && [ -d tmp/apps/charlesmbrady/.next ] && cp -r tmp/apps/charlesmbrady/.next/* dist/apps/charlesmbrady/ || echo 'No .next directory to copy'"
+          }
+        ]
+      }
+    },
+    "next-build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{workspaceRoot}/tmp/charlesmbrady"],
+      "options": {
+        "outputPath": "{workspaceRoot}/tmp/apps/charlesmbrady"
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
