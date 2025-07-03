@@ -47,10 +47,11 @@ jobs:
           ls -l
           ls -l scripts || true
 
-      - name: Deploy to S3 via script
+      - name: Upload artifacts to AWS S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          ./scripts/deploy_app.sh --env test --project-name ${{ inputs.appName }} --type ${{ inputs.appType }} --bucket-name ${{ inputs.bucketName }}
+          echo "Syncing ${{ inputs.appName }}/ to s3://${{ inputs.bucketName }}/"
+          aws s3 sync "${{ inputs.appName }}/" "s3://${{ inputs.bucketName }}/" ${{ inputs.s3SyncOptions }}
