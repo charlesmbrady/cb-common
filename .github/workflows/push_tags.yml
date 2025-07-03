@@ -10,23 +10,28 @@ on:
       - 'api-services-*.*.*'
 
 jobs:
-  build-and-deploy:
+  set-app-name:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - app_name: charlesmbrady-web
-            bucket: charlesmbrady-production-website-content
-            type: s3
-          - app_name: mockdat-web
-            bucket: mockdat-production-website-content
-            type: s3
-          - app_name: labs
-            bucket: labs-production-website-content
-            type: s3
-          - app_name: api-services
-            lambda_function: api-services-prod
-            type: lambda
+    outputs:
+      app_name: ${{ steps.set-app-name.outputs.APP_NAME }}
+      tag_name: ${{ steps.set-app-name.outputs.TAG_NAME }}
+    steps:
+      - name: Set app name from tag
+        id: set-app-name
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          APP_NAME=$(echo "$TAG_NAME" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+$//')
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+
+  build-and-deploy:
+    needs: set-app-name
+    runs-on: ubuntu-latest
+    if: |
+      needs.set-app-name.outputs.app_name == 'charlesmbrady-web' ||
+      needs.set-app-name.outputs.app_name == 'mockdat-web' ||
+      needs.set-app-name.outputs.app_name == 'labs' ||
+      needs.set-app-name.outputs.app_name == 'api-services'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -42,7 +47,7 @@ jobs:
         run: yarn install
 
       - name: Build app
-        run: yarn nx run ${{ matrix.app_name }}:build
+        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build
 
       - name: Debug dist folder
         run: |
@@ -52,13 +57,23 @@ jobs:
       - name: Persist deployment bundle
         uses: actions/upload-artifact@v4
         with:
-          name: build
-          path: ${{ github.workspace }}/dist/apps/${{ matrix.app_name }}
+          name: build-${{ needs.set-app-name.outputs.app_name }}
+          path: ${{ github.workspace }}/dist/apps/${{ needs.set-app-name.outputs.app_name }}
 
       - name: Deploy to S3
-        if: matrix.type == 's3'
-        run: ./scripts/deploy_app.sh --env production ${{ matrix.app_name }} ${{ matrix.bucket }} --type react
+        if: |
+          needs.set-app-name.outputs.app_name == 'charlesmbrady-web' ||
+          needs.set-app-name.outputs.app_name == 'mockdat-web' ||
+          needs.set-app-name.outputs.app_name == 'labs'
+        run: |
+          if [ "${{ needs.set-app-name.outputs.app_name }}" = "charlesmbrady-web" ]; then
+            ./scripts/deploy_app.sh --env production charlesmbrady-web charlesmbrady-production-website-content --type react
+          elif [ "${{ needs.set-app-name.outputs.app_name }}" = "mockdat-web" ]; then
+            ./scripts/deploy_app.sh --env production mockdat-web mockdat-production-website-content --type react
+          elif [ "${{ needs.set-app-name.outputs.app_name }}" = "labs" ]; then
+            ./scripts/deploy_app.sh --env production labs labs-production-website-content --type react
+          fi
 
       - name: Deploy Lambda
-        if: matrix.type == 'lambda'
-        run: ./scripts/deploy_lambda.sh --env production --nx-project-name ${{ matrix.app_name }} --lambda-name ${{ matrix.lambda_function }}
+        if: needs.set-app-name.outputs.app_name == 'api-services'
+        run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name api-services-prod
