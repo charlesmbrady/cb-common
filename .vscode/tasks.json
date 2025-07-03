@@ -7,12 +7,12 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/deploy_lambda.sh",
       "args": [
-        "--lambda-name",
-        "charlesmbrady_Test_services_middleware",
-        "--nx-project",
+        "--env",
+        "test",
+        "--nx-project-name",
         "api-services",
-        "--build",
-        "--verbose"
+        "--lambda-name",
+        "charlesmbrady_Test_services_middleware"
       ],
       "problemMatcher": [],
       "group": {
@@ -33,12 +33,12 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/deploy_lambda.sh",
       "args": [
-        "--lambda-name",
-        "charlesmbrady_Production_services_middleware",
-        "--nx-project",
+        "--env",
+        "production",
+        "--nx-project-name",
         "api-services",
-        "--build",
-        "--verbose"
+        "--lambda-name",
+        "charlesmbrady_Production_services_middleware"
       ],
       "problemMatcher": [],
       "group": {
@@ -65,7 +65,16 @@
       "label": "Deploy: charlesmbrady Test",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": ["charlesmbrady", "charlesmbrady-test-website-content"],
+      "args": [
+        "--env",
+        "test",
+        "--project-name",
+        "charlesmbrady",
+        "--type",
+        "react",
+        "--bucket-name",
+        "charlesmbrady-test-website-content"
+      ],
       "dependsOn": ["Build: charlesmbrady"],
       "problemMatcher": []
     },
@@ -73,7 +82,16 @@
       "label": "Deploy: charlesmbrady Prod",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": ["charlesmbrady", "charlesmbrady-production-website-content"],
+      "args": [
+        "--env",
+        "production",
+        "--project-name",
+        "charlesmbrady",
+        "--type",
+        "react",
+        "--bucket-name",
+        "charlesmbrady-production-website-content"
+      ],
       "dependsOn": ["Build: charlesmbrady"],
       "problemMatcher": []
     },
@@ -89,10 +107,13 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--verbose",
+        "--env",
+        "test",
+        "--project-name",
+        "mockdat-web",
         "--type",
         "react",
-        "mockdat-web",
+        "--bucket-name",
         "mockdat-test-website-content"
       ],
       "dependsOn": ["Build: mockdat-web"],
@@ -103,9 +124,13 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
+        "--env",
+        "production",
+        "--project-name",
+        "mockdat-web",
         "--type",
         "react",
-        "mockdat-web",
+        "--bucket-name",
         "mockdat-production-website-content"
       ],
       "dependsOn": ["Build: mockdat-web"],
@@ -122,7 +147,16 @@
       "label": "Deploy: labs Test",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": ["--type", "react", "labs", "labs-test-website-content"],
+      "args": [
+        "--env",
+        "test",
+        "--project-name",
+        "labs",
+        "--type",
+        "react",
+        "--bucket-name",
+        "labs-test-website-content"
+      ],
       "dependsOn": ["Build: labs"],
       "problemMatcher": []
     },
@@ -130,7 +164,16 @@
       "label": "Deploy: labs Prod",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
-      "args": ["--type", "react", "labs", "labs-production-website-content"],
+      "args": [
+        "--env",
+        "production",
+        "--project-name",
+        "labs",
+        "--type",
+        "react",
+        "--bucket-name",
+        "labs-production-website-content"
+      ],
       "dependsOn": ["Build: labs"],
       "problemMatcher": []
     }
