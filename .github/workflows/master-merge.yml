@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: ${{ github.workspace }}/dist/apps/
+          path: dist/apps/
 
       - name: Set affected apps output
         id: affected-apps
