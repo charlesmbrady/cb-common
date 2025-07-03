@@ -10,28 +10,10 @@ on:
       - 'api-services-*.*.*'
 
 jobs:
-  set-app-name:
+  build:
     runs-on: ubuntu-latest
     outputs:
       app_name: ${{ steps.set-app-name.outputs.APP_NAME }}
-      tag_name: ${{ steps.set-app-name.outputs.TAG_NAME }}
-    steps:
-      - name: Set app name from tag
-        id: set-app-name
-        run: |
-          TAG_NAME="${GITHUB_REF_NAME}"
-          APP_NAME=$(echo "$TAG_NAME" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+$//')
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
-
-  build-and-deploy:
-    needs: set-app-name
-    runs-on: ubuntu-latest
-    if: |
-      needs.set-app-name.outputs.app_name == 'charlesmbrady-web' ||
-      needs.set-app-name.outputs.app_name == 'mockdat-web' ||
-      needs.set-app-name.outputs.app_name == 'labs' ||
-      needs.set-app-name.outputs.app_name == 'api-services'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,8 +28,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build app
-        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build
+      - name: Set app name from tag
+        id: set-app-name
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          APP_NAME=$(echo "$TAG_NAME" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+$//')
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
+
+      - name: Build all apps
+        run: yarn nx run-many --target=build --all
 
       - name: Debug dist folder
         run: |
@@ -57,23 +46,75 @@ jobs:
       - name: Persist deployment bundle
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ needs.set-app-name.outputs.app_name }}
-          path: ${{ github.workspace }}/dist/apps/${{ needs.set-app-name.outputs.app_name }}
+          name: build
+          path: ${{ github.workspace }}/dist/apps/${{ steps.set-app-name.outputs.APP_NAME }}
 
-      - name: Deploy to S3
-        if: |
-          needs.set-app-name.outputs.app_name == 'charlesmbrady-web' ||
-          needs.set-app-name.outputs.app_name == 'mockdat-web' ||
-          needs.set-app-name.outputs.app_name == 'labs'
+  deploy-charlesmbrady-web:
+    needs: build
+    if: needs.build.outputs.app_name == 'charlesmbrady-web'
+    uses: ./.github/workflows/s3_deploy_from_build.yml
+    with:
+      appName: 'charlesmbrady-web'
+      bucketName: 'charlesmbrady-production-website-content'
+      s3SyncOptions: ''
+      appType: 'react'
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy-mockdat-web:
+    needs: build
+    if: needs.build.outputs.app_name == 'mockdat-web'
+    uses: ./.github/workflows/s3_deploy_from_build.yml
+    with:
+      appName: 'mockdat-web'
+      bucketName: 'mockdat-production-website-content'
+      s3SyncOptions: ''
+      appType: 'react'
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy-labs:
+    needs: build
+    if: needs.build.outputs.app_name == 'labs'
+    uses: ./.github/workflows/s3_deploy_from_build.yml
+    with:
+      appName: 'labs'
+      bucketName: 'labs-production-website-content'
+      s3SyncOptions: ''
+      appType: 'react'
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  # Lambda deploy for api-services remains separate
+  deploy-api-services:
+    needs: build
+    if: needs.build.outputs.app_name == 'api-services'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build app
+        run: yarn nx run api-services:build
+
+      - name: Debug dist folder
         run: |
-          if [ "${{ needs.set-app-name.outputs.app_name }}" = "charlesmbrady-web" ]; then
-            ./scripts/deploy_app.sh --env production charlesmbrady-web charlesmbrady-production-website-content --type react
-          elif [ "${{ needs.set-app-name.outputs.app_name }}" = "mockdat-web" ]; then
-            ./scripts/deploy_app.sh --env production mockdat-web mockdat-production-website-content --type react
-          elif [ "${{ needs.set-app-name.outputs.app_name }}" = "labs" ]; then
-            ./scripts/deploy_app.sh --env production labs labs-production-website-content --type react
-          fi
+          ls -l dist || true
+          ls -l dist/apps || true
+
+      - name: Persist deployment bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ${{ github.workspace }}/dist/apps/api-services
 
       - name: Deploy Lambda
-        if: needs.set-app-name.outputs.app_name == 'api-services'
         run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name api-services-prod
