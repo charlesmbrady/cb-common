@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: dist/apps/${{ needs.set-app-name.outputs.app_name }}
+          path: dist/apps
 
   deploy-charlesmbrady-web:
     needs: build
