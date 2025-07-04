@@ -10,24 +10,11 @@ on:
       - 'api-services-*.*.*'
 
 jobs:
-  build:
+  set-app-name:
     runs-on: ubuntu-latest
     outputs:
       app_name: ${{ steps.set-app-name.outputs.APP_NAME }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: false
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install
-
       - name: Set app name from tag
         id: set-app-name
         run: |
@@ -35,19 +22,30 @@ jobs:
           APP_NAME=$(echo "$TAG_NAME" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+$//')
           echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
 
-      - name: Build all apps
-        run: yarn nx run-many --target=build --all
-
+  build:
+    needs: set-app-name
+    runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ needs.set-app-name.outputs.app_name }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build app
+        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build
       - name: Debug dist folder
         run: |
           ls -l dist || true
           ls -l dist/apps || true
-
       - name: Persist deployment bundle
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: ${{ github.workspace }}/dist/apps/${{ steps.set-app-name.outputs.APP_NAME }}
+          path: dist/apps/${{ needs.set-app-name.outputs.app_name }}
 
   deploy-charlesmbrady-web:
     needs: build
@@ -98,23 +96,18 @@ jobs:
         with:
           lfs: false
           fetch-depth: 0
-
       - name: Install dependencies
         run: yarn install
-
       - name: Build app
         run: yarn nx run api-services:build
-
       - name: Debug dist folder
         run: |
           ls -l dist || true
           ls -l dist/apps || true
-
       - name: Persist deployment bundle
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: ${{ github.workspace }}/dist/apps/api-services
-
+          path: dist/apps/api-services
       - name: Deploy Lambda
         run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name api-services-prod
