@@ -21,7 +21,6 @@
         "main": "apps/mockdat-web/src/main.tsx",
         "tsConfig": "apps/mockdat-web/tsconfig.app.json",
         "assets": [
-          "apps/mockdat-web/src/favicon.ico",
           "apps/mockdat-web/src/assets",
           "apps/mockdat-web/src/config.json"
         ],
