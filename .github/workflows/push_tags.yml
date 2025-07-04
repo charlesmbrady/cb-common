@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build app
-        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build
+        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
       - name: Debug dist folder
         run: |
           ls -l dist || true

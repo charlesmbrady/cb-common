@@ -11,6 +11,40 @@
       "options": {
         "jestConfig": "apps/mockdat-web/jest.config.ts"
       }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mockdat-web",
+        "index": "apps/mockdat-web/src/index.html",
+        "main": "apps/mockdat-web/src/main.tsx",
+        "tsConfig": "apps/mockdat-web/tsconfig.app.json",
+        "assets": [
+          "apps/mockdat-web/src/assets",
+          "apps/mockdat-web/src/config.json"
+        ],
+        "styles": ["apps/mockdat-web/src/styles.css"],
+        "webpackConfig": "apps/mockdat-web/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/mockdat-web/src/config.json",
+              "with": "apps/mockdat-web/src/assets/config_prod.json"
+            }
+          ]
+        },
+        "test": {
+          "fileReplacements": [
+            {
+              "replace": "apps/mockdat-web/src/config.json",
+              "with": "apps/mockdat-web/src/assets/config_test.json"
+            }
+          ]
+        }
+      }
     }
   }
 }

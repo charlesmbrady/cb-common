@@ -13,6 +13,10 @@
             "command": "nx run charlesmbrady:next-build && mkdir -p dist/apps/charlesmbrady && [ -d tmp/apps/charlesmbrady/.next ] && cp -r tmp/apps/charlesmbrady/.next/* dist/apps/charlesmbrady/ || echo 'No .next directory to copy'"
           }
         ]
+      },
+      "configurations": {
+        "test": {},
+        "production": {}
       }
     },
     "next-build": {

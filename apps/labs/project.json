@@ -11,6 +11,41 @@
       "options": {
         "jestConfig": "apps/labs/jest.config.ts"
       }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/labs",
+        "index": "apps/labs/src/index.html",
+        "main": "apps/labs/src/main.tsx",
+        "tsConfig": "apps/labs/tsconfig.app.json",
+        "assets": [
+          "apps/labs/src/favicon.ico",
+          "apps/labs/src/assets",
+          "apps/labs/src/config.json"
+        ],
+        "styles": ["apps/labs/src/styles.css"],
+        "webpackConfig": "apps/labs/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/labs/src/config.json",
+              "with": "apps/labs/src/assets/config_prod.json"
+            }
+          ]
+        },
+        "test": {
+          "fileReplacements": [
+            {
+              "replace": "apps/labs/src/config.json",
+              "with": "apps/labs/src/assets/config_test.json"
+            }
+          ]
+        }
+      }
     }
   }
 }
