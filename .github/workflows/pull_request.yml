@@ -35,4 +35,4 @@ jobs:
 
       # Step 4: Build affected apps
       - name: Build affected apps
-        run: yarn nx affected:build
+        run: yarn nx affected:build --configuration=test

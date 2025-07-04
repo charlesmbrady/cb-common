@@ -33,7 +33,7 @@ jobs:
           main-branch-name: 'main'
 
       - name: Build all apps
-        run: yarn nx run-many --target=build --all
+        run: yarn nx run-many --target=build --all --configuration=test
 
       - name: Debug dist folder
         run: |
