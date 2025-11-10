@@ -1,0 +1,26 @@
+{
+  "name": "ui-processing-p5-core",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/processing/p5-core/src",
+  "projectType": "library",
+  "tags": ["js"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/ui/processing/p5-core",
+        "main": "libs/ui/processing/p5-core/src/index.ts",
+        "tsConfig": "libs/ui/processing/p5-core/tsconfig.lib.json",
+        "assets": ["libs/ui/processing/p5-core/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/ui/processing/p5-core/jest.config.ts"
+      }
+    }
+  }
+}

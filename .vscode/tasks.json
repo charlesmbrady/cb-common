@@ -66,16 +66,14 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "test",
         "--project-name",
-        "charlesmbrady",
-        "--type",
-        "react",
+        "charlesmbrady-web",
         "--bucket-name",
-        "charlesmbrady-test-website-content"
+        "charlesmbrady-test-website-content",
+        "--configuration",
+        "test"
       ],
-      "dependsOn": ["Build: charlesmbrady"],
+      "dependsOn": ["Build: charlesmbrady-web"],
       "problemMatcher": []
     },
     {
@@ -83,16 +81,14 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "production",
         "--project-name",
-        "charlesmbrady",
-        "--type",
-        "react",
+        "charlesmbrady-web",
         "--bucket-name",
-        "charlesmbrady-production-website-content"
+        "charlesmbrady-production-website-content",
+        "--configuration",
+        "production"
       ],
-      "dependsOn": ["Build: charlesmbrady"],
+      "dependsOn": ["Build: charlesmbrady-web"],
       "problemMatcher": []
     },
     // Build and Deploy tasks for mockdat-web
@@ -107,14 +103,12 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "test",
         "--project-name",
         "mockdat-web",
-        "--type",
-        "react",
         "--bucket-name",
-        "mockdat-test-website-content"
+        "mockdat-test-website-content",
+        "--configuration",
+        "test"
       ],
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
@@ -124,14 +118,12 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "production",
         "--project-name",
         "mockdat-web",
-        "--type",
-        "react",
         "--bucket-name",
-        "mockdat-production-website-content"
+        "mockdat-production-website-content",
+        "--configuration",
+        "production"
       ],
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
@@ -148,14 +140,12 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "test",
         "--project-name",
         "labs",
-        "--type",
-        "react",
         "--bucket-name",
-        "labs-test-website-content"
+        "labs-test-website-content",
+        "--configuration",
+        "test"
       ],
       "dependsOn": ["Build: labs"],
       "problemMatcher": []
@@ -165,14 +155,12 @@
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
-        "--env",
-        "production",
         "--project-name",
         "labs",
-        "--type",
-        "react",
         "--bucket-name",
-        "labs-production-website-content"
+        "labs-production-website-content",
+        "--configuration",
+        "production"
       ],
       "dependsOn": ["Build: labs"],
       "problemMatcher": []

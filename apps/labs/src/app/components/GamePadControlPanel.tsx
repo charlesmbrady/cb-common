@@ -1,10 +1,13 @@
 import React from 'react';
-import { useGamepad, useGamepadContext } from '@cb-common/react-gamepad'; // TODO: Update to Nx alias when available
+import {
+  useGamepad,
+  useGamepadContext,
+} from '@cb-common/ui-packages-react-gamepad'; // TODO: Update to Nx alias when available
 import {
   ControlPanelToolbar,
   ControlPanelSettingsModal,
-} from '@cb-common/ui-react';
-import { PSControllerDisplay } from '@cb-common/react-gamepad';
+} from '@cb-common/ui-react-mui';
+import { PSControllerDisplay } from '@cb-common/ui-packages-react-gamepad';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';

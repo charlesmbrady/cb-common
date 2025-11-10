@@ -1,18 +1,21 @@
-import React from 'react';
+import { useTheme, useMediaQuery } from '@mui/material';
 import {
+  Code as CodeIcon,
+  People as PeopleIcon,
+  Lightbulb as LightbulbIcon,
+  Psychology as PsychologyIcon,
+} from '@mui/icons-material';
+import {
+  HeroImage,
   Container,
+  Divider,
   Typography,
   Box,
   Paper,
-  useTheme,
-  useMediaQuery,
-  Divider,
-} from '@mui/material';
-import CodeIcon from '@mui/icons-material/Code';
-import PeopleIcon from '@mui/icons-material/People';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import Grid from '@mui/material/Grid';
+} from '@cb-common/ui-react-mui';
+import portrait from '../../assets/portrait.jpeg';
+import { PageContainer } from '../components/PageContainer';
+import { PageHeader } from '../components/PageHeader';
 
 export default function AboutPage() {
   const theme = useTheme();
@@ -46,10 +49,12 @@ export default function AboutPage() {
   ];
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 4 }}>
-        About Me
-      </Typography>
+    <PageContainer>
+      <PageHeader title="Hello!" />
+      <HeroImage
+        lightBackgroundImage={portrait}
+        darkBackgroundImage={portrait}
+      />
       <Typography
         variant="body1"
         sx={{ textAlign: 'center', mb: 6, maxWidth: 700, mx: 'auto' }}
@@ -58,11 +63,11 @@ export default function AboutPage() {
         great software and teams.
       </Typography>
       <Paper
-        elevation={0}
+        // elevation={0}
         sx={{
           p: { xs: 3, md: 6 },
           borderRadius: 2,
-          background: `linear-gradient(145deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+          // background: `linear-gradient(145deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
         }}
       >
@@ -74,7 +79,7 @@ export default function AboutPage() {
             fontWeight: 700,
             background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'blue',
             textAlign: 'center',
             mb: 4,
           }}
@@ -134,7 +139,7 @@ export default function AboutPage() {
           gap={4}
         >
           {sections.map((section, index) => (
-            <Box gridColumn={{ xs: 'span 12', sm: 'span 6' }} key={index}>
+            <Box key={index}>
               <Box
                 sx={{
                   p: 3,
@@ -184,11 +189,9 @@ export default function AboutPage() {
         >
           When I'm not busy engineering the next big solution, you might find me
           brainstorming visionary concepts, refining user experiences, or adding
-          a playful dash of humor to keep team morale high. I believe in a
-          future where technology is as seamless as a well-placed punchline—and
-          I'm dedicated to making that happen.
+          a playful dash of humor to keep team morale high.
         </Typography>
       </Paper>
-    </Container>
+    </PageContainer>
   );
 }

@@ -17,8 +17,8 @@ import {
 } from '@mui/material';
 import InstructionsText from '../InstructionsText';
 import { not, intersection } from '../../utils/index';
-import { useAppConfig } from '@cb-common/auth';
-import { useUser } from '@cb-common/auth';
+import { useAppConfig } from 'ui-react-auth';
+import { useUser } from 'ui-react-auth';
 
 const Step2SelectFieldsTransferList: React.FC = () => {
   const { data: appConfig } = useAppConfig();

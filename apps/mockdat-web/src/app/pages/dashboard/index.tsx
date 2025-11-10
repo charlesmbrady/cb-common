@@ -1,7 +1,7 @@
 // pages/dashboard/index.tsx
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '@cb-common/auth';
+import { useUser } from 'ui-react-auth';
 import {
   Box,
   Typography,
@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAppConfig } from '@cb-common/auth';
+import { useAppConfig } from 'ui-react-auth';
 import { MockdatContext } from '../../context/MockdatContext';
 
 const Dashboard = () => {

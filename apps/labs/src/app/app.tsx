@@ -12,7 +12,7 @@ import {
   P5Experiment,
   MatterExperiment,
   CtxExperiment,
-} from '@cb-common/react-gamepad';
+} from '@cb-common/ui-packages-react-gamepad';
 import * as p5SketchTemplate from './experiments/templates/p5SketchTemplate';
 import * as p5GameTemplate from './experiments/templates/p5GameTemplate';
 import * as ctxSketchTemplate from './experiments/templates/ctxSketchTemplate';
@@ -24,7 +24,7 @@ import { GamePadControlPanel } from './components/GamePadControlPanel';
 import {
   GamepadProvider,
   useGamepad,
-} from '../../../../libs/react-gamepad/src';
+} from '@cb-common/ui-packages-react-gamepad';
 import * as zurvival from './experiments/Zurvival/zurvival';
 import Toolbar from '@mui/material/Toolbar';
 import { CameraProvider, useCamera } from './contexts/CameraContext';
