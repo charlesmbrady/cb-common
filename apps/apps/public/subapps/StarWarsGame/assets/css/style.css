@@ -1,0 +1,69 @@
+#my-video {
+  position: fixed;
+  min-width: 100%;
+  min-height: 100%;
+  right: 0;
+  bottom: 0;
+}
+
+#title {
+  float: right;
+  color: white;
+  background: black;
+  opacity: 0.8;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+h3 {
+  color: yellowgreen;
+  font-size: 40px;
+}
+
+/**********Character icon classes *************/
+.character {
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  border: 1px solid white;
+  margin: 10px;
+  text-align: center;
+  background: black;
+  border-radius: 10px;
+}
+
+.name {
+  height: 20%;
+  color: white;
+  margin: 0 auto;
+  font-size: 150%;
+}
+
+.image {
+  max-height: 60%;
+  margin: 0 auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+.health {
+  max-height: 20%;
+  width: 100%;
+  margin: 0 auto;
+  color: red;
+  border: 1px solid white;
+  font-size: 150%;
+}
+/************************************************************************************/
+
+.defeated {
+  visibility: hidden;
+}
+
+#reset {
+  visibility: hidden;
+}
+
+#commentary {
+  color: white;
+}

@@ -12,7 +12,7 @@
         "--nx-project-name",
         "api-services",
         "--lambda-name",
-        "charlesmbrady_Test_services_middleware"
+        "charlesmbrady_api_services_Test"
       ],
       "problemMatcher": [],
       "group": {
@@ -38,7 +38,7 @@
         "--nx-project-name",
         "api-services",
         "--lambda-name",
-        "charlesmbrady_Production_services_middleware"
+        "charlesmbrady_api_services_Production"
       ],
       "problemMatcher": [],
       "group": {
@@ -128,41 +128,41 @@
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
     },
-    // Build and Deploy tasks for labs
+    // Build and Deploy tasks for apps
     {
-      "label": "Build: labs",
+      "label": "Build: apps",
       "type": "shell",
-      "command": "yarn nx build labs",
+      "command": "yarn nx build apps",
       "problemMatcher": []
     },
     {
-      "label": "Deploy: labs Test",
+      "label": "Deploy: apps Test",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
         "--project-name",
-        "labs",
+        "apps",
         "--bucket-name",
-        "labs-test-website-content",
+        "apps-test-website-content",
         "--configuration",
         "test"
       ],
-      "dependsOn": ["Build: labs"],
+      "dependsOn": ["Build: apps"],
       "problemMatcher": []
     },
     {
-      "label": "Deploy: labs Prod",
+      "label": "Deploy: apps Prod",
       "type": "shell",
       "command": "./scripts/deploy_app.sh",
       "args": [
         "--project-name",
-        "labs",
+        "apps",
         "--bucket-name",
-        "labs-production-website-content",
+        "apps-production-website-content",
         "--configuration",
         "production"
       ],
-      "dependsOn": ["Build: labs"],
+      "dependsOn": ["Build: apps"],
       "problemMatcher": []
     }
   ]

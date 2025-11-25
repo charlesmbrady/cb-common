@@ -6,6 +6,7 @@ import cors from 'cors';
 import serverlessExpress from '@codegenie/serverless-express';
 import apiRoutes from './routes/api.routes';
 import mockdatRoutes from './routes/mockdat.routes';
+import agentcoreRoutes from './routes/agentcore.routes';
 import { config } from './config';
 const { API_PREFIX, LOCAL_SERVER, PORT } = config;
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 /* ------------------------- // Register Routes ------------------------- */
 app.use(`${API_PREFIX}/api`, apiRoutes);
 app.use(`${API_PREFIX}/mockdat`, mockdatRoutes);
+app.use(`${API_PREFIX}/agentcore`, agentcoreRoutes);
 
 /* ------------------------- Export the handler function for AWS Lambda ------------------------- */
 export const handler = serverlessExpress({ app });

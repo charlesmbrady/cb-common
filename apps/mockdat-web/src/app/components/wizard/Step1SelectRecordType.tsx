@@ -10,8 +10,7 @@ import {
   Select,
 } from '@mui/material';
 import InstructionsText from '../InstructionsText';
-import { useAppConfig } from 'ui-react-auth';
-import { useUser } from 'ui-react-auth';
+import { useAppConfig, useUser } from '@cb-common/ui-react-auth';
 
 const Step1SelectRecordType: React.FC = () => {
   const ctx = useContext(MockdatContext);

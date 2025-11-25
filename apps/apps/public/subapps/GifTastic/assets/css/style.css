@@ -1,0 +1,80 @@
+#gifs,
+#topics,
+#search {
+  border: 1px solid blue;
+  border-radius: 5px;
+}
+.gifDiv {
+  display: inline-block;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin: 5px;
+  background: white;
+}
+
+.gif:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+p {
+  padding-left: 5px;
+}
+
+.topic {
+  margin: 10px;
+}
+
+.gif {
+  margin: 15px;
+}
+
+.currentTopic {
+  background: gray;
+}
+
+label {
+  font-weight: bold;
+}
+
+.container {
+  background: lightcyan;
+}
+
+form {
+  padding: 10px;
+}
+
+.fav {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  left: 10px;
+  opacity: 0.5;
+}
+.fav:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#favorites {
+  width: 100%;
+}
+
+.favorite {
+  opacity: 1;
+}
+
+#search {
+  position: relative;
+}
+form {
+  float: left;
+}
+
+#show-favorites {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

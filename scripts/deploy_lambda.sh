@@ -72,6 +72,7 @@ ${BOLD}Options:${NC}
   --lambda-name <STRING>      The existing Lambda function name (required)
   --build                     Run 'yarn nx build' before zipping
   --runtime <STRING>          Lambda runtime if needed (default: ${RUNTIME})
+  --handler <STRING>          Lambda handler to set after code update (default: main.handler)
   --silent                    Minimal output
   --verbose                   More detailed output
   --obnoxious                 Maximum output
@@ -82,6 +83,7 @@ ${BOLD}Options:${NC}
 #                        PARSE CLI ARGUMENTS
 ###############################################################################
 ENVIRONMENT="production"
+HANDLER="main.handler"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -103,6 +105,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --runtime)
       RUNTIME="$2"
+      shift 2
+      ;;
+    --handler)
+      HANDLER="$2"
       shift 2
       ;;
     --silent)
@@ -151,9 +157,7 @@ ZIP_FILE="${LAMBDA_NAME}.zip"
 if $DO_BUILD; then
   log "🔨  Building Nx project '${NX_PROJECT_NAME}'..." 1 "$BLUE"
 
-  if [ "$LOG_LEVEL" -ge 3 ]; then
-    yarn nx build "$NX_PROJECT_NAME" --verbose
-  elif [ "$LOG_LEVEL" -ge 2 ]; then
+  if [ "$LOG_LEVEL" -ge 2 ]; then
     yarn nx build "$NX_PROJECT_NAME" --verbose
   else
     yarn nx build "$NX_PROJECT_NAME" > /dev/null
@@ -166,7 +170,25 @@ fi
 #        COPY BUILD TO TEMP FOLDER AND INSTALL DEPENDENCIES
 ###############################################################################
 if [ ! -d "$DIST_DIR" ]; then
-  echo -e "${RED}ERROR:${NC} Missing build output folder '${DIST_DIR}'. Maybe build failed."
+  log "⚠️  Missing build output folder '${DIST_DIR}'. Attempting to build now..." 1 "$YELLOW"
+  if [ "$LOG_LEVEL" -ge 2 ]; then
+    yarn nx build "$NX_PROJECT_NAME" --verbose
+  else
+    yarn nx build "$NX_PROJECT_NAME" > /dev/null
+  fi
+  if [ ! -d "$DIST_DIR" ]; then
+    echo -e "${RED}ERROR:${NC} Missing build output folder '${DIST_DIR}' even after build."
+    exit 1
+  fi
+fi
+
+# Sanity check for main.js and package.json
+if [ ! -f "$DIST_DIR/main.js" ]; then
+  echo -e "${RED}ERROR:${NC} Missing '${DIST_DIR}/main.js'. Ensure the build succeeded and the handler entry exists."
+  exit 1
+fi
+if [ ! -f "$DIST_DIR/package.json" ]; then
+  echo -e "${RED}ERROR:${NC} Missing '${DIST_DIR}/package.json'. Ensure 'generatePackageJson' is enabled in the Nx target."
   exit 1
 fi
 
@@ -185,8 +207,35 @@ log "📦  Installing production dependencies in '${TMP_DIR}'..." 1 "$CYAN"
     exit 1
   fi
 
-  # Install only production dependencies
-  yarn install --production > /dev/null
+  # Install only production dependencies with yarn first
+  if command -v yarn >/dev/null 2>&1; then
+    if [ "$LOG_LEVEL" -ge 2 ]; then
+      NODE_ENV=production yarn install --production --non-interactive
+    else
+      NODE_ENV=production yarn install --production --non-interactive > /dev/null
+    fi
+  fi
+
+  # Verify that critical dependencies (e.g., express) are present; fall back to npm if not
+  if [ ! -d node_modules/express ]; then
+    log "⚠️  'express' not found after yarn install. Falling back to npm..." 1 "$YELLOW"
+    if command -v npm >/dev/null 2>&1; then
+      if [ "$LOG_LEVEL" -ge 2 ]; then
+        npm ci --omit=dev
+      else
+        npm ci --omit=dev > /dev/null
+      fi
+    else
+      echo -e "${RED}ERROR:${NC} Neither 'express' is installed nor 'npm' is available for fallback."
+      exit 1
+    fi
+  fi
+
+  # Final verification
+  if [ ! -d node_modules/express ]; then
+    echo -e "${RED}ERROR:${NC} Missing 'node_modules/express' after dependency installation. Consider enabling bundling or check network access."
+    exit 1
+  fi
 )
 
 ###############################################################################
@@ -221,6 +270,25 @@ else
 fi
 
 log "✅  Lambda function '${LAMBDA_NAME}' updated successfully." 1 "$GREEN"
+
+  ###############################################################################
+  #                 UPDATE LAMBDA FUNCTION CONFIGURATION (HANDLER)
+  ###############################################################################
+  log "🛠️  Ensuring Lambda handler and runtime are set (handler=${HANDLER}, runtime=${RUNTIME})..." 1 "$CYAN"
+
+  if [ "$LOG_LEVEL" -ge 3 ]; then
+    aws lambda update-function-configuration \
+      --function-name "$LAMBDA_NAME" \
+      --handler "$HANDLER" \
+      --runtime "$RUNTIME"
+  else
+    aws lambda update-function-configuration \
+      --function-name "$LAMBDA_NAME" \
+      --handler "$HANDLER" \
+      --runtime "$RUNTIME" > /dev/null
+  fi
+
+  log "✅  Lambda function configuration updated." 1 "$GREEN"
 
 ###############################################################################
 #                                 CLEANUP

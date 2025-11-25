@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audio Visualiser</title>
+    <style>
+      canvas {
+        width: 100%;
+        height: 95%;
+        display: block;
+        position: absolute;
+        bottom: 0;
+      }
+      #noteDisplay {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px 40px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+      }
+      #noteDisplay .note {
+        font-size: 48px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+      }
+      #noteDisplay .frequency {
+        font-size: 18px;
+        color: #666;
+        text-align: center;
+        margin-top: 5px;
+      }
+      #noteDisplay .cents {
+        font-size: 14px;
+        color: #999;
+        text-align: center;
+        margin-top: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 10px; position: relative; z-index: 10">
+      <input type="file" accept="audio/*" id="audio" />
+      <button id="micToggle" style="margin-left: 10px">Start Microphone</button>
+    </div>
+    <div id="noteDisplay">
+      <div class="note">-</div>
+      <div class="frequency">- Hz</div>
+      <div class="cents">- cents</div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="index.js"></script>
+  </body>
+</html>

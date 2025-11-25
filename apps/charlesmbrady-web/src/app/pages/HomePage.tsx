@@ -20,7 +20,7 @@ import { technologies, projects } from '../data';
 import { MultiCarousel } from '@cb-common/ui-react-mui';
 import 'react-multi-carousel/lib/styles.css';
 import { TechnologyCard } from '../components/TechnologyCard';
-import { ProjectsCardGrid } from './ProjectsPage';
+import { ProjectsCardGrid, OTHER_PROJECTS_SECTION_ID } from './ProjectsPage';
 import { ContactSection } from './ContactPage';
 
 export default function HomePage() {
@@ -28,6 +28,7 @@ export default function HomePage() {
     (new Date().getTime() - new Date('2018-01-01').getTime()) /
       (1000 * 60 * 60 * 24 * 365)
   );
+  const featuredProjects = projects.filter((project) => project.featured);
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -145,7 +146,15 @@ export default function HomePage() {
           >
             Featured Projects
           </Typography>
-          <ProjectsCardGrid />
+          <ProjectsCardGrid projectsList={featuredProjects} />
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Button
+              variant="outlined"
+              href={`/projects#${OTHER_PROJECTS_SECTION_ID}`}
+            >
+              View More
+            </Button>
+          </Box>
         </Container>
       </Box>
 

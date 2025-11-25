@@ -1,5 +1,5 @@
 import React from 'react';
-import { GamepadState } from 'ui-packages-react-gamepad';
+import { GamepadState } from './GamepadProvider';
 import { useTheme } from '@mui/material/styles';
 
 export interface PSControllerDisplayProps {

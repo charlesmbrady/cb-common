@@ -1,0 +1,51 @@
+{
+  "name": "apps",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/apps/src",
+  "projectType": "application",
+  "tags": ["app", "react"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/apps/jest.config.ts"
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/apps",
+        "index": "apps/apps/src/index.html",
+        "main": "apps/apps/src/main.tsx",
+        "tsConfig": "apps/apps/tsconfig.app.json",
+        "assets": [
+          "apps/apps/src/favicon.ico",
+          "apps/apps/src/assets",
+          "apps/apps/src/config.json"
+        ],
+        "styles": ["apps/apps/src/styles.css"],
+        "webpackConfig": "apps/apps/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/apps/src/config.json",
+              "with": "apps/apps/src/assets/config_prod.json"
+            }
+          ]
+        },
+        "test": {
+          "fileReplacements": [
+            {
+              "replace": "apps/apps/src/config.json",
+              "with": "apps/apps/src/assets/config_test.json"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

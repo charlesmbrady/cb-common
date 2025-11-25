@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+}
+
+#game {
+  text-align: center;
+}
+
+#success,
+#wrong,
+#timeout,
+#final {
+  display: none;
+}
+
+#start {
+  text-align: center;
+  position: relative;
+  top: 50px;
+}
+
+.choice:hover {
+  background: black;
+  color: white;
+  cursor: pointer;
+  transition: 600ms;
+  border-radius: 4px;
+}
+
+h3 {
+  text-align: center;
+}

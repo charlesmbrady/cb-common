@@ -1,0 +1,56 @@
+* {
+  color: white;
+}
+
+.row {
+  text-align: center;
+}
+
+.title {
+  border-bottom: 3px solid white;
+  font-family: 'Charm', cursive;
+  font-size: 100px;
+}
+
+.wins,
+.current-word,
+.guesses,
+.letters {
+  font-size: 40px;
+}
+
+img {
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  margin: auto;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+#wins,
+#display,
+#guesses,
+#letters {
+  font-size: 40px;
+}
+
+#display {
+  background: blue;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#letters {
+  background: blue;
+  padding: 10px;
+  border-radius: 10px;
+  opacity: 0.9;
+}

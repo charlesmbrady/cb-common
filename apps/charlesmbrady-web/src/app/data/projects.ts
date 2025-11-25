@@ -7,6 +7,7 @@ export const projects = [
     thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/mockdat.png',
     tags: ['Next.js', 'Node.js', 'MongoDB', 'Stripe', 'Material-UI'],
     appLink: 'https://mockdat.charlesmbrady.com',
+    featured: true,
   },
   {
     id: '2',
@@ -17,6 +18,7 @@ export const projects = [
     tags: ['React', 'Firebase', 'Redux', 'Material-UI'],
     demoLink: 'https://www.youtube.com/embed/PH5ANolA4dk',
     codeLink: 'https://github.com/charlesmbrady/DupeGen2',
+    featured: true,
   },
   {
     id: '3',
@@ -26,6 +28,7 @@ export const projects = [
     thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/jamcam-dash.png',
     tags: ['React', 'Guitar API', 'Chart.js', 'Tailwind CSS'],
     appLink: 'https://jamcam.charlava.com',
+    featured: true,
   },
   {
     id: '4',
@@ -35,6 +38,7 @@ export const projects = [
     thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/keytrain.png',
     tags: ['React', 'Hotkey API', 'Chart.js', 'Tailwind CSS'],
     appLink: 'https://keytrain.charlava.com',
+    featured: true,
   },
   {
     id: '5',
@@ -52,6 +56,7 @@ export const projects = [
     ],
     demoLink: 'https://www.youtube.com/embed/DqJ_aQXdQpg',
     codeLink: 'https://github.com/charlesmbrady/Mongo-News-Scraper',
+    featured: false,
   },
   {
     id: '6',
@@ -69,5 +74,6 @@ export const projects = [
     ],
     codeLink: 'https://github.com/charlesmbrady/GoogleBookSearch',
     demoLink: 'https://www.youtube.com/embed/CaAn4yNo-t8',
+    featured: false,
   },
 ];

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Totally Trivial Trivia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./assets/javascript/app.js"></script>
+  </head>
+
+  <body>
+    <div class="container" id="title">
+      <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+          <h1>Totally Trivial Trivia</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="container initial-hide" id="game">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 id="time">Time Remaining: <span id="timer">xxx</span></h3>
+        </div>
+      </div>
+      <div class="row hide question">
+        <div class="col-sm-12">
+          <h4 id="question">Question goes here...</h4>
+        </div>
+      </div>
+
+      <div class="row hide choices">
+        <div class="col-sm-6 offset-sm-3" id="choices">
+          <!--This is where the choices get dynamically added as rows inside this row-->
+        </div>
+      </div>
+
+      <!--make start button, and hide everything in the bootstrap container until clicked
+        make a div for the "success" screen 
+        make a div for the "wrong" screen
+        make a div for the final screen
+         -->
+    </div>
+
+    <div class="container" id="start">
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-primary" id="start-btn">
+            Start
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container hide feedback" id="success">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Correct!</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><span class="answer"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><img src="" /></div>
+      </div>
+    </div>
+
+    <div class="container hide feedback" id="wrong">
+      <div class="row">
+        <div class="col-sm-12">Nope :(</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          The correct answer was:
+          <span class="answer">put correct answer here</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><img src="" /></div>
+      </div>
+    </div>
+
+    <div class="container hide feedback" id="timeout">
+      <div class="row">
+        <div class="col-sm-12">Out of time!</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          The correct answer was: <span class="answer"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><img src="" /></div>
+      </div>
+    </div>
+
+    <div class="container hide feedback" id="final">
+      <div class="row">
+        <div class="col-sm-12">All done! Here's how you did!</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">Correct: <span id="correct"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">Incorrect: <span id="incorrect"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">Unanswered: <span id="unanswered"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn btn-primary" id="reset">Reset</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

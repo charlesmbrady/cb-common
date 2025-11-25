@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import InstructionsText from '../InstructionsText';
 import { toCSV } from '../../utils/utils';
-import { useAppConfig } from 'ui-react-auth';
-import { useUser } from 'ui-react-auth';
+import { useAppConfig, useUser } from '@cb-common/ui-react-auth';
+
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
