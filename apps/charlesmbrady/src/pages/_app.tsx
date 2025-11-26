@@ -68,7 +68,7 @@ function SidebarFooter() {
         color="primary"
         endIcon={<OpenInNewIcon fontSize="small" />}
       >
-        View Resume
+        View Resumee
       </Button>
     </Box>
   );

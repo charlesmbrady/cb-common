@@ -1,0 +1,26 @@
+{
+  "name": "ui-processing-ctx-core",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/processing/ctx-core/src",
+  "projectType": "library",
+  "tags": ["js"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/ui/processing/ctx-core",
+        "main": "libs/ui/processing/ctx-core/src/index.ts",
+        "tsConfig": "libs/ui/processing/ctx-core/tsconfig.lib.json",
+        "assets": ["libs/ui/processing/ctx-core/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/ui/processing/ctx-core/jest.config.ts"
+      }
+    }
+  }
+}

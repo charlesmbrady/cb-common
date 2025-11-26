@@ -3,9 +3,12 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CardActions,
   Typography,
   Box,
   Chip,
+  Button,
+  Stack,
 } from '@mui/material';
 
 export interface Project {
@@ -14,6 +17,9 @@ export interface Project {
   description: string;
   thumbnail: string;
   tags: string[];
+  appLink?: string; // live deployed application
+  demoLink?: string; // video demo (e.g. YouTube)
+  codeLink?: string; // repository link
 }
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
@@ -47,5 +53,42 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         ))}
       </Box>
     </CardContent>
+    {(project.appLink || project.demoLink || project.codeLink) && (
+      <CardActions sx={{ mt: 'auto' }}>
+        {project.appLink && (
+          <Button
+            variant="outlined"
+            size="small"
+            href={project.appLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Live App
+          </Button>
+        )}
+        {project.demoLink && (
+          <Button
+            variant="outlined"
+            size="small"
+            href={project.demoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Demo Video
+          </Button>
+        )}
+        {project.codeLink && (
+          <Button
+            variant="outlined"
+            size="small"
+            href={project.codeLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Source Code
+          </Button>
+        )}
+      </CardActions>
+    )}
   </Card>
 );

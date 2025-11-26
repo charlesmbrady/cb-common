@@ -4,8 +4,7 @@ import { MockdatContext } from '../../context/MockdatContext';
 import { Box, Button, Typography } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import InstructionsText from '../InstructionsText';
-import { useAppConfig } from '@cb-common/auth';
-import { useUser } from '@cb-common/auth';
+import { useAppConfig, useUser } from '@cb-common/ui-react-auth';
 
 const Step4PreviewData: React.FC = () => {
   const ctx = useContext(MockdatContext);

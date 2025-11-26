@@ -1,0 +1,9 @@
+{
+  "name": "ui-react-mui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/react/mui/src",
+  "projectType": "library",
+  "tags": ["type:ui", "layer:styled", "framework:mui"],
+  "// targets": "to see all targets run: nx show project ui-react-mui --web",
+  "targets": {}
+}

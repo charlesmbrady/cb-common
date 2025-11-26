@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>The Psychic Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/main.css"
+    />
+    <script src="main.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row psychic">
+        <h1 class="col-sm-12">The Psychic Game</h1>
+      </div>
+      <div class="row topic">
+        <p class="col-sm-6 offset-sm-3">Guess what letter I'm thinking of...</p>
+      </div>
+      <div class="row scores">
+        <p class="col-sm-4">Wins: <span id="wins">0</span></p>
+        <p class="col-sm-4">Losses: <span id="losses">0</span></p>
+        <p class="col-sm-4">Guesses Left: <span id="guesses">10</span></p>
+      </div>
+      <p class="guesses">Your guesses so far: <span id="letters"></span></p>
+    </div>
+  </body>
+</html>

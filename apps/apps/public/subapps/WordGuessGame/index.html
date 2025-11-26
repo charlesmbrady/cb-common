@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hangman Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Charm:400,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/css/main.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <img src="./assets/disney-castle.jpg" alt="Disney Castle at Night" />
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 title">
+          <h1>Disney Movies Hangman</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="wins">Wins</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><span id="wins"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><span id="display"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 guesses">
+          <h3>Number of Guesses Remaining</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><span id="guesses"></span></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 letters">
+          <h3>Letters already guessed</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><span id="letters"></span></div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

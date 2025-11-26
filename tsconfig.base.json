@@ -15,15 +15,24 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cb-common/auth": ["libs/auth/src/index.ts"],
-      "@cb-common/ctx-core": ["libs/ctx-core/src/index.ts"],
       "@cb-common/lambda": ["libs/lambda/src/index.ts"],
-      "@cb-common/matter-core": ["libs/matter-core/src/index.ts"],
-      "@cb-common/mockdat-svc": ["libs/mockdat-svc/src/index.ts"],
-      "@cb-common/p5-core": ["libs/p5-core/src/index.ts"],
-      "@cb-common/react-gamepad": ["libs/react-gamepad/src/index.ts"],
-      "@cb-common/ui-react": ["libs/ui-react/src/index.ts"],
-      "@cb-common/ui-tailwind": ["libs/ui-tailwind/src/index.ts"]
+      "@cb-common/mockdat-svc": ["libs/app-services/mockdat-svc/src/index.ts"],
+      "@cb-common/tooling": ["libs/tooling/src/index.ts"],
+      "@cb-common/ui-packages-react-gamepad": [
+        "libs/ui/packages/react-gamepad/src/index.ts"
+      ],
+      "@cb-common/ui-processing-ctx-core": [
+        "libs/ui/processing/ctx-core/src/index.ts"
+      ],
+      "@cb-common/ui-processing-matter-core": [
+        "libs/ui/processing/matter-core/src/index.ts"
+      ],
+      "@cb-common/ui-processing-p5-core": [
+        "libs/ui/processing/p5-core/src/index.ts"
+      ],
+      "@cb-common/ui-react-auth": ["libs/ui/react/auth/src/index.ts"],
+      "@cb-common/ui-react-mui": ["libs/ui/react/mui/src/index.ts"],
+      "@cb-common/ui-react-tailwind": ["libs/ui/react/tailwind/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

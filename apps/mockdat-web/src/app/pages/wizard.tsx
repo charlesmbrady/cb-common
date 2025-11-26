@@ -1,7 +1,7 @@
 import React from 'react';
 import MockdatWizard from '../components/wizard/MockdatWizard';
 import { Box, useTheme } from '@mui/material';
-import { withAuth } from '@cb-common/auth';
+import { withAuth } from '@cb-common/ui-react-auth';
 
 function WizardPage() {
   const theme = useTheme();

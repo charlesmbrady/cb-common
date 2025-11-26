@@ -1,14 +1,14 @@
 import React from 'react';
-import { Container, Typography, Box } from '@mui/material';
-import { technologies } from '../data/technologies';
+import { Box } from '@mui/material';
+import { technologies } from '../data';
 import { TechnologyCard } from '../components/TechnologyCard';
+import { PageContainer } from '../components/PageContainer';
+import { PageHeader } from '../components/PageHeader';
 
 const TechnologiesPage: React.FC = () => {
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
-        Technologies
-      </Typography>
+    <PageContainer>
+      <PageHeader title="Technologies" />
       <Box
         sx={{
           display: 'grid',
@@ -24,7 +24,7 @@ const TechnologiesPage: React.FC = () => {
           <TechnologyCard key={tech.name} technology={tech} />
         ))}
       </Box>
-    </Container>
+    </PageContainer>
   );
 };
 

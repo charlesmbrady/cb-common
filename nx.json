@@ -51,6 +51,12 @@
         "testStorybookTargetName": "test-storybook",
         "staticStorybookTargetName": "static-storybook"
       }
+    },
+    {
+      "plugin": "@nx/rollup/plugin",
+      "options": {
+        "buildTargetName": "build"
+      }
     }
   ],
   "parallel": 3,
@@ -79,6 +85,19 @@
       },
       "cache": true
     },
+    "@nx/rollup:rollup": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+    "@nx/vite:build": {
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
+    "@nx/next:build": {
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
     "test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
@@ -97,6 +116,7 @@
   },
   "release": {
     "version": {
+      "preVersionCommand": "yarn nx run-many -t build",
       "generatorOptions": {
         "currentVersionResolver": "git-tag",
         "specifierSource": "conventional-commits"
@@ -119,11 +139,11 @@
         "babel": true,
         "style": "css",
         "linter": "eslint",
-        "bundler": "webpack",
+        "bundler": "vite",
         "port": 3333,
         "e2eTestRunner": "cypress",
         "appDir": true,
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "routing": true,
         "pascalCaseFiles": true,
         "classComponent": false,
@@ -136,14 +156,14 @@
         "tags": "app,react",
         "targets": {
           "build": {
-            "executor": "@nx/webpack:build",
+            "executor": "@nx/vite:build",
             "outputs": ["dist/apps/{projectName}"],
             "options": {
               "outputPath": "dist/apps/{projectName}"
             }
           },
           "serve": {
-            "executor": "@nx/webpack:dev-server",
+            "executor": "@nx/vite:dev-server",
             "options": {
               "buildTarget": "{projectName}:build"
             }
@@ -187,17 +207,16 @@
         "style": "css",
         "linter": "eslint",
         "unitTestRunner": "jest",
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "libDir": true,
         "tags": "react",
-        "bundler": "none",
+        "bundler": "rollup",
         "targets": {
           "build": {
-            "executor": "@nx/js:tsc",
+            "executor": "@nx/rollup:rollup",
             "outputs": ["dist/libs/{projectName}"],
             "options": {
-              "outputPath": "dist/libs/{projectName}",
-              "main": "libs/{projectName}/src/index.ts"
+              "outputPath": "dist/libs/{projectName}"
             }
           },
           "test": {
@@ -215,7 +234,7 @@
       "application": {
         "linter": "eslint",
         "e2eTestRunner": "cypress",
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "style": "css",
         "src": true,
         "tags": "app,next",
@@ -267,7 +286,7 @@
         "style": "css",
         "linter": "eslint",
         "unitTestRunner": "jest",
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "libDir": true,
         "tags": "next",
         "targets": {
@@ -320,7 +339,7 @@
         "compiler": "tsc",
         "pascalCaseFiles": true,
         "port": 3333,
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "framework": "none",
         "docker": false,
         "tags": "app,node",
@@ -353,7 +372,7 @@
         "linter": "eslint",
         "unitTestRunner": "jest",
         "tags": "node",
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "targets": {
           "build": {
             "executor": "@nx/node:build",
@@ -377,11 +396,8 @@
       "library": {
         "linter": "eslint",
         "unitTestRunner": "jest",
-        "buildable": true,
-        "publishable": false,
         "strict": true,
-        "compiler": "tsc",
-        "projectNameAndRootFormat": "derived",
+        "projectNameAndRootFormat": "as-provided",
         "libDir": true,
         "bundler": "tsc",
         "js": false,
@@ -408,6 +424,5 @@
         }
       }
     }
-  },
-  "useLegacyCache": true
+  }
 }

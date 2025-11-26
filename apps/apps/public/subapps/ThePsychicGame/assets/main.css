@@ -1,0 +1,29 @@
+.row {
+  text-align: center;
+}
+
+.psychic {
+  background: tan;
+  border-bottom: 5px solid lightblue;
+}
+
+.topic {
+  font-size: 25px;
+}
+
+.scores {
+  background: lightblue;
+  border: 1px solid blue;
+  padding-top: 10px;
+  font-size: 30px;
+  border-radius: 50px;
+}
+
+.guesses {
+  background: black;
+  color: white;
+  height: 50vh;
+  font-size: 40px;
+  padding: 20px;
+  border-radius: 10px;
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+
+    /* CRITICAL: limit global types explicitly */
+    "types": ["vite/client", "node", "@storybook/react"]
+  },
+  "include": ["src/**/*.stories.@(ts|tsx|js|jsx|mdx)", ".storybook/**/*"],
+  "exclude": [
+    "src/**/*.spec.@(ts|tsx|js|jsx)",
+    "src/**/*.test.@(ts|tsx|js|jsx)"
+  ]
+}

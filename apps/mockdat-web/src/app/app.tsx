@@ -3,7 +3,11 @@
 
 import React from 'react';
 import { Route, Routes, Link, useNavigate } from 'react-router-dom';
-import { AppConfigProvider, UserProvider, useUser } from '@cb-common/auth';
+import {
+  AppConfigProvider,
+  UserProvider,
+  useUser,
+} from '@cb-common/ui-react-auth';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { lightTheme, darkTheme } from './theme';
 import { MockdatProvider } from './context/MockdatContext';

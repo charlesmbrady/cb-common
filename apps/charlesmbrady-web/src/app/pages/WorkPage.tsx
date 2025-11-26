@@ -1,20 +1,15 @@
 import React from 'react';
-import { Container, Typography, Box } from '@mui/material';
+import { AccordionBasic } from '@cb-common/ui-react-mui';
 import { workExperiences } from '../data/workExperiences';
-import { WorkExperienceCard } from '../components/WorkExperienceCard';
+import { PageContainer } from '../components/PageContainer';
+import { PageHeader } from '../components/PageHeader';
 
 const WorkPage: React.FC = () => {
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
-        Work Experience
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {workExperiences.map((experience) => (
-          <WorkExperienceCard key={experience.id} experience={experience} />
-        ))}
-      </Box>
-    </Container>
+    <PageContainer>
+      <PageHeader title="Work Experience" />
+      <AccordionBasic items={workExperiences} />
+    </PageContainer>
   );
 };
 
