@@ -45,10 +45,12 @@ export class AgentCoreService {
     // Uses Lambda execution role when deployed, ~/.aws/credentials locally
     this.client = new BedrockAgentCoreClient({
       region: this.config.region,
+      // For local development, credentials provider will use AWS CLI config
+      credentials: process.env.LOCAL_SERVER === 'true' 
+        ? defaultProvider() 
+        : undefined,
     });
-  }
-
-  /**
+  }  /**
    * Invoke agent using AWS SDK (with SigV4 signing)
    * Bearer token is passed for user identity, AWS credentials for authorization
    */
@@ -106,13 +108,13 @@ export class AgentCoreService {
       };
     } catch (error) {
       console.error('AgentCore SDK invocation error:', error);
-      
+
       // If SDK fails and we have a gateway endpoint, try HTTP as fallback
       if (this.config.gatewayEndpoint) {
         console.log('SDK invocation failed, attempting HTTP fallback...');
         return this.invokeViaHttp(payload, bearerToken);
       }
-      
+
       throw new Error(
         `Agent invocation failed: ${
           error instanceof Error ? error.message : String(error)
@@ -141,7 +143,7 @@ export class AgentCoreService {
     try {
       // Parse the gateway endpoint URL
       const url = new URL(this.config.gatewayEndpoint);
-      
+
       // Create HTTP request
       const request = new HttpRequest({
         method: 'POST',
@@ -195,7 +197,8 @@ export class AgentCoreService {
         }`
       );
     }
-  }  /**
+  }
+  /**
    * Get current configuration
    */
   getConfig(): AgentCoreConfig {

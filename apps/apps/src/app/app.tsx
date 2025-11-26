@@ -191,6 +191,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { Link, RouterLink } from '@cb-common/ui-react-mui';
 import GoogleBookSearchApp from './subapps/GoogleBookSearch';
+import AIChat from './subapps/AIChat';
 // ScrapeNSurf removed
 
 import {
@@ -259,6 +260,7 @@ export default function App() {
       <Box sx={{ pt: { xs: 8, md: 12 }, minHeight: '100vh' }}>
         <Routes>
           <Route path="/googlebooksearch/*" element={<GoogleBookSearchApp />} />
+          <Route path="/aichat" element={<AIChat />} />
           <Route
             path="/"
             element={
@@ -267,6 +269,9 @@ export default function App() {
                   Apps
                 </Box>
                 <Box>
+                  <RouterLink to="/aichat">AI Assistant Chat</RouterLink>
+                </Box>
+                <Box sx={{ mt: 1 }}>
                   <RouterLink to="/googlebooksearch">
                     Google Book Search
                   </RouterLink>
