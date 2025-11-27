@@ -6,7 +6,7 @@ on:
     tags:
       - 'charlesmbrady-web-*.*.*'
       - 'mockdat-web-*.*.*'
-      - 'labs-*.*.*'
+      - 'apps-*.*.*'
       - 'api-services-*.*.*'
 
 jobs:
@@ -73,13 +73,13 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  deploy-labs:
+  deploy-apps:
     needs: build
-    if: needs.build.outputs.app_name == 'labs'
+    if: needs.build.outputs.app_name == 'apps'
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
-      appName: 'labs'
-      bucketName: 'labs-production-website-content'
+      appName: 'apps'
+      bucketName: 'apps-production-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
     secrets:
@@ -110,4 +110,4 @@ jobs:
           name: build
           path: dist/apps/api-services
       - name: Deploy Lambda
-        run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name api-services-prod
+        run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name charlesmbrady_api_services_Production
