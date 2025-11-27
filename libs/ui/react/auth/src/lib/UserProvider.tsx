@@ -76,10 +76,10 @@ export function UserProvider({
 
   useEffect(() => {
     if (configLoading || !appConfig) return; // Wait for config to load
-    
+
     // Configure Amplify first, before any async operations
     configureAws(appConfig);
-    
+
     let active = true;
     async function checkSession() {
       try {
@@ -206,7 +206,7 @@ function configureAws(appConfig: AppConfig) {
     console.log('Amplify already configured, skipping...');
     return;
   }
-  
+
   console.log('Configuring Amplify with:', appConfig);
   const awsConfig = {
     Auth: {
@@ -229,7 +229,7 @@ function configureAws(appConfig: AppConfig) {
       },
     },
   };
-  
+
   Amplify.configure(awsConfig as any);
   isAmplifyConfigured = true;
   console.log('Amplify configured successfully');

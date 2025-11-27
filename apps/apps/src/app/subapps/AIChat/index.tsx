@@ -142,7 +142,11 @@ export default function AIChat() {
           }}
         >
           <ChatWindow messages={messages} loading={loading} />
-          <ChatInput onSend={handleSendMessage} disabled={loading} loading={loading} />
+          <ChatInput
+            onSend={handleSendMessage}
+            disabled={loading}
+            loading={loading}
+          />
         </Paper>
 
         {/* Session Info */}
