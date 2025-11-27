@@ -1,22 +1,10 @@
 {
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": true
-    }
-  },
+  "pluginsConfig": { "@nx/js": { "analyzeSourceFiles": true } },
   "extends": "nx/presets/npm.json",
   "packageManager": "yarn",
-  "workspaceLayout": {
-    "appsDir": "apps",
-    "libsDir": "libs"
-  },
+  "workspaceLayout": { "appsDir": "apps", "libsDir": "libs" },
   "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
     {
       "plugin": "@nx/webpack/plugin",
       "options": {
@@ -52,12 +40,7 @@
         "staticStorybookTargetName": "static-storybook"
       }
     },
-    {
-      "plugin": "@nx/rollup/plugin",
-      "options": {
-        "buildTargetName": "build"
-      }
-    }
+    { "plugin": "@nx/rollup/plugin", "options": { "buildTargetName": "build" } }
   ],
   "parallel": 3,
   "cacheDirectory": ".nx/cache",
@@ -80,9 +63,7 @@
     "@nx/js:tsc": {
       "inputs": ["production", "^production"],
       "dependsOn": ["^build"],
-      "options": {
-        "main": "{projectRoot}/src/index.ts"
-      },
+      "options": { "main": "{projectRoot}/src/index.ts" },
       "cache": true
     },
     "@nx/rollup:rollup": {
@@ -102,12 +83,8 @@
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
     },
-    "e2e-ci": {
-      "dependsOn": ["^build"]
-    },
-    "e2e-ci--**/*": {
-      "dependsOn": ["^build"]
-    },
+    "e2e-ci": { "dependsOn": ["^build"] },
+    "e2e-ci--**/*": { "dependsOn": ["^build"] },
     "@nx/esbuild:esbuild": {
       "cache": true,
       "dependsOn": ["^build"],
@@ -123,13 +100,8 @@
       }
     },
     "changelog": {
-      "git": {
-        "commit": true,
-        "tag": true
-      },
-      "workspaceChangelog": {
-        "createRelease": "github"
-      },
+      "git": { "commit": true, "tag": true },
+      "workspaceChangelog": { "createRelease": "github" },
       "projectChangelogs": true
     }
   },
@@ -158,15 +130,11 @@
           "build": {
             "executor": "@nx/vite:build",
             "outputs": ["dist/apps/{projectName}"],
-            "options": {
-              "outputPath": "dist/apps/{projectName}"
-            }
+            "options": { "outputPath": "dist/apps/{projectName}" }
           },
           "serve": {
             "executor": "@nx/vite:dev-server",
-            "options": {
-              "buildTarget": "{projectName}:build"
-            }
+            "options": { "buildTarget": "{projectName}:build" }
           },
           "test": {
             "executor": "@nx/jest:jest",
@@ -190,10 +158,7 @@
         "directory": "src/hooks",
         "pascalCaseFiles": false
       },
-      "component": {
-        "style": "css",
-        "export": true
-      },
+      "component": { "style": "css", "export": true },
       "storybook": {
         "linter": "eslint",
         "storybook7": true,
@@ -215,9 +180,7 @@
           "build": {
             "executor": "@nx/rollup:rollup",
             "outputs": ["dist/libs/{projectName}"],
-            "options": {
-              "outputPath": "dist/libs/{projectName}"
-            }
+            "options": { "outputPath": "dist/libs/{projectName}" }
           },
           "test": {
             "executor": "@nx/jest:jest",
@@ -242,33 +205,22 @@
           "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-              "jestConfig": "{projectRoot}/jest.config.ts"
-            }
+            "options": { "jestConfig": "{projectRoot}/jest.config.ts" }
           },
           "build": {
             "executor": "@nx/next:build",
             "outputs": ["{options.outputPath}"],
             "defaultConfiguration": "production",
-            "options": {
-              "outputPath": "dist/apps/{projectName}"
-            },
+            "options": { "outputPath": "dist/apps/{projectName}" },
             "configurations": {
-              "production": {
-                "outputPath": "dist/apps/{projectName}"
-              },
-              "development": {
-                "outputPath": "{projectRoot}"
-              }
+              "production": { "outputPath": "dist/apps/{projectName}" },
+              "development": { "outputPath": "{projectRoot}" }
             }
           },
           "serve": {
             "executor": "@nx/next:server",
             "defaultConfiguration": "development",
-            "options": {
-              "buildTarget": "{projectName}:build",
-              "dev": true
-            },
+            "options": { "buildTarget": "{projectName}:build", "dev": true },
             "configurations": {
               "production": {
                 "buildTarget": "{projectName}:build:production",
@@ -348,15 +300,11 @@
           "build": {
             "executor": "@nx/node:build",
             "outputs": ["dist/apps/{projectName}"],
-            "options": {
-              "outputPath": "dist/apps/{projectName}"
-            }
+            "options": { "outputPath": "dist/apps/{projectName}" }
           },
           "serve": {
             "executor": "@nx/node:execute",
-            "options": {
-              "buildTarget": "{projectName}:build"
-            }
+            "options": { "buildTarget": "{projectName}:build" }
           },
           "test": {
             "executor": "@nx/jest:jest",
@@ -377,9 +325,7 @@
           "build": {
             "executor": "@nx/node:build",
             "outputs": ["dist/libs/{projectName}"],
-            "options": {
-              "outputPath": "dist/libs/{projectName}"
-            }
+            "options": { "outputPath": "dist/libs/{projectName}" }
           },
           "test": {
             "executor": "@nx/jest:jest",
@@ -424,5 +370,6 @@
         }
       }
     }
-  }
+  },
+  "nxCloudId": "6928ab3a6dbb120dbbd5dc88"
 }
