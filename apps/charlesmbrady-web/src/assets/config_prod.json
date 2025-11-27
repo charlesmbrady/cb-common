@@ -4,8 +4,8 @@
   "domain": "charlesmbrady.com",
   "environment": "production",
   "oauthDomain": "auth.charlesmbrady.com",
-  "redirectSignOut": "https://apps.charlesmbrady.com/logout",
+  "redirectSignOut": "https://charlesmbrady.com/",
   "userPoolId": "us-east-1_CKbYONuNe",
   "userPoolWebClientId": "3fejk8m5d7e4m6a37o4bnpadv",
-  "redirectSignIn": "https://apps.charlesmbrady.com/dashboard"
+  "redirectSignIn": "https://charlesmbrady.com/"
 }
