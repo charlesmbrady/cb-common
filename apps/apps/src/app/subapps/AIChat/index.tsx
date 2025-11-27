@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Container, Typography, Paper, Alert } from '@mui/material';
+import { useUser } from '@cb-common/ui-react-auth';
 import { ChatWindow } from './components/ChatWindow';
 import { ChatInput } from './components/ChatInput';
 import { Message } from './components/ChatMessage';
@@ -10,6 +11,12 @@ export default function AIChat() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | undefined>();
+  const [userState, userActions] = useUser();
+
+  // Set up the auth token getter when component mounts
+  useEffect(() => {
+    agentCoreService.setAuthTokenGetter(userActions.getAuthToken);
+  }, [userActions.getAuthToken]);
 
   const handleSendMessage = useCallback(
     async (content: string) => {

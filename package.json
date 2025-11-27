@@ -5,7 +5,6 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.11.2",
     "@aws-crypto/sha256-js": "^5.2.0",
     "@aws-sdk/client-bedrock-agentcore": "^3.939.0",
     "@aws-sdk/client-dynamodb": "^3.840.0",
