@@ -35,6 +35,17 @@ jobs:
         with:
           name: build
 
+      - name: Install production dependencies
+        run: |
+          cd ${{ inputs.appName }}
+          if [ ! -f package.json ]; then
+            echo "ERROR: Missing package.json in build output"
+            exit 1
+          fi
+          echo "Installing production dependencies..."
+          yarn install --production --frozen-lockfile
+          cd ..
+
       - name: Zip lambda for deployment
         run: zip -r ${{ inputs.appName }}.zip ${{ inputs.appName }} ${{ inputs.extraFiles }}
 
