@@ -37,6 +37,7 @@ jobs:
         run: yarn install
       - name: Build app
         run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
+      # No dependency installation needed; api-services bundles dependencies
       - name: Debug dist folder
         run: |
           ls -l dist || true
@@ -86,28 +87,13 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  # Lambda deploy for api-services remains separate
   deploy-api-services:
     needs: build
     if: needs.build.outputs.app_name == 'api-services'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: false
-          fetch-depth: 0
-      - name: Install dependencies
-        run: yarn install
-      - name: Build app
-        run: yarn nx run api-services:build
-      - name: Debug dist folder
-        run: |
-          ls -l dist || true
-          ls -l dist/apps || true
-      - name: Persist deployment bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist/apps/api-services
-      - name: Deploy Lambda
-        run: ./scripts/deploy_lambda.sh --env production --nx-project-name api-services --lambda-name charlesmbrady_api_services_Production
+    uses: ./.github/workflows/lambda_deploy_from_build.yml
+    with:
+      appName: 'api-services'
+      lambdaFunctionName: 'charlesmbrady_api_services_Production'
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
