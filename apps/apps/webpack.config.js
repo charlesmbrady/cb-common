@@ -7,7 +7,7 @@ module.exports = {
     path: join(__dirname, '../../dist/apps/apps'),
   },
   devServer: {
-    port: 4200,
+    port: 3000,
     historyApiFallback: {
       index: '/index.html',
       disableDotRule: true,
@@ -21,7 +21,7 @@ module.exports = {
       main: './src/main.tsx',
       index: './src/index.html',
       baseHref: '/',
-      assets: ['./src/favicon.ico', './src/assets'],
+      assets: ['./src/favicon.ico', './src/assets', './src/config.json'],
       styles: ['./src/styles.css'],
       outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none',
       optimization: process.env['NODE_ENV'] === 'production',

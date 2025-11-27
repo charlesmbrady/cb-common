@@ -6,6 +6,6 @@
   "oauthDomain": "auth.charlesmbrady.com",
   "redirectSignOut": "https://labs.charlesmbrady.com/logout",
   "userPoolId": "us-east-1_CKbYONuNe",
-  "userPoolWebClientId": "us-east-1_CKbYONuNe",
+  "userPoolWebClientId": "3fejk8m5d7e4m6a37o4bnpadv",
   "redirectSignIn": "https://labs.charlesmbrady.com/dashboard"
 }
