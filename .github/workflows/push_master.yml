@@ -84,13 +84,13 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  deploy-labs:
+  deploy-apps:
     needs: build
-    if: contains(needs.build.outputs.affected_apps, 'labs')
+    if: contains(needs.build.outputs.affected_apps, 'apps')
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
-      appName: 'labs'
-      bucketName: 'labs-test-website-content'
+      appName: 'apps'
+      bucketName: 'apps-test-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
     secrets:
@@ -103,7 +103,7 @@ jobs:
     uses: ./.github/workflows/lambda_deploy_from_build.yml
     with:
       appName: 'api-services'
-      lambdaFunctionName: 'charlesmbrady_Test_services_middleware'
+      lambdaFunctionName: 'charlesmbrady_api_services_Test'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
