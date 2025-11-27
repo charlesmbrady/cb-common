@@ -11,6 +11,41 @@
       "options": {
         "jestConfig": "apps/charlesmbrady-web/jest.config.ts"
       }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/charlesmbrady-web",
+        "index": "apps/charlesmbrady-web/src/index.html",
+        "main": "apps/charlesmbrady-web/src/main.tsx",
+        "tsConfig": "apps/charlesmbrady-web/tsconfig.app.json",
+        "assets": [
+          "apps/charlesmbrady-web/src/favicon.ico",
+          "apps/charlesmbrady-web/src/assets",
+          "apps/charlesmbrady-web/src/config.json"
+        ],
+        "styles": ["apps/charlesmbrady-web/src/styles.css"],
+        "webpackConfig": "apps/charlesmbrady-web/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/charlesmbrady-web/src/config.json",
+              "with": "apps/charlesmbrady-web/src/assets/config_prod.json"
+            }
+          ]
+        },
+        "test": {
+          "fileReplacements": [
+            {
+              "replace": "apps/charlesmbrady-web/src/config.json",
+              "with": "apps/charlesmbrady-web/src/assets/config_test.json"
+            }
+          ]
+        }
+      }
     }
   }
 }

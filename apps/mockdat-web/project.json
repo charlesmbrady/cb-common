@@ -20,7 +20,10 @@
         "index": "apps/mockdat-web/src/index.html",
         "main": "apps/mockdat-web/src/main.tsx",
         "tsConfig": "apps/mockdat-web/tsconfig.app.json",
-        "assets": ["apps/mockdat-web/src/assets"],
+        "assets": [
+          "apps/mockdat-web/src/assets",
+          "apps/mockdat-web/src/config.json"
+        ],
         "styles": ["apps/mockdat-web/src/styles.css"],
         "webpackConfig": "apps/mockdat-web/webpack.config.js"
       },
