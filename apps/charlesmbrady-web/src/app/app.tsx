@@ -49,7 +49,7 @@ export default function App() {
               }}
               onClick={() => (window.location.href = '/')}
             >
-              Charles Brady
+              Charles Bradys portfolio
             </Box>
           ),
           navigationProps: {
