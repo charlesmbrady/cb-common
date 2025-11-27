@@ -13,7 +13,7 @@
         "platform": "node",
         "outputPath": "dist/apps/api-services",
         "format": ["cjs"],
-        "bundle": true,
+        "bundle": false,
         "main": "apps/api-services/src/main.ts",
         "tsConfig": "apps/api-services/tsconfig.app.json",
         "assets": [

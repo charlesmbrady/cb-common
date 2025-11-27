@@ -37,7 +37,14 @@ jobs:
         run: yarn install
       - name: Build app
         run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
-      # No dependency installation needed; api-services bundles dependencies
+      - name: Install Lambda production dependencies (api-services only)
+        run: |
+          if [ -d "dist/apps/api-services" ]; then
+            echo "Installing production dependencies for api-services (yarn)..."
+            cd dist/apps/api-services
+            yarn install --production --non-interactive
+            cd ../../..
+          fi
       - name: Debug dist folder
         run: |
           ls -l dist || true
