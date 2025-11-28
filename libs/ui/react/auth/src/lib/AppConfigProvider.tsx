@@ -89,7 +89,9 @@ function AppConfigProvider({ children }: AppConfigProviderProps): JSX.Element {
             : 'https';
           const config: AppConfig = {
             ...json,
-            apiUrl: `${protocol}://${json.apiDomain}${json.apiPathPrefix || ''}`,
+            apiUrl: `${protocol}://${json.apiDomain}${
+              json.apiPathPrefix || ''
+            }`,
           };
           dispatch({ type: 'fetchAppConfigSuccess', payload: config });
         }

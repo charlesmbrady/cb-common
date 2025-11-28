@@ -40,7 +40,14 @@ function buildUrl(
   endpoint: string,
   queryParams?: Record<string, string | number | boolean>
 ): string {
-  const url = new URL(endpoint, baseUrl);
+  // Ensure baseUrl ends without trailing slash and endpoint starts without leading slash
+  const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const path = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+  
+  // Build full URL by concatenating base + path
+  const fullUrl = `${base}/${path}`;
+  const url = new URL(fullUrl);
+  
   if (queryParams) {
     Object.entries(queryParams).forEach(([key, value]) => {
       url.searchParams.append(key, String(value));
@@ -117,14 +124,14 @@ async function makeAuthenticatedRequest<TData, TBody = any>(
 
 /**
  * Hook for eager API fetching (fetches on mount and when dependencies change)
- * 
+ *
  * @param endpoint - API endpoint path (e.g., '/services/agentcore/invoke')
  * @param options - Request options including method, body, headers, queryParams
  * @param deps - Dependency array to trigger refetch
- * 
+ *
  * @example
  * const { data, error, isLoading, refetch } = useApiFetch<User[]>('/users');
- * 
+ *
  * @example
  * const { data, error, isLoading } = useApiFetch<AgentResponse>(
  *   '/services/agentcore/invoke',
@@ -164,7 +171,7 @@ export function useApiFetch<TData, TBody = any>(
       setData(result);
     } catch (err) {
       setError(
-        err as ApiError || { message: 'An unexpected error occurred' }
+        (err as ApiError) || { message: 'An unexpected error occurred' }
       );
     } finally {
       setIsLoading(false);
@@ -185,20 +192,20 @@ export function useApiFetch<TData, TBody = any>(
 
 /**
  * Hook for lazy API fetching (only fetches when execute is called)
- * 
+ *
  * @param endpoint - API endpoint path (e.g., '/services/agentcore/invoke')
  * @param defaultOptions - Default request options (can be overridden in execute)
- * 
+ *
  * @example
  * const { data, error, isLoading, execute } = useApiLazy<AgentResponse, { prompt: string }>(
  *   '/services/agentcore/invoke',
  *   { method: 'POST' }
  * );
- * 
+ *
  * const handleSubmit = async () => {
  *   const result = await execute({ body: { prompt: 'Hello' } });
  * };
- * 
+ *
  * @example
  * const { execute } = useApiLazy<User>('/users', { method: 'GET' });
  * const user = await execute({ queryParams: { id: '123' } });
@@ -253,8 +260,9 @@ export function useApiLazy<TData, TBody = any>(
         setData(result);
         return result;
       } catch (err) {
-        const apiError =
-          (err as ApiError) || { message: 'An unexpected error occurred' };
+        const apiError = (err as ApiError) || {
+          message: 'An unexpected error occurred',
+        };
         setError(apiError);
         throw apiError;
       } finally {

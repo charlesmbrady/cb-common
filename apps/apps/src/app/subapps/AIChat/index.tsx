@@ -45,10 +45,9 @@ export default function AIChat() {
     error: apiError,
     isLoading: loading,
     execute: invokeAgent,
-  } = useApiLazy<AgentCoreResponse, InvokeAgentRequest>(
-    '/agentcore/invoke',
-    { method: 'POST' }
-  );
+  } = useApiLazy<AgentCoreResponse, InvokeAgentRequest>('/agentcore/invoke', {
+    method: 'POST',
+  });
 
   const handleSendMessage = useCallback(
     async (content: string) => {
