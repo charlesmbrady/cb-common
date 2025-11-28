@@ -1,6 +1,6 @@
 {
   "apiDomain": "api-test.charlesmbrady.com",
-  "apiUrl": "https://api-test.charlesmbrady.com",
+  "apiPathPrefix": "/services",
   "domain": "localhost",
   "environment": "development",
   "oauthDomain": "auth-test.charlesmbrady.com",

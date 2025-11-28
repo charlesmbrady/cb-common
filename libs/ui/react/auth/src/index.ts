@@ -8,3 +8,11 @@ export type {
   AuthApiRequestOptions,
   UseAuthApiRequestReturn,
 } from './lib/useAuthApiRequest';
+export { useApiFetch, useApiLazy } from './lib/useApi';
+export type {
+  HttpMethod,
+  ApiRequestOptions,
+  ApiError,
+  UseApiFetchResult,
+  UseApiLazyResult,
+} from './lib/useApi';

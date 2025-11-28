@@ -1,6 +1,6 @@
 {
   "apiDomain": "api.charlesmbrady.com",
-  "apiUrl": "https://api.charlesmbrady.com",
+  "apiPathPrefix": "/services",
   "domain": "charlesmbrady.com",
   "environment": "production",
   "oauthDomain": "auth.charlesmbrady.com",

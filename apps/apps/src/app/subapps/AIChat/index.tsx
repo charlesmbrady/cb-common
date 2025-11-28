@@ -1,22 +1,53 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Box, Container, Typography, Paper, Alert } from '@mui/material';
-import { useUser } from '@cb-common/ui-react-auth';
+import { useApiLazy } from '@cb-common/ui-react-auth';
 import { ChatWindow } from './components/ChatWindow';
 import { ChatInput } from './components/ChatInput';
 import { Message } from './components/ChatMessage';
-import { agentCoreService } from './services/agentcore.service';
+
+interface AgentCoreResponse {
+  status: string;
+  response: string;
+  sessionId: string;
+  actorId?: string;
+  invocationMethod?: string;
+}
+
+interface InvokeAgentRequest {
+  prompt: string;
+  sessionId?: string;
+}
+
+// Helper to parse nested response
+function parseResponse(apiResponse: AgentCoreResponse): {
+  status: string;
+  response: string;
+  elapsed_sec?: number;
+} {
+  try {
+    const parsed = JSON.parse(apiResponse.response);
+    return parsed;
+  } catch (error) {
+    return {
+      status: 'success',
+      response: apiResponse.response,
+    };
+  }
+}
 
 export default function AIChat() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | undefined>();
-  const [userState, userActions] = useUser();
 
-  // Set up the auth token getter when component mounts
-  useEffect(() => {
-    agentCoreService.setAuthTokenGetter(userActions.getAuthToken);
-  }, [userActions.getAuthToken]);
+  // Use the new API hook for lazy fetching
+  const {
+    data: agentResponse,
+    error: apiError,
+    isLoading: loading,
+    execute: invokeAgent,
+  } = useApiLazy<AgentCoreResponse, InvokeAgentRequest>('/agentcore/invoke', {
+    method: 'POST',
+  });
 
   const handleSendMessage = useCallback(
     async (content: string) => {
@@ -29,18 +60,18 @@ export default function AIChat() {
       };
 
       setMessages((prev) => [...prev, userMessage]);
-      setLoading(true);
-      setError(null);
 
       try {
-        // Call AgentCore API
-        const response = await agentCoreService.invokeAgent({
-          prompt: content,
-          sessionId,
+        // Call AgentCore API using the hook
+        const response = await invokeAgent({
+          body: {
+            prompt: content,
+            sessionId,
+          },
         });
 
         // Parse the nested response
-        const parsedResponse = agentCoreService.parseResponse(response);
+        const parsedResponse = parseResponse(response);
 
         // Update session ID from response
         if (response.sessionId) {
@@ -58,22 +89,15 @@ export default function AIChat() {
         setMessages((prev) => [...prev, assistantMessage]);
       } catch (err) {
         console.error('Error sending message:', err);
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Failed to send message. Please try again.'
-        );
-      } finally {
-        setLoading(false);
+        // Error is already handled by the hook
       }
     },
-    [sessionId]
+    [sessionId, invokeAgent]
   );
 
   const handleClearChat = () => {
     setMessages([]);
     setSessionId(undefined);
-    setError(null);
   };
 
   return (
@@ -124,9 +148,9 @@ export default function AIChat() {
         </Paper>
 
         {/* Error Alert */}
-        {error && (
-          <Alert severity="error" onClose={() => setError(null)} sx={{ mb: 2 }}>
-            {error}
+        {apiError && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {apiError.message}
           </Alert>
         )}
 

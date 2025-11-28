@@ -1,3 +1,6 @@
+// This file is deprecated - use useApiLazy hook directly in components
+// Keeping for backward compatibility during migration
+
 import axios from 'axios';
 
 export interface AgentCoreResponse {
@@ -18,19 +21,16 @@ class AgentCoreService {
   private getAuthToken: (() => Promise<string | null>) | null = null;
 
   constructor() {
-    // Use environment variable or detect local vs production
+    // DEPRECATED: This hardcoded URL logic should not be used
+    // Use the useApiLazy hook with config.apiUrl instead
     const isLocal = window.location.hostname === 'localhost';
 
     this.baseUrl = isLocal
-      ? 'https://api-test.charlesmbrady.com/services' // Local development
+      ? 'https://api-test.charlesmbrady.com/services'
       : process.env.NX_API_BASE_URL ||
         'https://api.charlesmbrady.com/charlesmbrady/Test';
   }
 
-  /**
-   * Set the auth token getter function
-   * This should be called from a React component with access to useUser hook
-   */
   setAuthTokenGetter(getter: () => Promise<string | null>) {
     this.getAuthToken = getter;
   }
@@ -41,7 +41,6 @@ class AgentCoreService {
         'Content-Type': 'application/json',
       };
 
-      // Add authorization header if auth token is available
       if (this.getAuthToken) {
         const token = await this.getAuthToken();
         if (token) {
@@ -62,21 +61,15 @@ class AgentCoreService {
     }
   }
 
-  /**
-   * Parse the nested response string from AgentCore
-   * The API returns a JSON string inside the response field
-   */
   parseResponse(apiResponse: AgentCoreResponse): {
     status: string;
     response: string;
     elapsed_sec?: number;
   } {
     try {
-      // The response field contains a JSON string
       const parsed = JSON.parse(apiResponse.response);
       return parsed;
     } catch (error) {
-      // If parsing fails, return the raw response
       return {
         status: 'success',
         response: apiResponse.response,

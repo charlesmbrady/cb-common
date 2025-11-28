@@ -7,7 +7,8 @@ const FullScreenLoader = ({ open }: { open: boolean; transparent?: boolean }) =>
 
 export type AppConfig = {
   apiDomain: string;
-  apiUrl: string;
+  apiPathPrefix: string;
+  apiUrl: string; // Computed from apiDomain
   // authorizedRoles: UserRole[];
   domain: string;
   environment: string;
@@ -88,7 +89,9 @@ function AppConfigProvider({ children }: AppConfigProviderProps): JSX.Element {
             : 'https';
           const config: AppConfig = {
             ...json,
-            apiUrl: `${protocol}://${json.apiDomain}`,
+            apiUrl: `${protocol}://${json.apiDomain}${
+              json.apiPathPrefix || ''
+            }`,
           };
           dispatch({ type: 'fetchAppConfigSuccess', payload: config });
         }
