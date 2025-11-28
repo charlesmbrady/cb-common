@@ -25,8 +25,8 @@ export class AgentCoreService {
   private client: BedrockAgentCoreClient;
 
   constructor() {
-    const region = process.env.AWS_REGION || 'us-east-1';
-    
+    const region = 'us-east-1';
+
     // Check if we should use HTTP invocation (for direct gateway calls)
     const useHttp = process.env.AGENTCORE_USE_HTTP === 'true';
     const gatewayEndpoint = process.env.AGENTCORE_GATEWAY_ENDPOINT;
@@ -46,11 +46,11 @@ export class AgentCoreService {
     this.client = new BedrockAgentCoreClient({
       region: this.config.region,
       // For local development, credentials provider will use AWS CLI config
-      credentials: process.env.LOCAL_SERVER === 'true' 
-        ? defaultProvider() 
-        : undefined,
+      credentials:
+        process.env.LOCAL_SERVER === 'true' ? defaultProvider() : undefined,
     });
-  }  /**
+  }
+  /**
    * Invoke agent using AWS SDK (with SigV4 signing)
    * Bearer token is passed for user identity, AWS credentials for authorization
    */
@@ -75,14 +75,16 @@ export class AgentCoreService {
     bearerToken?: string
   ): Promise<any> {
     const sessionId = payload.sessionId || this.generateSessionId();
+    const actorId = payload.actorId || 'anonymous';
 
     const input = {
       agentRuntimeArn: this.config.agentArn,
       runtimeSessionId: sessionId,
       payload: new TextEncoder().encode(
         JSON.stringify({
-          inputText: payload.prompt,
-          userId: payload.actorId || 'anonymous',
+          input: payload.prompt,
+          sessionId: sessionId,
+          actorId: actorId,
         })
       ),
     };
@@ -135,9 +137,12 @@ export class AgentCoreService {
     }
 
     const sessionId = payload.sessionId || this.generateSessionId();
+    const actorId = payload.actorId || 'anonymous';
+
     const requestBody = JSON.stringify({
-      inputText: payload.prompt,
-      userId: payload.actorId || 'anonymous',
+      input: payload.prompt,
+      sessionId: sessionId,
+      actorId: actorId,
     });
 
     try {
