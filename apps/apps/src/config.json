@@ -1,6 +1,6 @@
 {
   "apiDomain": "localhost:3333",
-  "apiUrl": "http://localhost:3333",
+  "apiPathPrefix": "",
   "domain": "localhost",
   "environment": "development",
   "oauthDomain": "auth-test.charlesmbrady.com",
