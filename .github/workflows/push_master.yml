@@ -54,6 +54,14 @@ jobs:
           echo "NX_BASE=$NX_BASE NX_HEAD=$NX_HEAD"
           # Nx 20+: Use `nx show projects --affected` and filter to apps by presence under apps/<name>
           RAW=$(yarn -s nx show projects --affected --type=application 2>/dev/null || echo "")
+          # Attempt to get affected application projects using explicit base/head (required for show projects)
+          RAW=$(yarn -s nx show projects --affected --base="$NX_BASE" --head="$NX_HEAD" --type=app 2>/dev/null || echo "")
+          if [ -z "$RAW" ]; then
+            echo "Primary method returned empty; falling back to parsing dry-run output."
+            DRY=$(yarn -s nx affected --target=build --configuration=test --dry-run 2>/dev/null || echo "")
+            # Extract project names before first ':' in task lines
+            RAW=$(echo "$DRY" | awk -F: '/:build/ {print $1}' | sed 's/^[[:space:]]*//')
+          fi
           FILTERED=$(echo "$RAW" | tr ' ' '\n' | paste -sd, -)
           APPS="$FILTERED"
           if [ -z "$APPS" ]; then
@@ -62,6 +70,9 @@ jobs:
             echo "Affected apps: $APPS"
           fi
           echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
+          # Filter to directories under apps/ that exist
+          FILTERED=$(echo "$RAW" | tr ' ' '\n' | while read -r p; do [ -d "apps/$p" ] && echo "$p" || true; done | sort -u | paste -sd, -)
+          APPS="$FILTERED"
 
   deploy-charlesmbrady-web:
     needs: build

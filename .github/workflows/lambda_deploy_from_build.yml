@@ -49,8 +49,13 @@ jobs:
       - name: Skip if app not affected
         id: check-affected
         run: |
-          RAW=$(yarn -s nx show projects --affected --type=application 2>/dev/null || echo "")
-          echo "Affected projects: $RAW"
+          RAW=$(yarn -s nx show projects --affected --base="$NX_BASE" --head="$NX_HEAD" --type=app 2>/dev/null || echo "")
+          if [ -z "$RAW" ]; then
+            echo "Primary method returned empty; falling back to dry-run parse.";
+            DRY=$(yarn -s nx affected --target=build --configuration=${{ inputs.env }} --dry-run 2>/dev/null || echo "")
+            RAW=$(echo "$DRY" | awk -F: '/:build/ {print $1}' | sed 's/^[[:space:]]*//')
+          fi
+          echo "Affected projects (raw): $RAW"
           echo "$RAW" | tr ' ' '\n' | grep -x "${{ inputs.appName }}" >/dev/null && {
             echo "${{ inputs.appName }} is affected; continuing deploy.";
           } || {
