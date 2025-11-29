@@ -32,16 +32,9 @@ jobs:
         with:
           main-branch-name: 'main'
 
-      - name: Build all apps
-        run: yarn nx run-many --target=build --all --configuration=test
-      - name: Install Lambda production dependencies
-        run: |
-          if [ -d "dist/apps/api-services" ]; then
-            echo "Installing production dependencies for api-services (yarn)..."
-            cd dist/apps/api-services
-            yarn install --production --non-interactive
-            cd ../../..
-          fi
+      - name: Build affected apps
+        run: yarn nx affected --target=build --configuration=test
+      # Removed: Lambda production deps install (no longer needed with esbuild bundling)
 
       - name: Debug dist folder
         run: |
@@ -55,16 +48,12 @@ jobs:
           name: build
           path: ${{ github.workspace }}/dist/apps/
 
-      - name: Set affected apps output
+      - name: Set affected apps output (Nx)
         id: affected-apps
         run: |
-          if [ -d dist/apps ]; then
-            FOUND_APPS=$(find dist/apps -type d -maxdepth 1 -mindepth 1 | cut -d '/' -f 3)
-            APPS=$(echo $FOUND_APPS | tr ' ' ',')
-            echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
-          else
-            echo "AFFECTED_APPS=" >> $GITHUB_OUTPUT
-          fi
+          APPS=$(yarn -s nx print-affected --select=projects)
+          echo "Affected apps: $APPS"
+          echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
 
   deploy-charlesmbrady-web:
     needs: build
@@ -115,6 +104,7 @@ jobs:
     with:
       appName: 'api-services'
       lambdaFunctionName: 'charlesmbrady_api_services_Test'
+      env: 'test'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -36,14 +36,7 @@ jobs:
         run: yarn install
       - name: Build app
         run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
-      - name: Install Lambda production dependencies (api-services only)
-        run: |
-          if [ -d "dist/apps/api-services" ]; then
-            echo "Installing production dependencies for api-services (yarn)..."
-            cd dist/apps/api-services
-            yarn install --production --non-interactive
-            cd ../../..
-          fi
+      # Removed: Lambda production deps install (no longer needed with esbuild bundling)
       - name: Debug dist folder
         run: |
           ls -l dist || true
@@ -100,6 +93,7 @@ jobs:
     with:
       appName: 'api-services'
       lambdaFunctionName: 'charlesmbrady_api_services_Production'
+      env: 'production'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
