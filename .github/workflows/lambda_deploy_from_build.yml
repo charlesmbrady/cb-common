@@ -9,10 +9,10 @@ on:
       lambdaFunctionName:
         required: true
         type: string
-      extraFiles:
+      env:
         required: false
         type: string
-        default: ''
+        default: 'test'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -25,31 +25,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo
-        run: echo app=${{ inputs.appName }} lambda=${{ inputs.lambdaFunctionName }} extraFiles=${{ inputs.extraFiles }}
+        run: echo app=${{ inputs.appName }} lambda=${{ inputs.lambdaFunctionName }} env=${{ inputs.env }}
 
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Retrieve deployment bundle
-        uses: actions/download-artifact@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          name: build
+          node-version: '20'
+          cache: 'yarn'
 
-      - name: Zip lambda for deployment
-        run: zip -r ${{ inputs.appName }}.zip ${{ inputs.appName }} ${{ inputs.extraFiles }}
-
-      - name: Debug
-        run: pwd && ls -R .
-
-      - name: Debug root and scripts directory
+      - name: Install dependencies
         run: |
-          ls -l
-          ls -l scripts || true
+          corepack enable
+          yarn install --frozen-lockfile
 
-      - name: Upload lambda function code to AWS Lambda
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
+      - name: Set Nx base/head SHAs
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: 'main'
+
+      - name: Skip if app not affected
+        id: check-affected
         run: |
-          aws lambda update-function-code --function-name "${{ inputs.lambdaFunctionName }}" --zip-file "fileb://${{ github.workspace }}/${{ inputs.appName }}.zip"
+          AFFECTED=$(yarn -s nx print-affected --select=projects)
+          echo "Affected: $AFFECTED"
+          echo "$AFFECTED" | grep -w "${{ inputs.appName }}" >/dev/null || {
+            echo "${{ inputs.appName }} not affected; skipping deploy.";
+            echo "SKIP_DEPLOY=true" >> $GITHUB_OUTPUT;
+          }
+
+      - name: Exit early when not affected
+        if: steps.check-affected.outputs.SKIP_DEPLOY == 'true'
+        run: |
+          echo "No changes for ${{ inputs.appName }}; exiting." && exit 0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy Lambda using script
+        run: |
+          ./scripts/deploy_lambda.sh --env "${{ inputs.env }}" --nx-project-name "${{ inputs.appName }}" --lambda-name "${{ inputs.lambdaFunctionName }}"
