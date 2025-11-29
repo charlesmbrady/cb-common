@@ -52,9 +52,10 @@ jobs:
         id: affected-apps
         run: |
           echo "NX_BASE=$NX_BASE NX_HEAD=$NX_HEAD"
-          # Nx 20+: print-affected removed; use show projects --affected
-          RAW_JSON=$(yarn -s nx show projects --affected --json 2>/dev/null || echo '{"projects":[]}')
-          APPS=$(echo "$RAW_JSON" | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{try{let j=JSON.parse(d);console.log((j.projects||[]).join(','));}catch(e){console.log('');}})")
+          # Nx 20+: Use `nx show projects --affected` and filter to apps by presence under apps/<name>
+          RAW=$(yarn -s nx show projects --affected --type=application 2>/dev/null || echo "")
+          FILTERED=$(echo "$RAW" | tr ' ' '\n' | paste -sd, -)
+          APPS="$FILTERED"
           if [ -z "$APPS" ]; then
             echo "No affected apps detected for this push; skipping deploy jobs." 
           else
