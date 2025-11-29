@@ -49,9 +49,10 @@ jobs:
       - name: Skip if app not affected
         id: check-affected
         run: |
-          AFFECTED=$(yarn -s nx print-affected --select=projects)
-          echo "Affected: $AFFECTED"
-          echo "$AFFECTED" | grep -w "${{ inputs.appName }}" >/dev/null || {
+          RAW_JSON=$(yarn -s nx show projects --affected --json 2>/dev/null || echo '{"projects":[]}')
+          AFFECTED=$(echo "$RAW_JSON" | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{try{let j=JSON.parse(d);console.log((j.projects||[]).join(' '));}catch(e){console.log('');}})")
+          echo "Affected projects: $AFFECTED"
+          echo "$AFFECTED" | tr ' ' '\n' | grep -x "${{ inputs.appName }}" >/dev/null || {
             echo "${{ inputs.appName }} not affected; skipping deploy.";
             echo "SKIP_DEPLOY=true" >> $GITHUB_OUTPUT;
           }
