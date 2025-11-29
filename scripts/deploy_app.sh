@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
 # Minimal Nx S3 Deploy Script
-# Usage: ./deploy_app.sh --project-name <PROJECT_NAME> --bucket-name <S3_BUCKET> [--configuration <test|production>]
+# Usage: ./deploy_app.sh --project-name <PROJECT_NAME> --bucket-name <S3_BUCKET> [--configuration <test|production>] [--cloudfront-id <DISTRIBUTION_ID>]
 
 set -e
 
 PROJECT_NAME=""
 S3_BUCKET=""
 CONFIGURATION="production"
+cloudfront_id=""
 
-while [[ $# -gt 0 ]]; do
+while [[ "$#" -gt 0 ]]; do
   case "$1" in
     --project-name)
       PROJECT_NAME="$2"
@@ -23,8 +24,13 @@ while [[ $# -gt 0 ]]; do
       CONFIGURATION="$2"
       shift 2
       ;;
+    --cloudfront-id)
+      cloudfront_id="$2"
+      shift 2
+      ;;
     *)
-      shift
+      echo "Unknown argument: $1"
+      exit 1
       ;;
   esac
 done
@@ -45,6 +51,13 @@ if [[ ! -d "$OUT_DIR" ]]; then
 fi
 
 echo "Syncing $OUT_DIR to s3://$S3_BUCKET/ ..."
+# Sync build output to bucket ROOT to ensure asset keys match index.html references
 aws s3 sync "$OUT_DIR" "s3://$S3_BUCKET/" --delete
+
+# Optional: Invalidate CloudFront cache
+if [[ -n "$cloudfront_id" ]]; then
+  echo "Invalidating CloudFront distribution $cloudfront_id"
+  aws cloudfront create-invalidation --distribution-id "$cloudfront_id" --paths "/*"
+fi
 
 echo "Deploy complete!"

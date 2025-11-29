@@ -75,6 +75,7 @@ jobs:
       bucketName: 'charlesmbrady-test-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
+      cloudfrontId: 'E1KAQ4WLP4TWRD'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -88,6 +89,7 @@ jobs:
       bucketName: 'mockdat-test-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
+      cloudfrontId: 'E33S5BZ9NFBJKC'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -101,6 +103,7 @@ jobs:
       bucketName: 'apps-test-website-content'
       s3SyncOptions: '--delete'
       appType: 'react'
+      cloudfrontId: 'E257LVT1L0CP3B'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
