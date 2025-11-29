@@ -9,7 +9,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
-        "baseBranch": "master",
+        "baseBranch": "main",
         "allowEmptyRelease": true,
         "push": true,
         "postTargets": ["api-services:github"]
