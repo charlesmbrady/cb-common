@@ -12,6 +12,23 @@
         "jestConfig": "apps/charlesmbrady-web/jest.config.ts"
       }
     },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "allowEmptyRelease": true,
+        "push": true,
+        "postTargets": ["charlesmbrady-web:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
