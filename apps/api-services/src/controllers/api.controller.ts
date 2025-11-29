@@ -7,7 +7,7 @@ export const getInfo = (req: Request, res: Response) => {
   console.log('event', event);
   res.json({
     service: 'API Services',
-    version: '1.0.9+',
+    version: '1.0.0+',
     timestamp: new Date().toISOString(),
   });
 };

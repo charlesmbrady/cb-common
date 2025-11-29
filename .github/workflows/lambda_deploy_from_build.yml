@@ -29,6 +29,9 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -43,8 +46,14 @@ jobs:
 
       - name: Set Nx base/head SHAs
         uses: nrwl/nx-set-shas@v2
+        continue-on-error: true
         with:
           main-branch-name: 'main'
+
+      - name: Debug SHAs (optional)
+        run: |
+          echo "NX_BASE=$NX_BASE"
+          echo "NX_HEAD=$NX_HEAD"
 
       - name: Skip if app not affected
         id: check-affected
