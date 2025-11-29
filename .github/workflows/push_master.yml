@@ -52,14 +52,15 @@ jobs:
         id: affected-apps
         run: |
           echo "NX_BASE=$NX_BASE NX_HEAD=$NX_HEAD"
-          APPS=$(yarn -s nx print-affected --select=projects 2>/dev/null || echo "")
-          # Normalize whitespace to commas
-          APPS=$(echo "$APPS" | tr '\n' ',' | tr -s ' ' ',')
-          echo "Affected apps: $APPS"
-          echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
+          # Nx 20+: print-affected removed; use show projects --affected
+          RAW_JSON=$(yarn -s nx show projects --affected --json 2>/dev/null || echo '{"projects":[]}')
+          APPS=$(echo "$RAW_JSON" | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{try{let j=JSON.parse(d);console.log((j.projects||[]).join(','));}catch(e){console.log('');}})")
           if [ -z "$APPS" ]; then
             echo "No affected apps detected for this push; skipping deploy jobs." 
+          else
+            echo "Affected apps: $APPS"
           fi
+          echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
 
   deploy-charlesmbrady-web:
     needs: build
