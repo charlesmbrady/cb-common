@@ -51,9 +51,15 @@ jobs:
       - name: Set affected apps output (Nx)
         id: affected-apps
         run: |
-          APPS=$(yarn -s nx print-affected --select=projects)
+          echo "NX_BASE=$NX_BASE NX_HEAD=$NX_HEAD"
+          APPS=$(yarn -s nx print-affected --select=projects 2>/dev/null || echo "")
+          # Normalize whitespace to commas
+          APPS=$(echo "$APPS" | tr '\n' ',' | tr -s ' ' ',')
           echo "Affected apps: $APPS"
           echo "AFFECTED_APPS=$APPS" >> $GITHUB_OUTPUT
+          if [ -z "$APPS" ]; then
+            echo "No affected apps detected for this push; skipping deploy jobs." 
+          fi
 
   deploy-charlesmbrady-web:
     needs: build
