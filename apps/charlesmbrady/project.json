@@ -5,6 +5,23 @@
   "projectType": "application",
   "tags": ["app", "next"],
   "targets": {
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "allowEmptyRelease": true,
+        "push": true,
+        "postTargets": ["charlesmbrady:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
