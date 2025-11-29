@@ -241,7 +241,7 @@ export default function App() {
                 }}
                 onClick={() => (window.location.href = '/')}
               >
-                Charles Bradys apps
+                CB - apps
               </Box>
             ),
             navigationProps: {

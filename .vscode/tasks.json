@@ -71,7 +71,9 @@
         "--bucket-name",
         "charlesmbrady-test-website-content",
         "--configuration",
-        "test"
+        "test",
+        "--cloudfront-id",
+        "E1KAQ4WLP4TWRD"
       ],
       "dependsOn": ["Build: charlesmbrady-web"],
       "problemMatcher": []
@@ -86,7 +88,9 @@
         "--bucket-name",
         "charlesmbrady-production-website-content",
         "--configuration",
-        "production"
+        "production",
+        "--cloudfront-id",
+        "E2PCMFJ1RZP98Z"
       ],
       "dependsOn": ["Build: charlesmbrady-web"],
       "problemMatcher": []
@@ -108,7 +112,9 @@
         "--bucket-name",
         "mockdat-test-website-content",
         "--configuration",
-        "test"
+        "test",
+        "--cloudfront-id",
+        "E33S5BZ9NFBJKC"
       ],
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
@@ -123,7 +129,9 @@
         "--bucket-name",
         "mockdat-production-website-content",
         "--configuration",
-        "production"
+        "production",
+        "--cloudfront-id",
+        "EI79HWUIBMB3N"
       ],
       "dependsOn": ["Build: mockdat-web"],
       "problemMatcher": []
@@ -145,7 +153,9 @@
         "--bucket-name",
         "apps-test-website-content",
         "--configuration",
-        "test"
+        "test",
+        "--cloudfront-id",
+        "E257LVT1L0CP3B"
       ],
       "dependsOn": ["Build: apps"],
       "problemMatcher": []
@@ -160,7 +170,9 @@
         "--bucket-name",
         "apps-production-website-content",
         "--configuration",
-        "production"
+        "production",
+        "--cloudfront-id",
+        "E1E5IQSO09HMF0"
       ],
       "dependsOn": ["Build: apps"],
       "problemMatcher": []
