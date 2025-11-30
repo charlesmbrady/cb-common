@@ -11,8 +11,7 @@
         "preset": "conventional",
         "baseBranch": "main",
         "allowEmptyRelease": true,
-        "push": true,
-        "postTargets": ["api-services:github"]
+        "push": true
       }
     },
     "github": {
