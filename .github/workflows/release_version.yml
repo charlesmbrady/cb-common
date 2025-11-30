@@ -67,7 +67,7 @@ jobs:
             appType: 'react'
             cloudfrontId: ''
     # Run only the matrix row matching the parsed app name
-    if: needs.build.outputs.app_name == matrix.name
+    if: ${{ needs.build.outputs.app_name == matrix.name }}
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
       appName: ${{ matrix.name }}
@@ -87,7 +87,7 @@ jobs:
         include:
           - name: 'api-services'
             lambdaFunctionName: 'charlesmbrady_api_services_Production'
-    if: needs.build.outputs.app_name == 'api-services'
+    if: ${{ needs.build.outputs.app_name == 'api-services' }}
     uses: ./.github/workflows/lambda_deploy_from_build.yml
     with:
       appName: ${{ matrix.name }}
