@@ -18,8 +18,7 @@
         "preset": "conventional",
         "baseBranch": "main",
         "allowEmptyRelease": true,
-        "push": true,
-        "postTargets": ["charlesmbrady-web:github"]
+        "push": true
       }
     },
     "github": {

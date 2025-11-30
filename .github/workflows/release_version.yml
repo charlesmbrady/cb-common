@@ -19,52 +19,78 @@ jobs:
           echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
           echo "Deploying app: $APP_NAME"
 
-  deploy-charlesmbrady-web:
+  build:
     needs: set-app-name
-    if: needs.set-app-name.outputs.app_name == 'charlesmbrady-web'
+    runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ needs.set-app-name.outputs.app_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile || yarn install
+      - name: Build app (production)
+        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
+      - name: Debug dist folder
+        run: |
+          ls -l dist || true
+          ls -l dist/apps || true
+          ls -l dist/apps/${{ needs.set-app-name.outputs.app_name }} || true
+      - name: Persist deployment bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist/apps
+
+  deploy-s3:
+    name: Deploy S3 apps
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - name: 'charlesmbrady-web'
+            bucket: 'charlesmbrady-production-website-content'
+            appType: 'react'
+            cloudfrontId: ''
+          - name: 'mockdat-web'
+            bucket: 'mockdat-production-website-content'
+            appType: 'react'
+            cloudfrontId: ''
+          - name: 'apps'
+            bucket: 'apps-production-website-content'
+            appType: 'react'
+            cloudfrontId: ''
+    if: contains('charlesmbrady-web,mockdat-web,apps', needs.build.outputs.app_name)
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
-      appName: 'charlesmbrady-web'
-      bucketName: 'charlesmbrady-production-website-content'
+      appName: ${{ matrix.name }}
+      bucketName: ${{ matrix.bucket }}
       s3SyncOptions: '--delete'
-      appType: 'react'
+      appType: ${{ matrix.appType }}
+      cloudfrontId: ${{ matrix.cloudfrontId }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  deploy-mockdat-web:
-    needs: set-app-name
-    if: needs.set-app-name.outputs.app_name == 'mockdat-web'
-    uses: ./.github/workflows/s3_deploy_from_build.yml
-    with:
-      appName: 'mockdat-web'
-      bucketName: 'mockdat-production-website-content'
-      s3SyncOptions: '--delete'
-      appType: 'react'
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  deploy-apps:
-    needs: set-app-name
-    if: needs.set-app-name.outputs.app_name == 'apps'
-    uses: ./.github/workflows/s3_deploy_from_build.yml
-    with:
-      appName: 'apps'
-      bucketName: 'apps-production-website-content'
-      s3SyncOptions: '--delete'
-      appType: 'react'
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  deploy-api-services:
-    needs: set-app-name
-    if: needs.set-app-name.outputs.app_name == 'api-services'
+  deploy-lambda:
+    name: Deploy Lambda apps
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - name: 'api-services'
+            lambdaFunctionName: 'charlesmbrady_api_services_Production'
+    if: needs.build.outputs.app_name == 'api-services'
     uses: ./.github/workflows/lambda_deploy_from_build.yml
     with:
-      appName: 'api-services'
-      lambdaFunctionName: 'charlesmbrady_api_services_Production'
+      appName: ${{ matrix.name }}
+      lambdaFunctionName: ${{ matrix.lambdaFunctionName }}
       env: 'production'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
