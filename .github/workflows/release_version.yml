@@ -19,37 +19,9 @@ jobs:
           echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
           echo "Deploying app: $APP_NAME"
 
-  build:
-    needs: set-app-name
-    runs-on: ubuntu-latest
-    outputs:
-      app_name: ${{ needs.set-app-name.outputs.app_name }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.release.tag_name }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
-      - name: Build app
-        run: yarn nx run ${{ needs.set-app-name.outputs.app_name }}:build --configuration=production
-      # Removed: Lambda production deps install (no longer needed with esbuild bundling)
-      - name: Debug dist folder
-        run: |
-          ls -l dist || true
-          ls -l dist/apps || true
-      - name: Persist deployment bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist/apps
-
   deploy-charlesmbrady-web:
-    needs: build
-    if: needs.build.outputs.app_name == 'charlesmbrady-web'
+    needs: set-app-name
+    if: needs.set-app-name.outputs.app_name == 'charlesmbrady-web'
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
       appName: 'charlesmbrady-web'
@@ -61,8 +33,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   deploy-mockdat-web:
-    needs: build
-    if: needs.build.outputs.app_name == 'mockdat-web'
+    needs: set-app-name
+    if: needs.set-app-name.outputs.app_name == 'mockdat-web'
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
       appName: 'mockdat-web'
@@ -74,8 +46,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   deploy-apps:
-    needs: build
-    if: needs.build.outputs.app_name == 'apps'
+    needs: set-app-name
+    if: needs.set-app-name.outputs.app_name == 'apps'
     uses: ./.github/workflows/s3_deploy_from_build.yml
     with:
       appName: 'apps'
@@ -87,8 +59,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   deploy-api-services:
-    needs: build
-    if: needs.build.outputs.app_name == 'api-services'
+    needs: set-app-name
+    if: needs.set-app-name.outputs.app_name == 'api-services'
     uses: ./.github/workflows/lambda_deploy_from_build.yml
     with:
       appName: 'api-services'
