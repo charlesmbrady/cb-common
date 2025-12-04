@@ -55,13 +55,13 @@ export default function AboutPage() {
         lightBackgroundImage={portrait}
         darkBackgroundImage={portrait}
       />
-      <Typography
+      {/* <Typography
         variant="body1"
         sx={{ textAlign: 'center', mb: 6, maxWidth: 700, mx: 'auto' }}
       >
         Learn more about my background, philosophy, and approach to building
         great software and teams.
-      </Typography>
+      </Typography> */}
       <Paper
         // elevation={0}
         sx={{
