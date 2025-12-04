@@ -22,6 +22,8 @@ export type AppBarMobileMenuProps = {
   onSignInClick?: () => void;
   onSignUpClick?: () => void;
   showColorMode?: boolean;
+  showSignInButton?: boolean;
+  showSignUpButton?: boolean;
 };
 
 const defaultNavigationItems: AppBarNavigationItem[] = [
@@ -40,6 +42,8 @@ export function AppBarMobileMenu({
   onSignInClick,
   onSignUpClick,
   showColorMode = true,
+  showSignInButton = true,
+  showSignUpButton = true,
 }: AppBarMobileMenuProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -114,26 +118,30 @@ export function AppBarMobileMenu({
 
           <Divider sx={{ my: 3 }} />
 
-          <MenuItem>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              onClick={onSignUpClick}
-            >
-              {signUpText}
-            </Button>
-          </MenuItem>
-          <MenuItem>
-            <Button
-              color="primary"
-              variant="outlined"
-              fullWidth
-              onClick={onSignInClick}
-            >
-              {signInText}
-            </Button>
-          </MenuItem>
+          {showSignUpButton && (
+            <MenuItem>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                onClick={onSignUpClick}
+              >
+                {signUpText}
+              </Button>
+            </MenuItem>
+          )}
+          {showSignInButton && (
+            <MenuItem>
+              <Button
+                color="primary"
+                variant="outlined"
+                fullWidth
+                onClick={onSignInClick}
+              >
+                {signInText}
+              </Button>
+            </MenuItem>
+          )}
         </Box>
       </Drawer>
     </Box>
