@@ -18,19 +18,7 @@ export const ContactSection: React.FC = () => {
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
       }}
     >
-      <Typography
-        variant="h3"
-        component="h1"
-        gutterBottom
-        sx={{
-          fontWeight: 700,
-          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          textAlign: 'center',
-          mb: 4,
-        }}
-      >
+      <Typography variant="h3" sx={{ textAlign: 'center', m: 0 }}>
         Get in Touch
       </Typography>
 

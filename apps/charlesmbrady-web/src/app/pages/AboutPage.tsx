@@ -6,14 +6,13 @@ import {
   Psychology as PsychologyIcon,
 } from '@mui/icons-material';
 import {
-  HeroImage,
   Container,
   Divider,
   Typography,
   Box,
   Paper,
 } from '@cb-common/ui-react-mui';
-import portrait from '../../assets/portrait.jpeg';
+import portrait from '../../assets/portrait-small.jpeg';
 import { PageContainer } from '../components/PageContainer';
 import { PageHeader } from '../components/PageHeader';
 
@@ -51,17 +50,27 @@ export default function AboutPage() {
   return (
     <PageContainer>
       <PageHeader title="Hello!" />
-      <HeroImage
-        lightBackgroundImage={portrait}
-        darkBackgroundImage={portrait}
-      />
-      {/* <Typography
-        variant="body1"
-        sx={{ textAlign: 'center', mb: 6, maxWidth: 700, mx: 'auto' }}
+      <Box
+        sx={{
+          width: { xs: '60%', sm: '50%', md: '35%' },
+          maxWidth: 280,
+          borderRadius: '50%',
+          mx: 'auto',
+          mt: 6,
+          mb: 4,
+          border: '4px solid',
+          borderColor: 'primary.light',
+          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.25)',
+          overflow: 'hidden',
+        }}
       >
-        Learn more about my background, philosophy, and approach to building
-        great software and teams.
-      </Typography> */}
+        <img
+          src={portrait}
+          alt="Portrait of Charles Brady"
+          style={{ width: '100%', display: 'block' }}
+        />
+      </Box>
+
       <Paper
         // elevation={0}
         sx={{
@@ -71,19 +80,7 @@ export default function AboutPage() {
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <Typography
-          variant="h3"
-          component="h1"
-          gutterBottom
-          sx={{
-            fontWeight: 700,
-            background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-            WebkitBackgroundClip: 'text',
-            color: 'blue',
-            textAlign: 'center',
-            mb: 4,
-          }}
-        >
+        <Typography variant="h3" sx={{ textAlign: 'center', m: 0 }}>
           About Me
         </Typography>
 

@@ -1,6 +1,5 @@
 import { List, ListItem, Stack, Typography } from '@cb-common/ui-react-mui';
 
-//This should replace the "title" for all the workExperiences items above.  This will allow more control over complex formatting.  It should be the same for all items.  It will take in its own props for "title", "company", and "dateRange" and display them properly and responsively and taking priority sizing and formatting into account.
 export const ExperienceItem = ({
   title,
   company,
