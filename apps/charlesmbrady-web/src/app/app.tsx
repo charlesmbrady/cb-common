@@ -1,8 +1,4 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.css';
-// import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Link, RouterLink } from '@cb-common/ui-react-mui';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -26,13 +22,6 @@ const navItems: AppBarNavigationItem[] = [
   { label: 'Work', href: '/work' },
   { label: 'Contact', href: '/contact' },
 ];
-
-// const HomePage = lazy(() => import('./pages/HomePage'));
-// const AboutPage = lazy(() => import('./pages/AboutPage'));
-// const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
-// const TechnologiesPage = lazy(() => import('./pages/TechnologiesPage'));
-// const WorkPage = lazy(() => import('./pages/WorkPage'));
-// const ContactPage = lazy(() => import('./pages/ContactPage'));
 
 export default function App() {
   return (
