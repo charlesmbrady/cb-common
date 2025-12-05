@@ -52,8 +52,9 @@ export default function HomePage() {
               <Button
                 variant="contained"
                 size="large"
-                href="/CharlesBrady_resume.pdf"
+                href="/resume.pdf"
                 target="_blank"
+                rel="noopener noreferrer"
                 sx={{ minWidth: 'fit-content', textAlign: 'center' }}
               >
                 Resume

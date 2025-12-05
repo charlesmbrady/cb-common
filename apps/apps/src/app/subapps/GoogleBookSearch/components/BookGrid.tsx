@@ -17,15 +17,12 @@ export function BookGrid({
   return (
     <Box
       sx={{
+        width: '100%',
+        boxSizing: 'border-box',
         mt: 1,
         display: 'grid',
         gap: 2,
-        gridTemplateColumns: {
-          xs: '1fr',
-          sm: '1fr 1fr',
-          md: 'repeat(3, 1fr)',
-          lg: 'repeat(4, 1fr)',
-        },
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
       }}
     >
       {books.map((b) => (

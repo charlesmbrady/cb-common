@@ -39,7 +39,10 @@ module.exports = {
     }),
     // Copy the correct environment config to dist/config.json
     new CopyWebpackPlugin({
-      patterns: [{ from: configFrom, to: 'config.json' }],
+      patterns: [
+        { from: configFrom, to: 'config.json' },
+        { from: join(__dirname, 'public/subapps'), to: 'subapps' },
+      ],
     }),
     new NxReactWebpackPlugin({
       // Uncomment this line if you don't want to use SVGR

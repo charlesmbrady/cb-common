@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Typography, Avatar } from '@mui/material';
+import { Box, Paper, Typography, Avatar } from '@cb-common/ui-react-mui';
 import { Person, SmartToy } from '@mui/icons-material';
 
 export interface Message {
@@ -28,7 +28,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       {!isUser && (
         <Avatar
           sx={{
-            bgcolor: 'primary.main',
+            // bgcolor: 'primary.light',
+            // color: 'primary.contrastText',
             width: 36,
             height: 36,
           }}
@@ -43,9 +44,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           maxWidth: '70%',
           px: 2,
           py: 1.5,
-          bgcolor: isUser ? 'primary.main' : 'background.paper',
-          color: isUser ? 'primary.contrastText' : 'text.primary',
-          borderRadius: 2,
+          // bgcolor: isUser ? 'primary.main' : 'background.default',
+          // color: isUser ? 'primary.contrastText' : 'text.primary',
+          // borderRadius: 2,
+          // border: '1px solid',
+          // borderColor: 'divider',
         }}
       >
         <Typography
@@ -60,7 +63,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         <Typography
           variant="caption"
           sx={{
-            opacity: 0.7,
+            // color: 'text.secondary',
             display: 'block',
             mt: 0.5,
             fontSize: '0.7rem',
@@ -73,7 +76,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       {isUser && (
         <Avatar
           sx={{
-            bgcolor: 'secondary.main',
+            // bgcolor: 'secondary.light',
+            // color: 'secondary.contrastText',
             width: 36,
             height: 36,
           }}

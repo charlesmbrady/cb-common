@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Box, TextField, IconButton, CircularProgress } from '@mui/material';
+import { Box, TextField, CircularProgress } from '@cb-common/ui-react-mui';
+import { IconButton } from '@mui/material';
 import { Send } from '@mui/icons-material';
 
 interface ChatInputProps {
@@ -36,9 +37,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         gap: 1,
         alignItems: 'flex-end',
         p: 2,
-        borderTop: 1,
+        borderTop: '1px solid',
         borderColor: 'divider',
-        bgcolor: 'background.paper',
+        // bgcolor: 'background.paper',
+        backdropFilter: 'blur(8px)',
       }}
     >
       <TextField
@@ -48,30 +50,41 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyPress={handleKeyPress}
-        placeholder="Type your message..."
+        placeholder="Ask about my background, project results, or tech stack..."
         disabled={disabled}
         variant="outlined"
         size="small"
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 3,
-          },
-        }}
+        // sx={{
+        //   '& .MuiOutlinedInput-root': {
+        //     borderRadius: 3,
+        //     backgroundColor: 'background.default',
+        //     color: 'text.primary',
+        //     '& fieldset': {
+        //       borderColor: 'divider',
+        //     },
+        //     '&:hover fieldset': {
+        //       borderColor: 'primary.main',
+        //     },
+        //     '&.Mui-focused fieldset': {
+        //       borderColor: 'primary.main',
+        //     },
+        //   },
+        // }}
       />
       <IconButton
         color="primary"
         onClick={handleSend}
         disabled={disabled || !input.trim() || loading}
-        sx={{
-          bgcolor: 'primary.main',
-          color: 'white',
-          '&:hover': {
-            bgcolor: 'primary.dark',
-          },
-          '&.Mui-disabled': {
-            bgcolor: 'action.disabledBackground',
-          },
-        }}
+        // sx={{
+        //   bgcolor: 'primary.main',
+        //   color: 'white',
+        //   '&:hover': {
+        //     bgcolor: 'primary.dark',
+        //   },
+        //   '&.Mui-disabled': {
+        //     bgcolor: 'action.disabledBackground',
+        //   },
+        // }}
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : <Send />}
       </IconButton>

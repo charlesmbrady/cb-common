@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@cb-common/ui-react-mui';
 import { ChatMessage, Message } from './ChatMessage';
 
 interface ChatWindowProps {
@@ -27,10 +27,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       sx={{
         flex: 1,
         overflow: 'auto',
-        p: 2,
-        bgcolor: 'grey.50',
+        p: { xs: 2, md: 3 },
+        bgcolor: 'transparent',
         display: 'flex',
         flexDirection: 'column',
+        // color: 'text.primary',
       }}
     >
       {messages.length === 0 ? (
@@ -44,12 +45,48 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
             gap: 2,
           }}
         >
-          <Typography variant="h5" color="text.secondary">
-            👋 Welcome to AI Assistant
+          <Typography variant="h5" textAlign="center">
+            👋 Meet Charles' Personal Portfolio Assistant
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Ask me anything to get started!
+          <Typography
+            variant="body2"
+            // color="text.secondary"
+            sx={{ maxWidth: 420, textAlign: 'center' }}
+          >
+            Ask about Charles Brady&apos;s experience, request a project
+            walkthrough, or get tailored talking points for your next
+            conversation.
           </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 1,
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {[
+              'Experience recaps',
+              'Project retrospectives',
+              'Tech stack deep dives',
+            ].map((item) => (
+              <Typography
+                key={item}
+                variant="caption"
+                color="text.secondary"
+                sx={{
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: 999,
+                  // bgcolor: 'action.hover',
+                  // border: '1px solid',
+                  // borderColor: 'divider',
+                }}
+              >
+                {item}
+              </Typography>
+            ))}
+          </Box>
         </Box>
       ) : (
         <>
@@ -63,7 +100,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                   display: 'flex',
                   gap: 0.5,
                   p: 2,
-                  bgcolor: 'background.paper',
+                  // bgcolor: 'action.hover',
                   borderRadius: 2,
                 }}
               >
@@ -73,7 +110,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     width: 8,
                     height: 8,
                     borderRadius: '50%',
-                    bgcolor: 'text.secondary',
+                    // bgcolor: 'text.secondary',
                     animation: 'typing 1.4s infinite',
                     animationDelay: '0s',
                   }}
@@ -84,7 +121,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     width: 8,
                     height: 8,
                     borderRadius: '50%',
-                    bgcolor: 'text.secondary',
+                    // bgcolor: 'text.secondary',
                     animation: 'typing 1.4s infinite',
                     animationDelay: '0.2s',
                   }}
@@ -95,7 +132,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     width: 8,
                     height: 8,
                     borderRadius: '50%',
-                    bgcolor: 'text.secondary',
+                    // bgcolor: 'text.secondary',
                     animation: 'typing 1.4s infinite',
                     animationDelay: '0.4s',
                   }}

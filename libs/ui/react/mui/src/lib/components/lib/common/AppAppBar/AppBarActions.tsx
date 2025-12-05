@@ -8,6 +8,8 @@ export type AppBarActionsProps = {
   onSignInClick?: () => void;
   onSignUpClick?: () => void;
   showColorMode?: boolean;
+  showSignInButton?: boolean;
+  showSignUpButton?: boolean;
 };
 
 export function AppBarActions({
@@ -16,6 +18,8 @@ export function AppBarActions({
   onSignInClick,
   onSignUpClick,
   showColorMode = true,
+  showSignInButton = true,
+  showSignUpButton = true,
 }: AppBarActionsProps) {
   return (
     <Box
@@ -25,22 +29,26 @@ export function AppBarActions({
         alignItems: 'center',
       }}
     >
-      <Button
-        color="primary"
-        variant="text"
-        size="small"
-        onClick={onSignInClick}
-      >
-        {signInText}
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        size="small"
-        onClick={onSignUpClick}
-      >
-        {signUpText}
-      </Button>
+      {showSignInButton && (
+        <Button
+          color="primary"
+          variant="text"
+          size="small"
+          onClick={onSignInClick}
+        >
+          {signInText}
+        </Button>
+      )}
+      {showSignUpButton && (
+        <Button
+          color="primary"
+          variant="contained"
+          size="small"
+          onClick={onSignUpClick}
+        >
+          {signUpText}
+        </Button>
+      )}
       {showColorMode && <ColorModeIconDropdown />}
     </Box>
   );
