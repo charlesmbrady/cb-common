@@ -5,7 +5,10 @@ body {
   text-align: center;
 }
 
-#myCanvas {
-  border: 1px solid #000000;
+#carCanvas {
   background-color: lightGray;
+}
+
+#networkCanvas {
+  background-color: black;
 }
