@@ -14,6 +14,46 @@ class NeuralNetwork {
     }
     return outputs;
   }
+
+  // // Not in use, here's some notes that explain how to use:
+  // Use parents when generating cars: In main.js, load two selected brains (parentA, parentB). For each car: cars[i].brain = NeuralNetwork.crossover(parentA, parentB); if (i !== 0) NeuralNetwork.mutate(cars[i].brain, 0.05); Keep car 0 as the elite (no mutation).
+  // Scenario-specific brains: Tag brains (e.g., “heavy traffic,” “tight lanes”) when saving. Pick parents whose tags match the scenario you want to improve.
+  // Fitness signal: Make sure you compute and store a per-run score (e.g., max -y traveled before damage). Use it to decide which brains to keep and to surface top options in the UI.
+  static crossover(networkA, networkB) {
+    const clone = JSON.parse(JSON.stringify(networkA));
+
+    for (let l = 0; l < clone.levels.length; l++) {
+      const level = clone.levels[l];
+      for (let i = 0; i < level.inputs.length; i++) {}
+      for (let j = 0; j < level.outputs.length; j++) {
+        //pick a weight from either parent randomly
+        level.weights[i][j] =
+          Math.random() < 0.5
+            ? networkA.levels[l].weights[i][j]
+            : networkB.levels[l].weights[i][j];
+      }
+    }
+  }
+
+  // takes network and a mutation amount (how similar the mutated network should be to the original, with 0 being identical and 1 being completely random), and randomly mutates the weights and biases of the network based on the mutation amount
+  static mutate(network, amount = 1) {
+    network.levels.forEach((level) => {
+      for (let i = 0; i < level.biases.length; i++) {
+        level.biases[i] =
+          Math.random() < amount ? Math.random() * 2 - 1 : level.biases[i];
+      }
+      for (let i = 0; i < level.weights.length; i++) {
+        for (let j = 0; j < level.weights[i].length; j++) {
+          // with a certain probability, change the weight to a new random value between -1 and 1, otherwise keep the same weight
+          level.weights[i][j] = lerp(
+            level.weights[i][j],
+            Math.random() * 2 - 1,
+            amount
+          );
+        }
+      }
+    });
+  }
 }
 
 class Level {
