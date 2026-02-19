@@ -28,4 +28,5 @@ export const SIM_CONFIG = {
 export const STORAGE_KEYS = {
   bestBrain: 'bestBrain',
   instructionsSeen: 'instructionsSeen',
+  settings: 'sdcSettings',
 };

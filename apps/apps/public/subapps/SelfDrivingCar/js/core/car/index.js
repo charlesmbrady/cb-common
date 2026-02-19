@@ -17,6 +17,7 @@ export class Car {
     maxSpeed = CAR_CONFIG.maxSpeed,
     color = getRandomColor()
   ) {
+    this.id = Car.nextId++;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -29,6 +30,8 @@ export class Car {
     this.turnRate = CAR_CONFIG.angleStep;
     this.angle = 0;
     this.damaged = false;
+    this.carsPassed = 0;
+    this.passedTrafficIds = new Set();
 
     this.useBrain = controlType === 'AI';
 
@@ -52,6 +55,8 @@ export class Car {
       tintCarMask(this, this.baseColor);
     };
   }
+
+  static nextId = 1;
 
   update(roadBorders, traffic) {
     const wasDamaged = this.damaged;

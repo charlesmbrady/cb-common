@@ -11,7 +11,10 @@
     <canvas id="carCanvas"></canvas>
     <div id="verticalButtons">
       <button id="infoButton">ℹ️</button>
+      <button id="settingsButton">⚙️</button>
+      <button id="pauseButton">⏸️</button>
       <button id="restartButton">♻️</button>
+      <button id="trainButton">🏋️</button>
       <button id="manualControl">🔑</button>
       <button id="saveBrain">💾</button>
       <button id="discardBrain">🗑️</button>
@@ -20,14 +23,117 @@
 
     <div id="instructionModal" class="modal hidden">
       <div class="modal__content">
+        <h3>Introduction</h3>
+        <p>
+          A fleet of AI cars spawns with a simple brain. They start clumsy, but
+          you can improve them by saving good runs or letting the trainer loop
+          pick the best and mutate it.
+        </p>
+
+        <h4>Manual training</h4>
+        <p>
+          Watch or drive, then hit 💾 when the focused car looks best (usually
+          the farthest or most cars passed). Restart to spawn variants using the
+          current mutation rate.
+        </p>
+
+        <h4>Automated training</h4>
+        <p>
+          Press 🏋️ to auto-train. After each window (default 10s, configurable)
+          the best car by cars-passed and distance is kept, mutated, and used to
+          spawn the next generation. Adjust iterations, window, and mutation in
+          settings; press 🏋️ again to stop.
+        </p>
         <h2>How to drive</h2>
         <ul>
-          <li>Arrow keys to steer when using KEYS control mode.</li>
-          <li>AI cars learn from the best run; saving keeps the best brain.</li>
-          <li>Use 🗑️ to clear a saved brain and restart learning.</li>
-          <li>Click ℹ️ anytime to see these instructions again.</li>
+          <li>Arrow keys: steer when in KEYS mode.</li>
+          <li>Space or 🔑/🤖: toggle manual vs AI driving.</li>
+          <li>⏸️/▶️: pause or resume the simulation.</li>
+          <li>♻️: restart the run (applies saved settings).</li>
+          <li>🏋️: start automated training cycles.</li>
+          <li>💾 save the best brain; 🗑️ clear saved brain.</li>
+          <li>ℹ️ reopen these instructions.</li>
+          <li>
+            ⚙️ settings (cars, follow ratio, network view) apply on restart.
+          </li>
         </ul>
-        <button id="closeModal">Got it</button>
+        <div class="modal__footer">
+          <button id="closeModal">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal__content">
+        <h2>Settings</h2>
+        <form id="settingsForm">
+          <label>
+            Cars to spawn:
+            <input
+              type="number"
+              id="settingCarCount"
+              min="10"
+              max="1000"
+              step="10"
+            />
+          </label>
+          <br />
+          <label>
+            Follow ratio (0-1):
+            <input
+              type="number"
+              id="settingFollowRatio"
+              min="0.3"
+              max="0.95"
+              step="0.05"
+            />
+          </label>
+          <br />
+          <label>
+            <input type="checkbox" id="settingShowNetwork" /> Show network
+            canvas
+          </label>
+          <br />
+          <label>
+            Mutation rate (0-1):
+            <input
+              type="number"
+              id="settingMutationRate"
+              min="0"
+              max="1"
+              step="0.01"
+            />
+          </label>
+          <br />
+          <label>
+            Training iterations:
+            <input
+              type="number"
+              id="settingTrainIterations"
+              min="1"
+              max="500"
+              step="1"
+            />
+          </label>
+          <br />
+          <label>
+            Training window (seconds):
+            <input
+              type="number"
+              id="settingTrainDuration"
+              min="1"
+              max="120"
+              step="1"
+            />
+          </label>
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem">
+            <button type="submit">Save</button>
+            <button type="button" id="cancelSettings">Cancel</button>
+          </div>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8">
+            Changes apply the next time you restart (♻️).
+          </p>
+        </form>
       </div>
     </div>
     <script type="module" src="./js/main.js"></script>

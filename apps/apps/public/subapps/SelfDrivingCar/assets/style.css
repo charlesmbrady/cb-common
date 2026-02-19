@@ -31,6 +31,12 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+.modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
 .modal__content h2 {
   margin-top: 0;
 }
@@ -49,6 +55,18 @@ button {
 
 button:hover {
   background: blue;
+}
+
+.modal__footer button,
+#settingsForm button[type='submit'] {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.modal__footer button:hover,
+#settingsForm button[type='submit']:hover {
+  background: #1e3a8a;
 }
 #verticalButtons {
   display: flex;
