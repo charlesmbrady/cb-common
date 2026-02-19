@@ -1,11 +1,82 @@
 body {
   margin: 0;
-  background: darkgreen;
+  background: darkgray;
   overflow: hidden;
-  text-align: center;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#myCanvas {
-  border: 1px solid #000000;
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal__content {
+  background: #f7f7f7;
+  color: #222;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.modal__content h2 {
+  margin-top: 0;
+}
+
+.modal__content ul {
+  padding-left: 1.2rem;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 5px 7px 5px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+button:hover {
+  background: blue;
+}
+
+.modal__footer button,
+#settingsForm button[type='submit'] {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.modal__footer button:hover,
+#settingsForm button[type='submit']:hover {
+  background: #1e3a8a;
+}
+#verticalButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+#carCanvas {
   background-color: lightGray;
+}
+
+#networkCanvas {
+  background-color: black;
 }
