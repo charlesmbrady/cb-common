@@ -9,3 +9,5 @@ export * from './lib/common/LogoCollection';
 export * from './lib/common/Pricing';
 export * from './lib/common/Testimonials';
 export * from './lib/common/Carousel/MultiCarousel';
+export * from './lib/common/CanvasStage';
+export * from './lib/common/ThreeStage';

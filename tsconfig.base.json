@@ -30,6 +30,9 @@
       "@cb-common/ui-processing-p5-core": [
         "libs/ui/processing/p5-core/src/index.ts"
       ],
+      "@cb-common/ui-processing-three-core": [
+        "libs/ui/processing/three-core/src/index.ts"
+      ],
       "@cb-common/ui-react-auth": ["libs/ui/react/auth/src/index.ts"],
       "@cb-common/ui-react-mui": ["libs/ui/react/mui/src/index.ts"],
       "@cb-common/ui-react-tailwind": ["libs/ui/react/tailwind/src/index.ts"]

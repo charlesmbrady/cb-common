@@ -1,0 +1,26 @@
+{
+  "name": "ui-processing-three-core",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/processing/three-core/src",
+  "projectType": "library",
+  "tags": ["js"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/ui/processing/three-core",
+        "main": "libs/ui/processing/three-core/src/index.ts",
+        "tsConfig": "libs/ui/processing/three-core/tsconfig.lib.json",
+        "assets": ["libs/ui/processing/three-core/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/ui/processing/three-core/jest.config.ts"
+      }
+    }
+  }
+}

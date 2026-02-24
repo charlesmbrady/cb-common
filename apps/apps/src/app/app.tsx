@@ -13,6 +13,8 @@ import { AppsLandingPage } from './components/AppsLandingPage';
 import { navItems } from './data/navigation';
 
 const AIChatLazy = lazy(() => import('./subapps/AIChat'));
+const SelfDrivingCarLazy = lazy(() => import('./subapps/SelfDrivingCar'));
+const ThreeDPhysicsSandboxLazy = lazy(() => import('./subapps/3DPhysicsSandbox'));
 
 export default function App() {
   const { data: config } = useAppConfig();
@@ -89,6 +91,30 @@ function AppShell() {
             element={
               <Suspense fallback={<LazyLoader label="Personal AI Assistant" />}>
                 <AIChatLazy />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/selfdrivingcar"
+            element={
+              <Suspense fallback={<LazyLoader label="Self-Driving Car" />}>
+                <SelfDrivingCarLazy />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/3dphysicssandbox"
+            element={
+              <Suspense fallback={<LazyLoader label="3DPhysicsSandbox" />}>
+                <ThreeDPhysicsSandboxLazy />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/selfdrivingcar3d"
+            element={
+              <Suspense fallback={<LazyLoader label="3DPhysicsSandbox" />}>
+                <ThreeDPhysicsSandboxLazy />
               </Suspense>
             }
           />
