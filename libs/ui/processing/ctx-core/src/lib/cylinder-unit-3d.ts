@@ -17,7 +17,7 @@ export class CylinderUnit3D extends Unit {
   readonly hand: Hand3D;
   readonly wrist: Joint3D;
 
-  readonly radius: number;
+  override readonly radius: number;
   readonly height: number;
   y: number;
   yaw = 0;
@@ -40,7 +40,10 @@ export class CylinderUnit3D extends Unit {
 
     this.mesh = new THREE.Mesh(
       new THREE.CylinderGeometry(this.radius, this.radius, this.height, 20),
-      new THREE.MeshStandardMaterial({ color: opts.color ?? 0x4ec1ff, roughness: 0.55 })
+      new THREE.MeshStandardMaterial({
+        color: opts.color ?? 0x4ec1ff,
+        roughness: 0.55,
+      })
     );
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
@@ -72,7 +75,8 @@ export class CylinderUnit3D extends Unit {
 
   dispose() {
     this.mesh.geometry.dispose();
-    if (Array.isArray(this.mesh.material)) this.mesh.material.forEach((m) => m.dispose());
+    if (Array.isArray(this.mesh.material))
+      this.mesh.material.forEach((m) => m.dispose());
     else this.mesh.material.dispose();
     this.wrist.dispose();
     this.hand.dispose();
@@ -85,13 +89,20 @@ export class CylinderUnit3D extends Unit {
     return true;
   }
 
-  move(inputX: number, inputZ: number, dt: number, frictionCoefficient: number) {
+  move(
+    inputX: number,
+    inputZ: number,
+    dt: number,
+    frictionCoefficient: number
+  ) {
     const len = Math.hypot(inputX, inputZ);
     if (len > 0) {
       const nx = inputX / len;
       const nz = inputZ / len;
-      this.velocity.x += nx * (this.moveAcceleration / Math.max(this.mass, 0.1)) * dt;
-      this.velocity.y += nz * (this.moveAcceleration / Math.max(this.mass, 0.1)) * dt;
+      this.velocity.x +=
+        nx * (this.moveAcceleration / Math.max(this.mass, 0.1)) * dt;
+      this.velocity.y +=
+        nz * (this.moveAcceleration / Math.max(this.mass, 0.1)) * dt;
     }
 
     const damping = Math.max(0, 1 - frictionCoefficient * dt * 6);
@@ -113,8 +124,16 @@ export class CylinderUnit3D extends Unit {
       this.grounded = true;
     }
 
-    this.position.x = THREE.MathUtils.clamp(this.position.x, -worldHalfSize, worldHalfSize);
-    this.position.y = THREE.MathUtils.clamp(this.position.y, -worldHalfSize, worldHalfSize);
+    this.position.x = THREE.MathUtils.clamp(
+      this.position.x,
+      -worldHalfSize,
+      worldHalfSize
+    );
+    this.position.y = THREE.MathUtils.clamp(
+      this.position.y,
+      -worldHalfSize,
+      worldHalfSize
+    );
 
     this.syncMeshes();
   }
@@ -123,11 +142,23 @@ export class CylinderUnit3D extends Unit {
     this.mesh.position.set(this.position.x, this.y, this.position.y);
     this.mesh.rotation.y = this.yaw;
 
-    const forward = new THREE.Vector3(Math.sin(this.yaw), 0, Math.cos(this.yaw));
-    const center = new THREE.Vector3(this.position.x, this.y + this.height * 0.08, this.position.y);
+    const forward = new THREE.Vector3(
+      Math.sin(this.yaw),
+      0,
+      Math.cos(this.yaw)
+    );
+    const center = new THREE.Vector3(
+      this.position.x,
+      this.y + this.height * 0.08,
+      this.position.y
+    );
 
-    this.wrist.mesh.position.copy(center).addScaledVector(forward, this.radius + 0.04);
-    this.hand.mesh.position.copy(center).addScaledVector(forward, this.radius + 0.22);
+    this.wrist.mesh.position
+      .copy(center)
+      .addScaledVector(forward, this.radius + 0.04);
+    this.hand.mesh.position
+      .copy(center)
+      .addScaledVector(forward, this.radius + 0.22);
     this.hand.mesh.rotation.y = this.yaw;
   }
 }
