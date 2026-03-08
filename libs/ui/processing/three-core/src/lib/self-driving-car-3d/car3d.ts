@@ -11,7 +11,7 @@ import type { CollisionWorld } from '../collision-world';
 import {
   NeuralNetwork,
   type NeuralNetworkData,
-} from '@cb-common/ui-processing-ctx-core';
+} from '../neural-network';
 
 export type CarControlType3D = 'AI' | 'KEYS' | 'DUMMY';
 

@@ -2,7 +2,7 @@
 /*  Self-Driving Car 3D – localStorage helpers                         */
 /* ------------------------------------------------------------------ */
 
-import type { NeuralNetworkData } from '@cb-common/ui-processing-ctx-core';
+import type { NeuralNetworkData } from '../neural-network';
 import { SDC3D_STORAGE_KEYS, SDC3D_SIM_CONFIG } from './config';
 
 /* ---------- Brain persistence ------------------------------------ */

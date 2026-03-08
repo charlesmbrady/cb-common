@@ -12,7 +12,7 @@ import { CollisionWorld } from '../collision-world';
 import {
   NeuralNetwork,
   type NeuralNetworkData,
-} from '@cb-common/ui-processing-ctx-core';
+} from '../neural-network';
 import {
   loadBestBrain3D,
   saveBestBrain3D,
