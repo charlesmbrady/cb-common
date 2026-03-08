@@ -1,0 +1,9 @@
+{
+  "name": "@cb-common/ui-processing-three-core",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "private": true,
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

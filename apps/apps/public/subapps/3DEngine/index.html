@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3D Engine Model</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="stylesheet" href="base.css" />
+  </head>
+  <body>
+    <div id="info">SPACE = crank / stop · ↑↓ = throttle</div>
+
+    <!-- Bottom control bar -->
+    <div id="controls-bar">
+      <button id="btn-start">⚡ Hold to Crank</button>
+      <button id="btn-stop">⏹ Stop Engine</button>
+      <div class="throttle-wrap">
+        <span>Throttle</span>
+        <input
+          id="throttle-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+    </div>
+
+    <!-- Settings drawer (right side) -->
+    <div id="settings-drawer">
+      <button id="settings-toggle">⚙</button>
+      <div id="drawer-header">Engine Settings</div>
+      <div id="drawer-content"></div>
+    </div>
+
+    <script src="./main.js" type="module"></script>
+  </body>
+</html>
