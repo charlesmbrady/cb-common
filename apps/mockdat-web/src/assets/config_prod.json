@@ -3,7 +3,7 @@
   "apiPathPrefix": "/services",
   "domain": "mockdat.charlesmbrady.com",
   "environment": "production",
-  "oauthDomain": "auth.charlesmbrady.com",
+  "oauthDomain": "charlesmbrady.auth.us-east-1.amazoncognito.com",
   "redirectSignOut": "https://mockdat.charlesmbrady.com/logout",
   "userPoolId": "us-east-1_CKbYONuNe",
   "userPoolWebClientId": "6hmc9vn08daqf5necjchlqgdc",

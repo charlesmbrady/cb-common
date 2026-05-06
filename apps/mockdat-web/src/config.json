@@ -3,7 +3,7 @@
   "apiPathPrefix": "/services",
   "domain": "localhost",
   "environment": "development",
-  "oauthDomain": "auth-test.charlesmbrady.com",
+  "oauthDomain": "charlesmbrady-test.auth.us-east-1.amazoncognito.com",
   "redirectSignOut": "http://localhost:3000/logout",
   "userPoolId": "us-east-1_YIYfB6zj2",
   "userPoolWebClientId": "95bnaovlmigsl42a1qej7gb2o",

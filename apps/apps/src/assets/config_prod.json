@@ -3,7 +3,7 @@
   "apiPathPrefix": "/services",
   "domain": "charlesmbrady.com",
   "environment": "production",
-  "oauthDomain": "auth.charlesmbrady.com",
+  "oauthDomain": "charlesmbrady.auth.us-east-1.amazoncognito.com",
   "redirectSignOut": "https://apps.charlesmbrady.com/logout",
   "userPoolId": "us-east-1_CKbYONuNe",
   "userPoolWebClientId": "3fejk8m5d7e4m6a37o4bnpadv",
