@@ -3,32 +3,36 @@ import { useTheme, useMediaQuery, IconButton } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Typography, Box, Paper, Button, Stack } from '@cb-common/ui-react-mui';
+import { Typography, Box, Button, Stack } from '@cb-common/ui-react-mui';
 import { PageContainer } from '../components/PageContainer';
+import { GlassPanel } from '../components/GlassPanel';
+import { DiamondRule } from '../components/PageHeader';
 
 export const ContactSection: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
-    <Paper
-      elevation={0}
+    <GlassPanel
+      corners
       sx={{
-        p: { xs: 3, md: 6 },
-        borderRadius: 2,
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        p: { xs: 4, md: 8 },
+        textAlign: 'center',
       }}
     >
       <Typography variant="h3" sx={{ textAlign: 'center', m: 0 }}>
         Get in Touch
       </Typography>
+      <DiamondRule />
 
       <Typography
         variant="h6"
         sx={{
           textAlign: 'center',
           color: 'text.secondary',
-          mb: 6,
-          maxWidth: '600px',
+          fontWeight: 400,
+          mt: 2,
+          mb: 5,
+          maxWidth: '560px',
           mx: 'auto',
         }}
       >
@@ -41,7 +45,7 @@ export const ContactSection: React.FC = () => {
         spacing={3}
         alignItems="center"
         justifyContent="center"
-        sx={{ mb: 6 }}
+        sx={{ mb: 4 }}
       >
         <Button
           variant="contained"
@@ -53,11 +57,10 @@ export const ContactSection: React.FC = () => {
             py: 1.5,
             borderRadius: 2,
             textTransform: 'none',
-            fontSize: '1.1rem',
-            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.1)',
+            fontWeight: 600,
+            fontSize: '1.05rem',
             '&:hover': {
               transform: 'translateY(-2px)',
-              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
             },
             transition: 'all 0.3s ease',
           }}
@@ -70,8 +73,7 @@ export const ContactSection: React.FC = () => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          gap: 3,
-          mt: 4,
+          gap: 2,
         }}
       >
         <IconButton
@@ -105,7 +107,7 @@ export const ContactSection: React.FC = () => {
           <GitHubIcon fontSize="large" />
         </IconButton>
       </Box>
-    </Paper>
+    </GlassPanel>
   );
 };
 

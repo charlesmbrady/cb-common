@@ -64,12 +64,12 @@ export const ExperienceDescription = ({ items }: { items: string[] }) => (
 
 export const workExperiences = [
   {
-    // title: 'Senior Software Engineer @ Curi - (2021 - Present)',
+    // title: 'Senior Software Engineer @ Curi - (2021 - 2026)',
     title: (
       <ExperienceItem
         title="Senior Software Engineer"
         company="Curi"
-        dateRange="2021 - Present"
+        dateRange="2021 - 2026"
       />
     ),
     description: (

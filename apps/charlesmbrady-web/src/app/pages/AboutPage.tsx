@@ -1,25 +1,16 @@
-import { useTheme, useMediaQuery } from '@mui/material';
 import {
   Code as CodeIcon,
   People as PeopleIcon,
   Lightbulb as LightbulbIcon,
   Psychology as PsychologyIcon,
 } from '@mui/icons-material';
-import {
-  Container,
-  Divider,
-  Typography,
-  Box,
-  Paper,
-} from '@cb-common/ui-react-mui';
+import { Divider, Typography, Box } from '@cb-common/ui-react-mui';
 import portrait from '../../assets/portrait-small.jpeg';
 import { PageContainer } from '../components/PageContainer';
 import { PageHeader } from '../components/PageHeader';
+import { GlassPanel } from '../components/GlassPanel';
 
 export default function AboutPage() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const sections = [
     {
       icon: <CodeIcon sx={{ fontSize: 40, color: 'primary.main' }} />,
@@ -58,29 +49,34 @@ export default function AboutPage() {
           mx: 'auto',
           mt: 6,
           mb: 4,
-          border: '4px solid',
-          borderColor: 'primary.light',
-          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.25)',
-          overflow: 'hidden',
+          p: '7px',
+          border: '1px solid',
+          borderColor: 'primary.main',
+          boxShadow: (theme: any) =>
+            `0 18px 40px -20px ${theme.palette.primary.main}55`,
         }}
       >
-        <img
-          src={portrait}
-          alt="Portrait of Charles Brady"
-          style={{ width: '100%', display: 'block' }}
-        />
+        <Box
+          sx={{
+            borderRadius: '50%',
+            overflow: 'hidden',
+            border: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <img
+            src={portrait}
+            alt="Portrait of Charles Brady"
+            style={{ width: '100%', display: 'block' }}
+          />
+        </Box>
       </Box>
 
-      <Paper
-        // elevation={0}
-        sx={{
-          p: { xs: 3, md: 6 },
-          borderRadius: 2,
-          // background: `linear-gradient(145deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <Typography variant="h3" sx={{ textAlign: 'center', m: 0 }}>
+      <GlassPanel corners sx={{ p: { xs: 3, md: 6 } }}>
+        <Typography
+          variant="h3"
+          sx={{ textAlign: 'center', m: 0, fontWeight: 700 }}
+        >
           About Me
         </Typography>
 
@@ -89,6 +85,8 @@ export default function AboutPage() {
           sx={{
             textAlign: 'center',
             color: 'text.secondary',
+            fontWeight: 400,
+            mt: 1.5,
             mb: 6,
             maxWidth: '800px',
             mx: 'auto',
@@ -145,6 +143,14 @@ export default function AboutPage() {
                   flexDirection: 'column',
                   alignItems: 'center',
                   textAlign: 'center',
+                  borderRadius: 3,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  transition: 'border-color 0.25s ease, transform 0.25s ease',
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    transform: 'translateY(-3px)',
+                  },
                 }}
               >
                 {section.icon}
@@ -188,7 +194,7 @@ export default function AboutPage() {
           brainstorming visionary concepts, refining user experiences, or adding
           a playful dash of humor to keep team morale high.
         </Typography>
-      </Paper>
+      </GlassPanel>
     </PageContainer>
   );
 }

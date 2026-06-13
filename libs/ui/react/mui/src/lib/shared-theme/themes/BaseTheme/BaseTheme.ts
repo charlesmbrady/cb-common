@@ -6,6 +6,18 @@ import { navigationCustomizations } from './customizations/navigation';
 import { surfacesCustomizations } from './customizations/surfaces';
 import { colorSchemes, typography, shadows, shape } from '../themePrimitives';
 
+/**
+ * The base component customizations, exported so consuming apps can build
+ * their own themes on top of the shared component styling.
+ */
+export const baseThemeComponents = {
+  ...inputsCustomizations,
+  ...dataDisplayCustomizations,
+  ...feedbackCustomizations,
+  ...navigationCustomizations,
+  ...surfacesCustomizations,
+};
+
 export const baseTheme = createTheme({
   // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
   cssVariables: {
@@ -16,11 +28,5 @@ export const baseTheme = createTheme({
   typography,
   shadows,
   shape,
-  components: {
-    ...inputsCustomizations,
-    ...dataDisplayCustomizations,
-    ...feedbackCustomizations,
-    ...navigationCustomizations,
-    ...surfacesCustomizations,
-  },
+  components: baseThemeComponents,
 });

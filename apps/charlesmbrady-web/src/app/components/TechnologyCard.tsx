@@ -15,6 +15,17 @@ export const TechnologyCard: React.FC<{ technology: Technology }> = ({
       flexDirection: 'column',
       alignItems: 'center',
       p: 2,
+      borderRadius: 2,
+      border: '1px solid transparent',
+      opacity: 0.85,
+      transition:
+        'opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease',
+      '&:hover': {
+        opacity: 1,
+        transform: 'translateY(-3px)',
+        borderColor: 'divider',
+        backgroundColor: 'action.hover',
+      },
     }}
   >
     <Box
@@ -22,13 +33,17 @@ export const TechnologyCard: React.FC<{ technology: Technology }> = ({
       src={technology.logo}
       alt={technology.name}
       sx={{
-        width: 40,
-        height: 40,
+        width: 44,
+        height: 44,
         objectFit: 'contain',
         mb: 1,
       }}
     />
-    <Typography variant="caption" align="center">
+    <Typography
+      variant="caption"
+      align="center"
+      sx={{ color: 'text.secondary', fontWeight: 500 }}
+    >
       {technology.name}
     </Typography>
   </Box>

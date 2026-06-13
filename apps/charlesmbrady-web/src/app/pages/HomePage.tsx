@@ -2,26 +2,33 @@ import {
   Container,
   Typography,
   Box,
-  Paper,
   Button,
   IconButton,
-  Chip,
-  Card,
-  CardContent,
-  CardMedia,
   Stack,
+  Tooltip,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
-import { HeroCommon } from '@cb-common/ui-react-mui';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { technologies, projects } from '../data';
 import { MultiCarousel } from '@cb-common/ui-react-mui';
 import 'react-multi-carousel/lib/styles.css';
 import { TechnologyCard } from '../components/TechnologyCard';
+import { PageHeader, DiamondRule } from '../components/PageHeader';
+import { GlassPanel } from '../components/GlassPanel';
 import { ProjectsCardGrid, OTHER_PROJECTS_SECTION_ID } from './ProjectsPage';
 import { ContactSection } from './ContactPage';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.12 * i, duration: 0.6, ease: 'easeOut' },
+  }),
+};
 
 export default function HomePage() {
   const yearsOfExperience = Math.floor(
@@ -29,138 +36,256 @@ export default function HomePage() {
       (1000 * 60 * 60 * 24 * 365)
   );
   const featuredProjects = projects.filter((project) => project.featured);
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+
   return (
     <Box>
-      {/* Hero Section using shared UI */}
-      <HeroCommon
-        primaryTextProps={{
-          mainText: 'Charles',
-          highlightedText: `Brady`,
+      {/* ---- Hero ---- */}
+      <Box
+        sx={{
+          minHeight: { xs: '78vh', md: '84vh' },
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          px: 2,
         }}
-        secondaryTextProps={{
-          text: 'Full-stack Developer | Problem Solver | Team Player',
-        }}
-        callToActionContent={
-          <Box
-            sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+      >
+        <Container maxWidth="md">
+          <motion.div
+            custom={0}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
           >
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'primary.main',
+                fontWeight: 600,
+                letterSpacing: 4,
+                fontSize: '0.85rem',
+              }}
+            >
+              Senior Software Engineer
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+          >
+            <Typography
+              variant="h1"
+              sx={{
+                mt: 1.5,
+                fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.4rem' },
+                lineHeight: 1.15,
+              }}
+            >
+              Charles Brady
+            </Typography>
+            <DiamondRule width={220} />
+          </motion.div>
+
+          <motion.div
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                mt: 3,
+                color: 'text.secondary',
+                fontWeight: 400,
+                maxWidth: 620,
+                mx: 'auto',
+                lineHeight: 1.7,
+              }}
+            >
+              I build full-stack TypeScript systems — serverless AWS backends,
+              polished React frontends, and the CI/CD pipelines that keep them
+              shipping.
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+          >
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              alignItems="center"
+              justifyContent="center"
+              sx={{ mt: 5 }}
+            >
               <Button
                 variant="contained"
+                size="large"
+                href="/projects"
+                endIcon={<ArrowForwardIcon />}
+                sx={{
+                  px: 4,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  borderRadius: 2,
+                }}
+              >
+                View Projects
+              </Button>
+              <Button
+                variant="outlined"
                 size="large"
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                sx={{ minWidth: 'fit-content', textAlign: 'center' }}
+                sx={{
+                  px: 4,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  borderRadius: 2,
+                }}
               >
                 Resume
               </Button>
-              <IconButton
-                component="a"
-                href="https://github.com/charlesmbrady"
-                target="_blank"
-                aria-label="GitHub"
-                size="large"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <Button
-                variant="outlined"
-                size="large"
-                href="mailto:charlesmbrady@gmail.com"
-                startIcon={<EmailIcon />}
-                sx={{ minWidth: 'fit-content', textAlign: 'center' }}
-              >
-                Email
-              </Button>
+              <Stack direction="row" spacing={0.5}>
+                <Tooltip title="GitHub">
+                  <IconButton
+                    component="a"
+                    href="https://github.com/charlesmbrady"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="LinkedIn">
+                  <IconButton
+                    component="a"
+                    href="https://www.linkedin.com/in/charlesmbrady/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Email">
+                  <IconButton
+                    component="a"
+                    href="mailto:charlesmbrady@gmail.com"
+                    aria-label="Email"
+                  >
+                    <EmailIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
             </Stack>
-          </Box>
-        }
-      />
-      {/* Technologies Section */}
-      <Box sx={{ py: 7, bgcolor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <MultiCarousel
-            autoPlay={true}
-            autoPlaySpeed={100}
-            infinite={true}
-            transitionDuration={1800}
-            arrows={false}
+          </motion.div>
+
+          <motion.div
+            custom={4}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
           >
-            {technologies.slice(0, 12).map((tech) => (
-              <TechnologyCard technology={tech} />
-            ))}
-          </MultiCarousel>
-        </Container>
-      </Box>
-      {/* <LogoCollectionCommon title="Trusted by engineering leaders at" /> */}
-      {/* About Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{ textAlign: 'center', mb: 6 }}
-          >
-            About Me
-          </Typography>
-          <Box gap={4}>
-            <Box>
-              <Typography
-                variant="body1"
-                sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
-              >
-                Highly skilled and adaptable Senior Software Engineer with 7+
-                years of full‑stack JavaScript/TypeScript development. I
-                specialize in serverless architecture, React development,
-                cloud‑based security, and CI/CD pipelines. I thrive in both
-                startup and enterprise environments and love building scalable,
-                durable systems with great developer and user experience.
-              </Typography>
-            </Box>
-            {/* <Box>
-                <Typography
-                  variant="body1"
-                  sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
-                >
-                  Recent highlights: led a secure AWS-powered Risk Assessment
-                  app; architected a broker quoting tool; designed CI/CD with
-                  GitHub Actions; migrated identity to Cognito then Auth0; and
-                  built an AI agent with AWS Bedrock to support underwriting.
-                </Typography>
-              </Box> */}
-          </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 6,
+                color: 'text.secondary',
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                fontSize: '0.72rem',
+              }}
+            >
+              {yearsOfExperience}+ years shipping production software
+            </Typography>
+          </motion.div>
         </Container>
       </Box>
 
-      {/* Projects Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.default' }}>
+      {/* ---- Technologies strip ---- */}
+      <Box sx={{ py: { xs: 6, md: 8 } }}>
         <Container maxWidth="lg">
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{ textAlign: 'center', mb: 6 }}
-          >
-            Featured Projects
-          </Typography>
+          <GlassPanel sx={{ px: { xs: 2, md: 4 }, py: 3 }}>
+            <MultiCarousel
+              autoPlay={true}
+              autoPlaySpeed={100}
+              infinite={true}
+              transitionDuration={1800}
+              arrows={false}
+            >
+              {technologies.slice(0, 12).map((tech) => (
+                <TechnologyCard key={tech.name} technology={tech} />
+              ))}
+            </MultiCarousel>
+          </GlassPanel>
+        </Container>
+      </Box>
+
+      {/* ---- About ---- */}
+      <Box sx={{ py: { xs: 8, md: 10 } }}>
+        <Container maxWidth="md">
+          <GlassPanel corners sx={{ p: { xs: 4, md: 6 } }}>
+            <PageHeader title="About Me" overline="Who I Am" mb={4} />
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: '1.15rem',
+                lineHeight: 1.9,
+                color: 'text.secondary',
+                textAlign: 'center',
+                maxWidth: 760,
+                mx: 'auto',
+              }}
+            >
+              Highly skilled and adaptable Senior Software Engineer with{' '}
+              {yearsOfExperience}+ years of full‑stack JavaScript/TypeScript
+              development. I specialize in serverless architecture, React
+              development, cloud‑based security, and CI/CD pipelines. I thrive
+              in both startup and enterprise environments and love building
+              scalable, durable systems with great developer and user
+              experience.
+            </Typography>
+          </GlassPanel>
+        </Container>
+      </Box>
+
+      {/* ---- Projects ---- */}
+      <Box sx={{ py: { xs: 8, md: 10 } }}>
+        <Container maxWidth="lg">
+          <PageHeader title="Featured Projects" overline="Selected Work" />
           <ProjectsCardGrid projectsList={featuredProjects} />
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
             <Button
               variant="outlined"
-              href={`/projects#${OTHER_PROJECTS_SECTION_ID}`}
+              size="large"
+              href="https://apps.charlesmbrady.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 600,
+                borderRadius: 2,
+                px: 4,
+              }}
             >
-              View More
+              View More Projects
             </Button>
           </Box>
         </Container>
       </Box>
 
-      {/* Contact Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.default' }}>
+      {/* ---- Contact ---- */}
+      <Box sx={{ py: { xs: 8, md: 10 } }}>
         <Container maxWidth="md">
           <ContactSection />
         </Container>

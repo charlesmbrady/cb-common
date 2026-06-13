@@ -1,1 +1,5 @@
 README.md
+
+# Embedded vanilla-JS sub-apps served as static assets — not Nx projects
+
+apps/apps/public/subapps

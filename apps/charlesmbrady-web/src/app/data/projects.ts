@@ -1,5 +1,23 @@
 export const projects = [
   {
+    id: '3',
+    title: 'JamCam',
+    description:
+      'A machine-learning powered, augmented reality guitar learning application in your web browser.',
+    thumbnail:
+      'https://charshard.s3.us-east-1.amazonaws.com/portfolio_jamcam_thumbnail.png',
+    tags: [
+      'React',
+      'Node.js',
+      'Express',
+      'DynamoDB',
+      'AWS Cognito',
+      'Material-UI',
+    ],
+    appLink: 'https://jamcam.io',
+    featured: true,
+  },
+  {
     id: '1',
     title: 'Mockdat',
     description:
@@ -29,40 +47,24 @@ export const projects = [
     codeLink: 'https://github.com/charlesmbrady/DupeGen2',
     featured: false,
   },
-  {
-    id: '3',
-    title: 'JamCam',
-    description:
-      'A suite of tools to help learn to play guitar and build tab/song ideas/',
-    thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/jamcam-dash.png',
-    tags: [
-      'React',
-      'Node.js',
-      'Express',
-      'DynamoDB',
-      'AWS Cognito',
-      'Material-UI',
-    ],
-    appLink: 'https://jamcam.charlava.com',
-    featured: true,
-  },
-  {
-    id: '4',
-    title: 'KeyTrain',
-    description:
-      'An application to help learn hotkeys for both common and unique applications.',
-    thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/keytrain.png',
-    tags: [
-      'React',
-      'Node.js',
-      'Express',
-      'DynamoDB',
-      'AWS Cognito',
-      'Material-UI',
-    ],
-    appLink: 'https://keytrain.charlava.com',
-    featured: true,
-  },
+  // Hidden for now — re-enable by uncommenting
+  // {
+  //   id: '4',
+  //   title: 'KeyTrain',
+  //   description:
+  //     'An application to help learn hotkeys for both common and unique applications.',
+  //   thumbnail: 'https://charshard.s3.us-east-1.amazonaws.com/keytrain.png',
+  //   tags: [
+  //     'React',
+  //     'Node.js',
+  //     'Express',
+  //     'DynamoDB',
+  //     'AWS Cognito',
+  //     'Material-UI',
+  //   ],
+  //   appLink: 'https://keytrain.charlava.com',
+  //   featured: false,
+  // },
   {
     id: '5',
     title: 'Scrape N Surf',

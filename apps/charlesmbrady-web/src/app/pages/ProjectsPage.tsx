@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { projects } from '../data';
 import { ProjectCard } from '../components/ProjectCard';
@@ -21,8 +21,12 @@ export const ProjectsCardGrid = ({
       gridTemplateColumns: {
         xs: '1fr',
         sm: '1fr 1fr',
-        md: '1fr 1fr 1fr',
+        md:
+          projectsList.length >= 3
+            ? '1fr 1fr 1fr'
+            : `repeat(${Math.max(projectsList.length, 1)}, minmax(0, 420px))`,
       },
+      justifyContent: 'center',
       gap: 4,
     }}
   >
@@ -50,24 +54,14 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <PageHeader title="Featured Projects" />
+      <PageHeader title="Featured Projects" overline="Portfolio" />
       <ProjectsCardGrid projectsList={featuredProjects} />
       {otherProjects.length > 0 && (
-        <Box id={OTHER_PROJECTS_SECTION_ID} sx={{ mt: 8 }}>
-          <Box
-            sx={{
-              bgcolor: 'background.paper',
-              borderRadius: 2,
-              py: 2,
-              px: 3,
-              mb: 4,
-              boxShadow: 1,
-            }}
-          >
-            <Typography variant="h3" sx={{ textAlign: 'center', m: 0 }}>
-              Other Projects
-            </Typography>
-          </Box>
+        <Box
+          id={OTHER_PROJECTS_SECTION_ID}
+          sx={{ mt: 10, scrollMarginTop: 96 }}
+        >
+          <PageHeader title="Other Projects" />
           <ProjectsCardGrid projectsList={otherProjects} />
         </Box>
       )}
